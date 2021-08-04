@@ -2,17 +2,16 @@ package com.nnk.springboot;
 
 import com.nnk.springboot.domain.Rule;
 import com.nnk.springboot.repositories.RuleNameRepository;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 import java.util.Optional;
 
-@RunWith(SpringRunner.class)
+import static org.junit.jupiter.api.Assertions.*;
+
+
 @SpringBootTest
 public class RuleTests {
 
@@ -25,22 +24,22 @@ public class RuleTests {
 
 		// Save
 		rule = ruleNameRepository.save(rule);
-		Assert.assertNotNull(rule.getId());
-		Assert.assertTrue(rule.getName().equals("Rule Name"));
+		assertNotNull(rule.getId());
+		assertTrue(rule.getName().equals("Rule Name"));
 
 		// Update
 		rule.setName("Rule Name Update");
 		rule = ruleNameRepository.save(rule);
-		Assert.assertTrue(rule.getName().equals("Rule Name Update"));
+		assertTrue(rule.getName().equals("Rule Name Update"));
 
 		// Find
 		List<Rule> listResult = ruleNameRepository.findAll();
-		Assert.assertTrue(listResult.size() > 0);
+		assertTrue(listResult.size() > 0);
 
 		// Delete
 		Integer id = rule.getId();
 		ruleNameRepository.delete(rule);
 		Optional<Rule> ruleList = ruleNameRepository.findById(id);
-		Assert.assertFalse(ruleList.isPresent());
+		assertFalse(ruleList.isPresent());
 	}
 }
