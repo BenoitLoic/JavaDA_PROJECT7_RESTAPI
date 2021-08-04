@@ -1,15 +1,16 @@
 package com.nnk.springboot.domain;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
-@Table(name = "Trade")
-public class Trade {
+@Table(name = "BidList")
+public class Bid {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "TradeId")
-    private Byte tradeId;
+    @Column(name = "BidListId")
+    private int bidListId;
 
     @Column(name = "account")
     private String account;
@@ -17,20 +18,26 @@ public class Trade {
     @Column(name = "type")
     private String type;
 
-    @Column(name = "buyQuantity")
-    private Double buyQuantity;
+    @Column(name = "bidQuantity")
+    private double bidQuantity;
 
-    @Column(name = "sellQuantity")
-    private Double sellQuantity;
+    @Column(name = "askQuantity")
+    private double askQuantity;
 
-    @Column(name = "buyPrice")
-    private Double buyPrice;
+    @Column(name = "bid")
+    private double bid;
 
-    @Column(name = "sellPrice")
-    private Double sellPrice;
+    @Column(name = "ask")
+    private double ask;
 
-    @Column(name = "tradeDate")
-    private java.sql.Timestamp tradeDate;
+    @Column(name = "benchmark")
+    private String benchmark;
+
+    @Column(name = "bidListDate")
+    private Timestamp bidListDate;
+
+    @Column(name = "commentary")
+    private String commentary;
 
     @Column(name = "security")
     private String security;
@@ -41,9 +48,6 @@ public class Trade {
     @Column(name = "trader")
     private String trader;
 
-    @Column(name = "benchmark")
-    private String benchmark;
-
     @Column(name = "book")
     private String book;
 
@@ -51,13 +55,13 @@ public class Trade {
     private String creationName;
 
     @Column(name = "creationDate")
-    private java.sql.Timestamp creationDate;
+    private Timestamp creationDate;
 
     @Column(name = "revisionName")
     private String revisionName;
 
     @Column(name = "revisionDate")
-    private java.sql.Timestamp revisionDate;
+    private Timestamp revisionDate;
 
     @Column(name = "dealName")
     private String dealName;
@@ -71,20 +75,21 @@ public class Trade {
     @Column(name = "side")
     private String side;
 
-    public Trade() {
+    public Bid() {
     }
 
-    public Trade(String account, String type) {
+    public Bid(String account, String type, double bidQuantity) {
         this.account = account;
         this.type = type;
+        this.bidQuantity = bidQuantity;
     }
 
-    public Byte getTradeId() {
-        return this.tradeId;
+    public int getBidListId() {
+        return this.bidListId;
     }
 
-    public void setTradeId(Byte tradeId) {
-        this.tradeId = tradeId;
+    public void setBidListId(int bidListId) {
+        this.bidListId = bidListId;
     }
 
     public String getAccount() {
@@ -103,44 +108,60 @@ public class Trade {
         this.type = type;
     }
 
-    public Double getBuyQuantity() {
-        return this.buyQuantity;
+    public double getBidQuantity() {
+        return this.bidQuantity;
     }
 
-    public void setBuyQuantity(Double buyQuantity) {
-        this.buyQuantity = buyQuantity;
+    public void setBidQuantity(double bidQuantity) {
+        this.bidQuantity = bidQuantity;
     }
 
-    public Double getSellQuantity() {
-        return this.sellQuantity;
+    public double getAskQuantity() {
+        return this.askQuantity;
     }
 
-    public void setSellQuantity(Double sellQuantity) {
-        this.sellQuantity = sellQuantity;
+    public void setAskQuantity(double askQuantity) {
+        this.askQuantity = askQuantity;
     }
 
-    public Double getBuyPrice() {
-        return this.buyPrice;
+    public double getBid() {
+        return this.bid;
     }
 
-    public void setBuyPrice(Double buyPrice) {
-        this.buyPrice = buyPrice;
+    public void setBid(double bid) {
+        this.bid = bid;
     }
 
-    public Double getSellPrice() {
-        return this.sellPrice;
+    public double getAsk() {
+        return this.ask;
     }
 
-    public void setSellPrice(Double sellPrice) {
-        this.sellPrice = sellPrice;
+    public void setAsk(double ask) {
+        this.ask = ask;
     }
 
-    public java.sql.Timestamp getTradeDate() {
-        return this.tradeDate;
+    public String getBenchmark() {
+        return this.benchmark;
     }
 
-    public void setTradeDate(java.sql.Timestamp tradeDate) {
-        this.tradeDate = tradeDate;
+    public void setBenchmark(String benchmark) {
+        this.benchmark = benchmark;
+    }
+
+    public Timestamp getBidListDate() {
+        return this.bidListDate;
+    }
+
+    public void setBidListDate(Timestamp bidListDate) {
+        this.bidListDate = bidListDate;
+    }
+
+    public String getCommentary() {
+        return this.commentary;
+    }
+
+    public void setCommentary(String commentary) {
+        this.commentary = commentary;
     }
 
     public String getSecurity() {
@@ -167,14 +188,6 @@ public class Trade {
         this.trader = trader;
     }
 
-    public String getBenchmark() {
-        return this.benchmark;
-    }
-
-    public void setBenchmark(String benchmark) {
-        this.benchmark = benchmark;
-    }
-
     public String getBook() {
         return this.book;
     }
@@ -191,11 +204,11 @@ public class Trade {
         this.creationName = creationName;
     }
 
-    public java.sql.Timestamp getCreationDate() {
+    public Timestamp getCreationDate() {
         return this.creationDate;
     }
 
-    public void setCreationDate(java.sql.Timestamp creationDate) {
+    public void setCreationDate(Timestamp creationDate) {
         this.creationDate = creationDate;
     }
 
@@ -207,11 +220,11 @@ public class Trade {
         this.revisionName = revisionName;
     }
 
-    public java.sql.Timestamp getRevisionDate() {
+    public Timestamp getRevisionDate() {
         return this.revisionDate;
     }
 
-    public void setRevisionDate(java.sql.Timestamp revisionDate) {
+    public void setRevisionDate(Timestamp revisionDate) {
         this.revisionDate = revisionDate;
     }
 
@@ -249,19 +262,20 @@ public class Trade {
 
     @Override
     public String toString() {
-        return "Trade{" +
-                "tradeId=" + tradeId +
+        return "Bid{" +
+                "bidListId=" + bidListId +
                 ", account='" + account + '\'' +
                 ", type='" + type + '\'' +
-                ", buyQuantity=" + buyQuantity +
-                ", sellQuantity=" + sellQuantity +
-                ", buyPrice=" + buyPrice +
-                ", sellPrice=" + sellPrice +
-                ", tradeDate=" + tradeDate +
+                ", bidQuantity=" + bidQuantity +
+                ", askQuantity=" + askQuantity +
+                ", bid=" + bid +
+                ", ask=" + ask +
+                ", benchmark='" + benchmark + '\'' +
+                ", bidListDate=" + bidListDate +
+                ", commentary='" + commentary + '\'' +
                 ", security='" + security + '\'' +
                 ", status='" + status + '\'' +
                 ", trader='" + trader + '\'' +
-                ", benchmark='" + benchmark + '\'' +
                 ", book='" + book + '\'' +
                 ", creationName='" + creationName + '\'' +
                 ", creationDate=" + creationDate +

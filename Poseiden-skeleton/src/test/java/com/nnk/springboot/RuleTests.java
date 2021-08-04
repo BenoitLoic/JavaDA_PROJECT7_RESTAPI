@@ -1,6 +1,6 @@
 package com.nnk.springboot;
 
-import com.nnk.springboot.domain.RuleName;
+import com.nnk.springboot.domain.Rule;
 import com.nnk.springboot.repositories.RuleNameRepository;
 import org.junit.Assert;
 import org.junit.Test;
@@ -21,7 +21,7 @@ public class RuleTests {
 
 	@Test
 	public void ruleTest() {
-		RuleName rule = new RuleName("Rule Name", "Description", "Json", "Template", "SQL", "SQL Part");
+		Rule rule = new Rule("Rule Name", "Description", "Json", "Template", "SQL", "SQL Part");
 
 		// Save
 		rule = ruleNameRepository.save(rule);
@@ -34,13 +34,13 @@ public class RuleTests {
 		Assert.assertTrue(rule.getName().equals("Rule Name Update"));
 
 		// Find
-		List<RuleName> listResult = ruleNameRepository.findAll();
+		List<Rule> listResult = ruleNameRepository.findAll();
 		Assert.assertTrue(listResult.size() > 0);
 
 		// Delete
 		Integer id = rule.getId();
 		ruleNameRepository.delete(rule);
-		Optional<RuleName> ruleList = ruleNameRepository.findById(id);
+		Optional<Rule> ruleList = ruleNameRepository.findById(id);
 		Assert.assertFalse(ruleList.isPresent());
 	}
 }
