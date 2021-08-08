@@ -4,12 +4,12 @@ import com.nnk.springboot.domain.User;
 import com.nnk.springboot.dto.CreateUserDto;
 import com.nnk.springboot.dto.GetUserDto;
 import com.nnk.springboot.dto.UpdateUserDto;
-import com.nnk.springboot.repositories.UserRepository;
+
 import com.nnk.springboot.services.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * Contains CRUD method for User model/entity.
