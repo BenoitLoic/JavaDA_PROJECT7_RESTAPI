@@ -1,31 +1,25 @@
-package com.nnk.springboot.domain;
+package com.nnk.springboot.dto;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 
-@Entity
-@Table(name = "users")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "Id")
+public class GetUserDto {
+
     private int id;
 
-    @Column(name = "username")
-    @NotBlank(message = "Username is mandatory")
     private String username;
 
-    @Column(name = "password")
-    @NotBlank(message = "Password is mandatory")
-    private String password;
-
-    @Column(name = "fullname")
-    @NotBlank(message = "FullName is mandatory")
     private String fullname;
 
-    @Column(name = "role")
-    @NotBlank(message = "Role is mandatory")
     private String role;
+
+    public GetUserDto() {
+    }
+
+    public GetUserDto(int id, String username, String fullname, String role) {
+        this.id = id;
+        this.username = username;
+        this.fullname = fullname;
+        this.role = role;
+    }
 
     public int getId() {
         return id;
@@ -41,14 +35,6 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getFullname() {
@@ -69,10 +55,9 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "GetUserDto{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
                 ", fullname='" + fullname + '\'' +
                 ", role='" + role + '\'' +
                 '}';

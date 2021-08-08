@@ -9,7 +9,7 @@ public class Trade {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "TradeId")
-    private Byte tradeId;
+    private int tradeId;
 
     @Column(name = "account")
     private String account;
@@ -79,11 +79,11 @@ public class Trade {
         this.type = type;
     }
 
-    public Byte getTradeId() {
+    public int getTradeId() {
         return this.tradeId;
     }
 
-    public void setTradeId(Byte tradeId) {
+    public void setTradeId(int tradeId) {
         this.tradeId = tradeId;
     }
 

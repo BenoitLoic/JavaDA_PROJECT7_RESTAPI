@@ -1,34 +1,34 @@
 package com.nnk.springboot.dto;
 
-import javax.validation.constraints.NotBlank;
-import java.util.Objects;
+public class UpdateUserDto {
 
-public class CreateUser {
+    private int id;
 
-
-    @NotBlank(message = "Username is mandatory")
     private String username;
 
-
-    @NotBlank(message = "Password is mandatory")
     private String password;
 
-
-    @NotBlank(message = "Fullname is mandatory")
     private String fullname;
 
-
-    @NotBlank(message = "Role is mandatory")
     private String role;
 
-    public CreateUser() {
+    public UpdateUserDto() {
     }
 
-    public CreateUser(String username, String password, String fullname, String role) {
+    public UpdateUserDto(int id, String username, String password, String fullname, String role) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.fullname = fullname;
         this.role = role;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -65,28 +65,13 @@ public class CreateUser {
 
     @Override
     public String toString() {
-        return "CreateUser{" +
-                "username='" + username + '\'' +
+        return "UpdateUserDto{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", fullname='" + fullname + '\'' +
                 ", role='" + role + '\'' +
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        CreateUser that = (CreateUser) o;
-        return Objects.equals(username, that.username) && Objects.equals(password, that.password) && Objects.equals(fullname, that.fullname) && Objects.equals(role, that.role);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(username, password, fullname, role);
-    }
 }

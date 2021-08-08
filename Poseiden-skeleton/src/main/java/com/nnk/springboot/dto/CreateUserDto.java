@@ -1,38 +1,34 @@
-package com.nnk.springboot.domain;
+package com.nnk.springboot.dto;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.Objects;
 
-@Entity
-@Table(name = "users")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "Id")
-    private int id;
+public class CreateUserDto {
 
-    @Column(name = "username")
+
     @NotBlank(message = "Username is mandatory")
     private String username;
 
-    @Column(name = "password")
+
     @NotBlank(message = "Password is mandatory")
     private String password;
 
-    @Column(name = "fullname")
-    @NotBlank(message = "FullName is mandatory")
+
+    @NotBlank(message = "Fullname is mandatory")
     private String fullname;
 
-    @Column(name = "role")
+
     @NotBlank(message = "Role is mandatory")
     private String role;
 
-    public int getId() {
-        return id;
+    public CreateUserDto() {
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public CreateUserDto(String username, String password, String fullname, String role) {
+        this.username = username;
+        this.password = password;
+        this.fullname = fullname;
+        this.role = role;
     }
 
     public String getUsername() {
@@ -69,12 +65,28 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
+        return "CreateUserDto{" +
+                "username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", fullname='" + fullname + '\'' +
                 ", role='" + role + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        CreateUserDto that = (CreateUserDto) o;
+        return Objects.equals(username, that.username) && Objects.equals(password, that.password) && Objects.equals(fullname, that.fullname) && Objects.equals(role, that.role);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username, password, fullname, role);
     }
 }
