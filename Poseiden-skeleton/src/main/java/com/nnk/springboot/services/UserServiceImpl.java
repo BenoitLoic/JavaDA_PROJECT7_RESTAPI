@@ -96,7 +96,7 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
 
-        log.info("User saved with id: " + user.getId());
+        log.info("Success - User saved with id: " + user.getId());
     }
 
     /**
