@@ -48,7 +48,7 @@ public class BidListController {
   /**
    * This method return the form to add a new bid.
    *
-   * @param bid
+   * @param bid ?
    * @return the template for bid form
    */
   @GetMapping("/bidList/add")
@@ -115,7 +115,7 @@ public class BidListController {
                           BindingResult result, Model model) {
 
     if (result.hasErrors()) {
-      log.error("KO - Error in validation for bid: "
+      log.warn("KO - Error in validation for bid: "
           + bid
           + " with error : "
           + result.getFieldErrors());
