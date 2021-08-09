@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.Collection;
 
 /**
  * Contains CRUD method for User model/entity.
@@ -40,8 +41,8 @@ public class UserController {
      */
     @GetMapping("/list")
     public String home(Model model) {
-
-        model.addAttribute("users", userService.getAllUsers());
+        Collection<GetUserDto> users = userService.getAllUsers();
+        model.addAttribute("users", users);
         return "user/list";
     }
 

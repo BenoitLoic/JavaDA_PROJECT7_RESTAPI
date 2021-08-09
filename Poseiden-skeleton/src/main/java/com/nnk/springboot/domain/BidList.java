@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "BidList")
-public class Bid {
+public class BidList {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -75,10 +75,10 @@ public class Bid {
     @Column(name = "side")
     private String side;
 
-    public Bid() {
+    public BidList() {
     }
 
-    public Bid(String account, String type, double bidQuantity) {
+    public BidList(String account, String type, double bidQuantity) {
         this.account = account;
         this.type = type;
         this.bidQuantity = bidQuantity;
@@ -262,7 +262,7 @@ public class Bid {
 
     @Override
     public String toString() {
-        return "Bid{" +
+        return "BidList{" +
                 "bidListId=" + bidListId +
                 ", account='" + account + '\'' +
                 ", type='" + type + '\'' +
