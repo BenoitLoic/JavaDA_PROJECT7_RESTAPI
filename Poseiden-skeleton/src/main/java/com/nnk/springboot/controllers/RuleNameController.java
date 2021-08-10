@@ -51,7 +51,7 @@ public class RuleNameController {
   /**
    * Create a new rule : validate data and save it to db.
    *
-   * @param rule   the rating to save
+   * @param rule   the rule to save
    * @param result binding to check if there are errors in parameters
    * @return the list of all rules.
    */
