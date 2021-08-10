@@ -82,7 +82,7 @@ public class RatingController {
    * @return the html form for rating update
    */
   @GetMapping("/rating/update/{id}")
-  public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
+  public String showUpdateForm(@PathVariable("id") int id, Model model) {
 
     log.info("Getting rating with id: " + id);
 
@@ -106,7 +106,7 @@ public class RatingController {
    * @return the list of all rating
    */
   @PutMapping("/rating/update/{id}")
-  public String updateRating(@PathVariable("id") Integer id, @Valid UpdateRatingDto rating,
+  public String updateRating(@PathVariable("id") int id, @Valid UpdateRatingDto rating,
                              BindingResult result, Model model) {
 
     if (result.hasErrors()) {
@@ -130,7 +130,7 @@ public class RatingController {
    * @return the list of all rating
    */
   @DeleteMapping("/rating/delete/{id}")
-  public String deleteRating(@PathVariable("id") Integer id, Model model) {
+  public String deleteRating(@PathVariable("id") int id, Model model) {
 
     ratingService.deleteRating(id);
 
