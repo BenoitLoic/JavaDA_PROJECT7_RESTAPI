@@ -10,6 +10,14 @@ public class GetBidListDto {
   public GetBidListDto() {
   }
 
+  /**
+   * Constructor with all field.
+   *
+   * @param bidListId the id
+   * @param account the account
+   * @param type the type
+   * @param bidQuantity the bid quantity
+   */
   public GetBidListDto(int bidListId, String account, String type, double bidQuantity) {
     this.bidListId = bidListId;
     this.account = account;

@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -14,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   @Autowired
-  UserDetailsServiceImpl userDetailsService;
+  UserDetailsService userDetailsService;
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -25,27 +27,27 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
 
     http
-        .formLogin()
-          .failureUrl("/error")
-          .and()
-        .exceptionHandling()
-          .accessDeniedPage("/error")
-          .and()
+        .formLogin().defaultSuccessUrl("/bidList/list")
+        .failureUrl("/app/error").permitAll()
+        .and()
         .authorizeRequests()
         // permit all
-          .antMatchers("/", "/app/**")
-          .permitAll()
+        .antMatchers("/403")
+        .permitAll()
         // user
-          .antMatchers(
-              "/bidList/**",
-              "/curvePoint/**",
-              "/ruleName/**",
-              "/rating/**",
-              "/trade/**")
-          .hasAnyAuthority("USER")
+        .antMatchers(
+            "/bidList/**",
+            "/curvePoint/**",
+            "/ruleName/**",
+            "/rating/**",
+            "/trade/**")
+        .hasAnyAuthority("USER","ADMIN")
         //admin
-          .antMatchers("/user/**")
-          .hasAuthority("ADMIN")
+        .antMatchers("/user/**")
+        .hasAuthority("ADMIN")
+    .and()
+    .exceptionHandling()
+        .accessDeniedPage("/403")
     ;
   }
 

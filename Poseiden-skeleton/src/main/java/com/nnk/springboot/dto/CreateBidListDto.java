@@ -1,11 +1,13 @@
 package com.nnk.springboot.dto;
 
 import javax.validation.constraints.NotBlank;
+import java.util.Objects;
 
 public class CreateBidListDto {
 
   @NotBlank(message = " is mandatory")
   private String account;
+
   @NotBlank(message = " is mandatory")
   private String type;
 
@@ -51,5 +53,18 @@ public class CreateBidListDto {
         ", type='" + type + '\'' +
         ", bidQuantity=" + bidQuantity +
         '}';
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    CreateBidListDto that = (CreateBidListDto) o;
+    return Double.compare(that.bidQuantity, bidQuantity) == 0 && Objects.equals(account, that.account) && Objects.equals(type, that.type);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(account, type, bidQuantity);
   }
 }

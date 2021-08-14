@@ -4,6 +4,7 @@ import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.dto.CreateBidListDto;
 import com.nnk.springboot.dto.GetBidListDto;
 import com.nnk.springboot.dto.UpdateBidListDto;
+import com.nnk.springboot.exceptions.DataNotFoundException;
 import com.nnk.springboot.repositories.BidListRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,10 +25,10 @@ import java.util.Optional;
 @Service
 public class BidListServiceImpl implements BidListService {
 
-  private final Logger log = LogManager.getLogger(getClass().getName());
-
   @Autowired
   BidListRepository bidListRepository;
+
+  private final Logger log = LogManager.getLogger(getClass().getName());
 
   /**
    * Get all bids saved in DB and return their Dto.
@@ -69,6 +70,7 @@ public class BidListServiceImpl implements BidListService {
             createBidListDto.getType(),
             createBidListDto.getBidQuantity());
 
+    bidEntity.setRevisionDate();
     log.info("Saving new Bid : " + createBidListDto);
 
     bidListRepository.save(bidEntity);
@@ -89,7 +91,7 @@ public class BidListServiceImpl implements BidListService {
 
     if (tempBid.isEmpty()) {
       log.warn("KO - Error bid not find, id: " + id);
-      throw new NoSuchElementException("Error Bid with id: " + id + " doesn't exist.");
+      throw new DataNotFoundException("Error Bid with id: " + id + " doesn't exist.");
     }
 
     UpdateBidListDto bidDto = new UpdateBidListDto();
@@ -114,27 +116,36 @@ public class BidListServiceImpl implements BidListService {
 
     if (temp.isEmpty()) {
       log.warn("Error can't find bid with id: " + id);
-      throw new NoSuchElementException("Error can't find bid");
+      throw new DataNotFoundException("Error can't find bid");
     }
 
     BidList bidEntity = temp.get();
-
-    if (!updateBidListDto.getAccount().isBlank()) {
+    int count = 0;
+    if (updateBidListDto.getAccount() != null
+        && (!updateBidListDto.getAccount().isBlank())) {
       log.trace("Updating account.");
       bidEntity.setAccount(updateBidListDto.getAccount());
+      count++;
     }
-    if (!updateBidListDto.getType().isBlank()) {
+    if (updateBidListDto.getType() != null
+        && (!updateBidListDto.getType().isBlank())) {
       log.trace("Updating type.");
       bidEntity.setType(updateBidListDto.getType());
+      count++;
     }
     if (!(updateBidListDto.getBidQuantity() == 0d)) {
       log.trace("Updating bidQuantity.");
       bidEntity.setBidQuantity(updateBidListDto.getBidQuantity());
+      count++;
     }
 
     bidListRepository.save(bidEntity);
 
-    log.info("Success - update OK for bid id: " + bidEntity.getBidListId());
+    log.info("Success - update OK for bid id: "
+        + bidEntity.getBidListId()
+        + ". "
+        + count
+        + " field changed.");
   }
 
   /**
@@ -150,7 +161,7 @@ public class BidListServiceImpl implements BidListService {
 
     if (bidToDelete.isEmpty()) {
       log.warn("KO - Error can't find bid with id : " + id);
-      throw new NoSuchElementException("Error can't find bid.");
+      throw new DataNotFoundException("Error can't find bid.");
     }
 
     log.trace("Deleting bid : " + bidToDelete.get());

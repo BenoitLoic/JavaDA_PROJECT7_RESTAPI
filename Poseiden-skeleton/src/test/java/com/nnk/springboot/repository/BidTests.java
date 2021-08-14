@@ -1,4 +1,4 @@
-package com.nnk.springboot;
+package com.nnk.springboot.repository;
 
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.repositories.BidListRepository;
@@ -21,7 +21,7 @@ public class BidTests {
 	@Test
 	public void bidListTest() {
 		BidList bid = new BidList("Account Test", "Type Test", 10d);
-
+		bid.setRevisionDate();
 		// Save
 		bid = bidListRepository.save(bid);
 		assertNotNull(bid.getBidListId());

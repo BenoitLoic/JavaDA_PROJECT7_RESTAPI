@@ -5,15 +5,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Table(name = "BidList")
 public class BidList {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "BidListId")
   private int bidListId;
 
@@ -39,7 +42,7 @@ public class BidList {
   private String benchmark;
 
   @Column(name = "bidListDate")
-  private Timestamp bidListDate;
+  private LocalDateTime bidListDate;
 
   @Column(name = "commentary")
   private String commentary;
@@ -60,13 +63,13 @@ public class BidList {
   private String creationName;
 
   @Column(name = "creationDate")
-  private Timestamp creationDate;
+  private LocalDateTime creationDate;
 
   @Column(name = "revisionName")
   private String revisionName;
 
   @Column(name = "revisionDate")
-  private Timestamp revisionDate;
+  private LocalDateTime revisionDate;
 
   @Column(name = "dealName")
   private String dealName;
@@ -153,11 +156,11 @@ public class BidList {
     this.benchmark = benchmark;
   }
 
-  public Timestamp getBidListDate() {
+  public LocalDateTime getBidListDate() {
     return this.bidListDate;
   }
 
-  public void setBidListDate(Timestamp bidListDate) {
+  public void setBidListDate(LocalDateTime bidListDate) {
     this.bidListDate = bidListDate;
   }
 
@@ -209,12 +212,13 @@ public class BidList {
     this.creationName = creationName;
   }
 
-  public Timestamp getCreationDate() {
+  public LocalDateTime getCreationDate() {
     return this.creationDate;
   }
 
-  public void setCreationDate(Timestamp creationDate) {
-    this.creationDate = creationDate;
+  @PrePersist
+  public void setCreationDate() {
+    this.creationDate = LocalDateTime.now();
   }
 
   public String getRevisionName() {
@@ -225,12 +229,13 @@ public class BidList {
     this.revisionName = revisionName;
   }
 
-  public Timestamp getRevisionDate() {
+  public LocalDateTime getRevisionDate() {
     return this.revisionDate;
   }
 
-  public void setRevisionDate(Timestamp revisionDate) {
-    this.revisionDate = revisionDate;
+  @PreUpdate
+  public void setRevisionDate() {
+    revisionDate = LocalDateTime.now();
   }
 
   public String getDealName() {
@@ -291,5 +296,22 @@ public class BidList {
         ", sourceListId='" + sourceListId + '\'' +
         ", side='" + side + '\'' +
         '}';
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    BidList bidList = (BidList) o;
+    return bidListId == bidList.bidListId && Double.compare(bidList.bidQuantity, bidQuantity) == 0 && Double.compare(bidList.askQuantity, askQuantity) == 0 && Double.compare(bidList.bid, bid) == 0 && Double.compare(bidList.ask, ask) == 0 && Objects.equals(account, bidList.account) && Objects.equals(type, bidList.type) && Objects.equals(benchmark, bidList.benchmark) && Objects.equals(bidListDate, bidList.bidListDate) && Objects.equals(commentary, bidList.commentary) && Objects.equals(security, bidList.security) && Objects.equals(status, bidList.status) && Objects.equals(trader, bidList.trader) && Objects.equals(book, bidList.book) && Objects.equals(creationName, bidList.creationName) && Objects.equals(creationDate, bidList.creationDate) && Objects.equals(revisionName, bidList.revisionName) && Objects.equals(revisionDate, bidList.revisionDate) && Objects.equals(dealName, bidList.dealName) && Objects.equals(dealType, bidList.dealType) && Objects.equals(sourceListId, bidList.sourceListId) && Objects.equals(side, bidList.side);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(bidListId, account, type, bidQuantity, askQuantity, bid, ask, benchmark, bidListDate, commentary, security, status, trader, book, creationName, creationDate, revisionName, revisionDate, dealName, dealType, sourceListId, side);
   }
 }

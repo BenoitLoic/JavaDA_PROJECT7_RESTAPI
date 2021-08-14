@@ -4,21 +4,19 @@ import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.dto.CreateBidListDto;
 import com.nnk.springboot.dto.GetBidListDto;
 import com.nnk.springboot.dto.UpdateBidListDto;
+import com.nnk.springboot.exceptions.IllegalArgumentException;
 import com.nnk.springboot.services.BidListService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * BidList controller.
@@ -28,8 +26,13 @@ import java.util.List;
 public class BidListController {
 
   private final Logger log = LogManager.getLogger(getClass().getName());
+
+  private final BidListService bidListService;
+
   @Autowired
-  BidListService bidListService;
+  public BidListController(BidListService bidListService) {
+    this.bidListService = bidListService;
+  }
 
   /**
    * This method return all bids saved in DB.
@@ -37,7 +40,7 @@ public class BidListController {
    * @param model the model to inject data for the view
    * @return the list of all bids present in db.
    */
-  @RequestMapping("/bidList/list")
+  @GetMapping("/bidList/list")
   public String home(Model model) {
 
     Collection<GetBidListDto> bids = bidListService.findAllBids();
@@ -65,14 +68,15 @@ public class BidListController {
    * @return the list of all bids.
    */
   @PostMapping("/bidList/validate")
-  public String validate(@Valid CreateBidListDto bid, BindingResult result, Model model) {
+  @ResponseStatus(HttpStatus.CREATED)
+  public String validate(@Valid @ModelAttribute CreateBidListDto bid, BindingResult result, Model model) {
 
     if (result.hasErrors()) {
       log.warn("KO - Error in validation for bid: "
           + bid
           + " with error : "
           + result.getFieldErrors());
-      return "bidList/add";
+      throw new IllegalArgumentException("Error - invalid field." );
     }
 
     bidListService.createBid(bid);
@@ -89,13 +93,13 @@ public class BidListController {
    * @return the template for bid form update.
    */
   @GetMapping("/bidList/update/{id}")
-  public String showUpdateForm(@PathVariable("id") int id, Model model) {
+  public String showUpdateForm(@Valid @PathVariable("id") int id, Model model) {
 
     log.info("Getting bid with id: " + id);
 
     UpdateBidListDto bid = bidListService.getBidWithId(id);
 
-    model.addAttribute("bid", bid);
+    model.addAttribute("bidList", bid);
 
     return "bidList/update";
   }
@@ -110,16 +114,17 @@ public class BidListController {
    * @param model  the model
    * @return the list of all bids.
    */
-  @PostMapping("/bidList/update/{id}")
+  @PutMapping("/bidList/update/{id}")
   public String updateBid(@PathVariable("id") int id, @Valid UpdateBidListDto bid,
-                          BindingResult result, Model model) {
+                          BindingResult result) {
 
     if (result.hasErrors()) {
       log.warn("KO - Error in validation for bid: "
           + bid
           + " with error : "
           + result.getFieldErrors());
-      return "bidList/update";
+      throw new IllegalArgumentException("KO - Error in validation");
+
     }
 
 
@@ -132,11 +137,10 @@ public class BidListController {
    * This method delete the bid with the given id.
    *
    * @param id    the id of the bid to delete
-   * @param model the model
    * @return the list of all bids.
    */
-  @GetMapping("/bidList/delete/{id}")
-  public String deleteBid(@PathVariable("id") int id, Model model) {
+  @DeleteMapping("/bidList/delete/{id}")
+  public String deleteBid(@PathVariable("id") int id) {
 
     bidListService.deleteBid(id);
 
