@@ -108,8 +108,8 @@ public class BidListIT {
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .content(getUrlEncoded(valid)))
-        .andExpect(status().isCreated())
-        .andExpect(redirectedUrl("/bidList/list"));
+        .andExpect(status().isFound())
+        .andExpect(redirectedUrl(homeUrl));
 
     mockMvc
         .perform(
@@ -202,7 +202,7 @@ public class BidListIT {
                 .with(user("userTest").authorities(new SimpleGrantedAuthority("USER")))
                 .with(csrf()))
         .andExpect(redirectedUrl(homeUrl))
-        .andExpect(status().isAccepted());
+        .andExpect(status().isFound());
 
     assertTrue(bidListRepository.findById(1).isEmpty());
 

@@ -52,7 +52,7 @@ public class UserController {
      * @return the html form.
      */
     @GetMapping("/add")
-    public String addUserForm(User user) {
+    public String addUserForm(CreateUserDto user) {
         return "user/add";
     }
 

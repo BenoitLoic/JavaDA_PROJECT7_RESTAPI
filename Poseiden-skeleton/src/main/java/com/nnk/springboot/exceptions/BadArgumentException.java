@@ -11,4 +11,5 @@ public class BadArgumentException extends RuntimeException {
     super(error);
 
   }
+
 }

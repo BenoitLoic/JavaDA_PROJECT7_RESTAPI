@@ -1,5 +1,6 @@
 package com.nnk.springboot.controllers;
 
+import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.dto.CreateBidListDto;
 import com.nnk.springboot.dto.GetBidListDto;
 import com.nnk.springboot.dto.UpdateBidListDto;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
 import java.util.Collection;
@@ -52,30 +55,29 @@ public class BidListController {
    * @return the template for bid form
    */
   @GetMapping("/bidList/add")
-  public String addBidForm() {
+  public String addBidForm(BidList bidList) {
     return "bidList/add";
   }
 
   /**
    * This method create a new bid: validate data and save it to db.
    *
-   * @param bid    the bid to save
+   * @param bidList    the bid to save
    * @param result binding to check if there are errors in parameters
    * @return the list of all bids.
    */
   @PostMapping("/bidList/validate")
-  @ResponseStatus(HttpStatus.CREATED)
-  public String validate(@Valid @ModelAttribute CreateBidListDto bid, BindingResult result) {
+  public String validate(@Valid CreateBidListDto bidList, BindingResult result,Model model) {
 
     if (result.hasErrors()) {
       log.warn("KO - Error in validation for bid: "
-          + bid
+          + bidList
           + " with error : "
           + result.getFieldErrors());
-      throw new BadArgumentException("Error - invalid field." );
+      throw new BadArgumentException("Error - invalid field.");
     }
 
-    bidListService.createBid(bid);
+    bidListService.createBid(bidList);
 
     return "redirect:/bidList/list";
 
@@ -111,7 +113,9 @@ public class BidListController {
    */
   @PutMapping("/bidList/update/{id}")
   public String updateBid(@PathVariable("id") int id, @Valid UpdateBidListDto bid,
-                          BindingResult result) {
+                          BindingResult result, Model model) {
+
+    log.info("updating BidList: " + id);
 
     if (result.hasErrors()) {
       log.warn("KO - Error in validation for bid: "
@@ -135,8 +139,7 @@ public class BidListController {
    * @return the list of all bids.
    */
   @DeleteMapping("/bidList/delete/{id}")
-  @ResponseStatus(HttpStatus.ACCEPTED)
-  public String deleteBid(@PathVariable("id") int id) {
+  public String deleteBid(@PathVariable("id") int id, Model model) {
 
     bidListService.deleteBid(id);
 

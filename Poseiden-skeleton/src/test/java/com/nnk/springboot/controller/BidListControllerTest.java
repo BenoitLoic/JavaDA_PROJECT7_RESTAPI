@@ -117,7 +117,7 @@ public class BidListControllerTest {
         .perform(post(createUrl)
             .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
             .content(urlEncoded))
-        .andExpect(status().isCreated())
+        .andExpect(status().isFound())
         .andExpect(redirectedUrl(homeUrl));
   }
 
@@ -187,7 +187,8 @@ public class BidListControllerTest {
             put(updateFormUrl, "5")
                 .content(urlEncoded)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED))
-        .andExpect(status().is3xxRedirection());
+        .andExpect(status().is3xxRedirection())
+    .andExpect(redirectedUrl(homeUrl));
   }
 
   @Test
@@ -232,7 +233,9 @@ public class BidListControllerTest {
     // WHEN
 
     // THEN
-    mockMvc.perform(delete(deleteUrl, 2)).andExpect(status().is3xxRedirection());
+    mockMvc.perform(delete(deleteUrl, 2))
+        .andExpect(status().isFound())
+    .andExpect(redirectedUrl(homeUrl));
 
   }
 
