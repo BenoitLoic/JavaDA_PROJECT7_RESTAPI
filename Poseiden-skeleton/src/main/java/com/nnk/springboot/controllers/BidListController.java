@@ -1,10 +1,9 @@
 package com.nnk.springboot.controllers;
 
-import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.dto.CreateBidListDto;
 import com.nnk.springboot.dto.GetBidListDto;
 import com.nnk.springboot.dto.UpdateBidListDto;
-import com.nnk.springboot.exceptions.IllegalArgumentException;
+import com.nnk.springboot.exceptions.BadArgumentException;
 import com.nnk.springboot.services.BidListService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -50,12 +49,10 @@ public class BidListController {
 
   /**
    * This method return the form to add a new bid.
-   *
-   * @param bid ?
    * @return the template for bid form
    */
   @GetMapping("/bidList/add")
-  public String addBidForm(BidList bid) {
+  public String addBidForm() {
     return "bidList/add";
   }
 
@@ -64,19 +61,18 @@ public class BidListController {
    *
    * @param bid    the bid to save
    * @param result binding to check if there are errors in parameters
-   * @param model  the model
    * @return the list of all bids.
    */
   @PostMapping("/bidList/validate")
   @ResponseStatus(HttpStatus.CREATED)
-  public String validate(@Valid @ModelAttribute CreateBidListDto bid, BindingResult result, Model model) {
+  public String validate(@Valid @ModelAttribute CreateBidListDto bid, BindingResult result) {
 
     if (result.hasErrors()) {
       log.warn("KO - Error in validation for bid: "
           + bid
           + " with error : "
           + result.getFieldErrors());
-      throw new IllegalArgumentException("Error - invalid field." );
+      throw new BadArgumentException("Error - invalid field." );
     }
 
     bidListService.createBid(bid);
@@ -111,7 +107,6 @@ public class BidListController {
    * @param id     the id of the bid to update
    * @param bid    the data to update
    * @param result the fields error in parameters
-   * @param model  the model
    * @return the list of all bids.
    */
   @PutMapping("/bidList/update/{id}")
@@ -123,7 +118,7 @@ public class BidListController {
           + bid
           + " with error : "
           + result.getFieldErrors());
-      throw new IllegalArgumentException("KO - Error in validation");
+      throw new BadArgumentException("KO - Error in validation");
 
     }
 
@@ -140,6 +135,7 @@ public class BidListController {
    * @return the list of all bids.
    */
   @DeleteMapping("/bidList/delete/{id}")
+  @ResponseStatus(HttpStatus.ACCEPTED)
   public String deleteBid(@PathVariable("id") int id) {
 
     bidListService.deleteBid(id);

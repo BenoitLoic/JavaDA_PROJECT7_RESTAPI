@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -57,6 +58,7 @@ public class BidListServiceTest {
     expected.setAccount("account");
     expected.setType("type");
     expected.setBidQuantity(0.1);
+
     // WHEN
     bidListService.createBid(temp);
     // THEN

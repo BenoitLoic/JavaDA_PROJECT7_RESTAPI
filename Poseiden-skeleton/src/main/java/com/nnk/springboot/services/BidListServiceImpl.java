@@ -70,7 +70,6 @@ public class BidListServiceImpl implements BidListService {
             createBidListDto.getType(),
             createBidListDto.getBidQuantity());
 
-    bidEntity.setRevisionDate();
     log.info("Saving new Bid : " + createBidListDto);
 
     bidListRepository.save(bidEntity);

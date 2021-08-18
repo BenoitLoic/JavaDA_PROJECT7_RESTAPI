@@ -5,18 +5,21 @@ import com.nnk.springboot.repositories.RatingRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
 @SpringBootTest
 public class RatingTests {
 
 	@Autowired
 	private RatingRepository ratingRepository;
+
 
 	@Test
 	public void ratingTest() {
@@ -41,5 +44,6 @@ public class RatingTests {
 		ratingRepository.delete(rating);
 		Optional<Rating> ratingList = ratingRepository.findById(id);
 		assertFalse(ratingList.isPresent());
+
 	}
 }

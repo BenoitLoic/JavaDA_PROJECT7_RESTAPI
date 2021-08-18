@@ -8,7 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 @Entity
@@ -218,7 +220,7 @@ public class BidList {
 
   @PrePersist
   public void setCreationDate() {
-    this.creationDate = LocalDateTime.now();
+    this.creationDate = this.revisionDate = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
   }
 
   public String getRevisionName() {
@@ -235,7 +237,7 @@ public class BidList {
 
   @PreUpdate
   public void setRevisionDate() {
-    revisionDate = LocalDateTime.now();
+    revisionDate = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
   }
 
   public String getDealName() {
