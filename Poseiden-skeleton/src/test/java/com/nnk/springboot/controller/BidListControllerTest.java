@@ -5,7 +5,6 @@ import com.nnk.springboot.controllers.BidListController;
 import com.nnk.springboot.dto.CreateBidListDto;
 import com.nnk.springboot.dto.GetBidListDto;
 import com.nnk.springboot.dto.UpdateBidListDto;
-import com.nnk.springboot.exceptions.DataAlreadyExistException;
 import com.nnk.springboot.exceptions.DataNotFoundException;
 import com.nnk.springboot.services.BidListServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -18,13 +17,15 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = BidListController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -42,7 +43,7 @@ public class BidListControllerTest {
 
   private final String homeUrl = "/bidList/list";
   private final String createFormUrl = "/bidList/add";
-  private final String createUrl = "/bidList/validate";
+  private final String createUrl = "/bidList/add";
   private final String updateFormUrl = "/bidList/update/{id}";
   private final String updateUrl = "/bidList/update/{id}";
   private final String deleteUrl = "/bidList/delete/{id}";
@@ -137,7 +138,9 @@ public class BidListControllerTest {
         .perform(post(createUrl)
             .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
             .content(urlEncoded))
-        .andExpect(status().isBadRequest());
+        .andExpect(status().isOk())
+        .andExpect(model().errorCount(1))
+        .andExpect(model().attributeHasFieldErrors("createBidListDto", "account"));
   }
 
 
@@ -153,7 +156,7 @@ public class BidListControllerTest {
         .perform(
             get(updateFormUrl, "5"))
         .andExpect(view().name("bidList/update"))
-        .andExpect(model().attribute("bidList", updateBid))
+        .andExpect(model().attribute("updateBidListDto", updateBid))
         .andExpect(status().isOk());
 
   }
@@ -188,7 +191,7 @@ public class BidListControllerTest {
                 .content(urlEncoded)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED))
         .andExpect(status().is3xxRedirection())
-    .andExpect(redirectedUrl(homeUrl));
+        .andExpect(redirectedUrl(homeUrl));
   }
 
   @Test
@@ -205,7 +208,9 @@ public class BidListControllerTest {
             put(updateFormUrl, "5")
                 .content(urlEncoded)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED))
-        .andExpect(status().isBadRequest());
+        .andExpect(status().isOk())
+        .andExpect(model().attributeHasFieldErrors("updateBidListDto", "account"))
+        .andExpect(model().errorCount(1));
 
   }
 
@@ -235,7 +240,7 @@ public class BidListControllerTest {
     // THEN
     mockMvc.perform(delete(deleteUrl, 2))
         .andExpect(status().isFound())
-    .andExpect(redirectedUrl(homeUrl));
+        .andExpect(redirectedUrl(homeUrl));
 
   }
 

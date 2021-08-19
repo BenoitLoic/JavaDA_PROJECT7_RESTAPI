@@ -1,21 +1,16 @@
 package com.nnk.springboot.controllers;
 
-import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.dto.CreateBidListDto;
 import com.nnk.springboot.dto.GetBidListDto;
 import com.nnk.springboot.dto.UpdateBidListDto;
-import com.nnk.springboot.exceptions.BadArgumentException;
 import com.nnk.springboot.services.BidListService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
 import java.util.Collection;
@@ -55,29 +50,29 @@ public class BidListController {
    * @return the template for bid form
    */
   @GetMapping("/bidList/add")
-  public String addBidForm(BidList bidList) {
+  public String addBidForm(CreateBidListDto createBidListDto) {
     return "bidList/add";
   }
 
   /**
    * This method create a new bid: validate data and save it to db.
    *
-   * @param bidList    the bid to save
+   * @param createBidListDto    the bid to save
    * @param result binding to check if there are errors in parameters
    * @return the list of all bids.
    */
-  @PostMapping("/bidList/validate")
-  public String validate(@Valid CreateBidListDto bidList, BindingResult result,Model model) {
+  @PostMapping("/bidList/add")
+  public String validate(@Valid CreateBidListDto createBidListDto, BindingResult result,Model model) {
 
     if (result.hasErrors()) {
       log.warn("KO - Error in validation for bid: "
-          + bidList
+          + createBidListDto
           + " with error : "
           + result.getFieldErrors());
-      throw new BadArgumentException("Error - invalid field.");
+     return "bidList/add";
     }
 
-    bidListService.createBid(bidList);
+    bidListService.createBid(createBidListDto);
 
     return "redirect:/bidList/list";
 
@@ -97,7 +92,7 @@ public class BidListController {
 
     UpdateBidListDto bid = bidListService.getBidWithId(id);
 
-    model.addAttribute("bidList", bid);
+    model.addAttribute("updateBidListDto", bid);
 
     return "bidList/update";
   }
@@ -107,27 +102,30 @@ public class BidListController {
    * validate data, update data in DB and return the list of bids
    *
    * @param id     the id of the bid to update
-   * @param bid    the data to update
+   * @param updateBidListDto    the data to update
    * @param result the fields error in parameters
    * @return the list of all bids.
    */
   @PutMapping("/bidList/update/{id}")
-  public String updateBid(@PathVariable("id") int id, @Valid UpdateBidListDto bid,
+  public String updateBid(@PathVariable("id") int id, @Valid UpdateBidListDto updateBidListDto,
                           BindingResult result, Model model) {
 
     log.info("updating BidList: " + id);
 
     if (result.hasErrors()) {
+
       log.warn("KO - Error in validation for bid: "
-          + bid
+          + updateBidListDto
           + " with error : "
           + result.getFieldErrors());
-      throw new BadArgumentException("KO - Error in validation");
+      model.addAttribute("updateBidListDto", updateBidListDto);
+      System.out.println(updateBidListDto.getBidListId());
+      return "/bidList/update";
 
     }
 
 
-    bidListService.updateBid(id, bid);
+    bidListService.updateBid(id, updateBidListDto);
 
     return "redirect:/bidList/list";
   }

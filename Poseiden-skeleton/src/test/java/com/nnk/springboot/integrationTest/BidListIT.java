@@ -4,7 +4,6 @@ package com.nnk.springboot.integrationTest;
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.dto.CreateBidListDto;
 import com.nnk.springboot.dto.UpdateBidListDto;
-import com.nnk.springboot.exceptions.BadArgumentException;
 import com.nnk.springboot.exceptions.DataNotFoundException;
 import com.nnk.springboot.repositories.BidListRepository;
 import org.junit.jupiter.api.Test;
@@ -19,12 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 import static com.nnk.springboot.utility.FormatToUrlEncoded.getUrlEncoded;
-import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.Matchers.iterableWithSize;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -38,7 +36,7 @@ public class BidListIT {
 
   private final String homeUrl = "/bidList/list";
   private final String createFormUrl = "/bidList/add";
-  private final String createUrl = "/bidList/validate";
+  private final String createUrl = "/bidList/add";
   private final String updateFormUrl = "/bidList/update/{id}";
   private final String updateUrl = "/bidList/update/{id}";
   private final String deleteUrl = "/bidList/delete/{id}";
@@ -118,8 +116,8 @@ public class BidListIT {
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .content(getUrlEncoded(invalid)))
-        .andExpect(status().isBadRequest())
-        .andExpect(result -> assertTrue(result.getResolvedException() instanceof BadArgumentException));
+        .andExpect(status().isOk())
+        .andExpect(model().attributeHasFieldErrors("createBidListDto","type"));
 
   }
 
@@ -175,7 +173,7 @@ public class BidListIT {
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .content(getUrlEncoded(valid)))
-        .andExpect(status().is3xxRedirection())
+        .andExpect(status().isFound())
         .andExpect(redirectedUrl("/bidList/list"));
 
     mockMvc
@@ -185,8 +183,8 @@ public class BidListIT {
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .content(getUrlEncoded(invalid)))
-        .andExpect(status().isBadRequest())
-        .andExpect(result -> assertTrue(result.getResolvedException() instanceof BadArgumentException));
+        .andExpect(status().isOk())
+        .andExpect(model().attributeHasFieldErrors("updateBidListDto", "type"));
   }
 
   @Test
