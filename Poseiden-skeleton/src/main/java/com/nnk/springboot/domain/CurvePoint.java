@@ -2,98 +2,101 @@ package com.nnk.springboot.domain;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Entity
 @Table(name = "CurvePoint")
 public class CurvePoint {
 
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id")
-    private int id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "Id")
+  private int id;
 
-    @Column(name = "CurveId")
-    private int curveId;
+  @Column(name = "CurveId")
+  private int curveId;
 
-    @Column(name = "asOfDate")
-    private Timestamp asOfDate;
+  @Column(name = "asOfDate")
+  private Timestamp asOfDate;
 
-    @Column(name = "term")
-    private double term;
+  @Column(name = "term")
+  private double term;
 
-    @Column(name = "value")
-    private double value;
+  @Column(name = "value")
+  private double value;
 
-    @Column(name = "creationDate")
-    private Timestamp creationDate;
+  @Column(name = "creationDate")
+  private LocalDateTime creationDate;
 
-    public CurvePoint() {
-    }
+  public CurvePoint() {
+  }
 
-    public CurvePoint(int curveId, double term, double value) {
-        this.curveId = curveId;
-        this.term = term;
-        this.value = value;
-    }
+  public CurvePoint(int curveId, double term, double value) {
+    this.curveId = curveId;
+    this.term = term;
+    this.value = value;
+  }
 
-    public int getId() {
-        return this.id;
-    }
+  public int getId() {
+    return this.id;
+  }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+  public void setId(int id) {
+    this.id = id;
+  }
 
-    public int getCurveId() {
-        return this.curveId;
-    }
+  public int getCurveId() {
+    return this.curveId;
+  }
 
-    public void setCurveId(int curveId) {
-        this.curveId = curveId;
-    }
+  public void setCurveId(int curveId) {
+    this.curveId = curveId;
+  }
 
-    public Timestamp getAsOfDate() {
-        return this.asOfDate;
-    }
+  public Timestamp getAsOfDate() {
+    return this.asOfDate;
+  }
 
-    public void setAsOfDate(Timestamp asOfDate) {
-        this.asOfDate = asOfDate;
-    }
+  public void setAsOfDate(Timestamp asOfDate) {
+    this.asOfDate = asOfDate;
+  }
 
-    public double getTerm() {
-        return this.term;
-    }
+  public double getTerm() {
+    return this.term;
+  }
 
-    public void setTerm(Double term) {
-        this.term = term;
-    }
+  public void setTerm(Double term) {
+    this.term = term;
+  }
 
-    public double getValue() {
-        return this.value;
-    }
+  public double getValue() {
+    return this.value;
+  }
 
-    public void setValue(Double value) {
-        this.value = value;
-    }
+  public void setValue(Double value) {
+    this.value = value;
+  }
 
-    public Timestamp getCreationDate() {
-        return this.creationDate;
-    }
+  public LocalDateTime getCreationDate() {
+    return creationDate;
+  }
 
-    public void setCreationDate(Timestamp creationDate) {
-        this.creationDate = creationDate;
-    }
+  @PrePersist
+  public void setCreationDate() {
+    creationDate = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+  }
 
-    @Override
-    public String toString() {
-        return "CurvePoint{" +
-                "id=" + id +
-                ", curveId=" + curveId +
-                ", asOfDate=" + asOfDate +
-                ", term=" + term +
-                ", value=" + value +
-                ", creationDate=" + creationDate +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return "CurvePoint{" +
+        "id=" + id +
+        ", curveId=" + curveId +
+        ", asOfDate=" + asOfDate +
+        ", term=" + term +
+        ", value=" + value +
+        ", creationDate=" + creationDate +
+        '}';
+  }
 }

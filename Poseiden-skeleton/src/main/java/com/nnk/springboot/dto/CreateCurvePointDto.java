@@ -1,13 +1,16 @@
 package com.nnk.springboot.dto;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDateTime;
 
 public class CreateCurvePointDto {
 
-  @NotBlank(message = " is mandatory.")
-  @Size
+
   private int curveId;
+
+  @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+  private LocalDateTime asOfDate;
   private double term;
   private double value;
 
@@ -26,6 +29,14 @@ public class CreateCurvePointDto {
 
   public void setCurveId(int curveId) {
     this.curveId = curveId;
+  }
+
+  public LocalDateTime getAsOfDate() {
+    return asOfDate;
+  }
+
+  public void setAsOfDate(LocalDateTime asOfDate) {
+    this.asOfDate = asOfDate;
   }
 
   public double getTerm() {

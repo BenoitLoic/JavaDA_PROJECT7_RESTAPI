@@ -48,32 +48,32 @@ public class CurveController {
    * @return html form.
    */
   @GetMapping("/add")
-  public String addCurveForm(CreateCurvePointDto curvePoint) {
+  public String addCurveForm(CreateCurvePointDto createCurvePointDto) {
     return "curvePoint/add";
   }
 
   /**
    * Create a new curvePoint.
    *
-   * @param curvePoint the point to create.
+   * @param createCurvePointDto the point to create.
    * @param result     validation check for curvePoint
    * @param model      the model to inject data for the view
    * @return list of all points
    */
-  @PostMapping("/validate")
-  public String validate(@Valid CreateCurvePointDto curvePoint, BindingResult result, Model model) {
+  @PostMapping("/add")
+  public String validate(@Valid CreateCurvePointDto createCurvePointDto, BindingResult result, Model model) {
 
     if (result.hasErrors()) {
       log.warn("Error in validation for CurvePoint: "
-          + curvePoint
+          + createCurvePointDto
           + " with error: "
           + result.getFieldError());
       return "curvePoint/add";
     }
 
-    curveService.createCurvePoint(curvePoint);
+    curveService.createCurvePoint(createCurvePointDto);
 
-    return "curvePoint/add";
+    return "redirect:/curvePoint/list";
   }
 
   /**
@@ -85,9 +85,10 @@ public class CurveController {
    */
   @GetMapping("/update/{id}")
   public String showUpdateForm(@PathVariable("id") int id, Model model) {
+    log.info("Getting curve point with id: " + id);
 
     UpdateCurvePointDto point = curveService.getPointWithId(id);
-    model.addAttribute("curvePoint", point);
+    model.addAttribute("updateCurvePointDto", point);
 
     return "curvePoint/update";
   }
@@ -96,22 +97,22 @@ public class CurveController {
    * Update the curvePoint with its id.
    *
    * @param id         the id of the point to update
-   * @param curvePoint the data to update
+   * @param updateCurvePointDto the data to update
    * @param result     validation check
    * @param model      the model to inject data for the view
    * @return list of all points
    */
   @PutMapping("/update/{id}")
-  public String updateCurvePoint(@PathVariable("id") int id, @Valid UpdateCurvePointDto curvePoint,
+  public String updateCurvePoint(@PathVariable("id") int id, @Valid UpdateCurvePointDto updateCurvePointDto,
                                  BindingResult result, Model model) {
 
     if (result.hasErrors()) {
-      log.error("KO - Error with curvePoint param: "
+      log.warn("KO - Error in validation for curvePoint: "
           + result.getFieldError());
-      return "curvePoint/update";
+      return "/curvePoint/update";
     }
 
-    curveService.updateCurvePoint(id, curvePoint);
+    curveService.updateCurvePoint(id, updateCurvePointDto);
 
     return "redirect:/curvePoint/list";
   }

@@ -85,7 +85,7 @@ public class TradeController {
   @GetMapping("/update/{id}")
   public String showUpdateForm(@PathVariable("id") int id, Model model) {
 
-    log.info("Getting rule with id: " + id);
+    log.info("Getting trade with id: " + id);
 
     UpdateTradeDto trade = tradeService.getTradeWithId(id);
 

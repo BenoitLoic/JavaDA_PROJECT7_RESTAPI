@@ -2,8 +2,12 @@ package com.nnk.springboot.dto;
 
 public class UpdateCurvePointDto {
 
+  private int id;
+
   private int curveId;
+
   private double term;
+
   private double value;
 
   public UpdateCurvePointDto() {
@@ -13,6 +17,14 @@ public class UpdateCurvePointDto {
     this.curveId = curveId;
     this.term = term;
     this.value = value;
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
   }
 
   public int getCurveId() {
@@ -42,7 +54,8 @@ public class UpdateCurvePointDto {
   @Override
   public String toString() {
     return "UpdateCurvePointDto{" +
-        "curveId=" + curveId +
+        "id=" + id +
+        ", curveId=" + curveId +
         ", term=" + term +
         ", value=" + value +
         '}';
