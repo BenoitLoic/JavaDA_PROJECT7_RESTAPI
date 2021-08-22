@@ -4,6 +4,7 @@ import com.nnk.springboot.domain.Trade;
 import com.nnk.springboot.dto.CreateTradeDto;
 import com.nnk.springboot.dto.GetTradeDto;
 import com.nnk.springboot.dto.UpdateTradeDto;
+import com.nnk.springboot.exceptions.DataNotFoundException;
 import com.nnk.springboot.repositories.TradeRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,16 +15,20 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
 public class TradeServiceImpl implements TradeService {
 
+
+  private final TradeRepository tradeRepository;
+
   private final Logger log = LogManager.getLogger(getClass().getName());
 
   @Autowired
-  TradeRepository tradeRepository;
+  public TradeServiceImpl(TradeRepository tradeRepository) {
+    this.tradeRepository = tradeRepository;
+  }
 
   /**
    * Get all trade saved in DB and return their Dto.
@@ -86,7 +91,7 @@ public class TradeServiceImpl implements TradeService {
 
     if (optional.isEmpty()) {
       log.warn("Error can't find trade with id: " + id);
-      throw new NoSuchElementException("Error can't find trade.");
+      throw new DataNotFoundException("Error can't find trade.");
     }
 
     UpdateTradeDto updateDto = new UpdateTradeDto();
@@ -115,17 +120,23 @@ public class TradeServiceImpl implements TradeService {
     if (optional.isEmpty()) {
       log.warn("KO - Error can't find trade with id: "
           + id);
-      throw new NoSuchElementException("Error can't find trade.");
+      throw new DataNotFoundException("Error can't find trade.");
     }
 
+
     Trade entity = optional.get();
-    if (!updateTradeDto.getAccount().isBlank()) {
+    int count = 0;
+    if ((updateTradeDto.getAccount() != null
+        && !updateTradeDto.getAccount().isBlank())) {
       log.trace("Updating account.");
       entity.setAccount(updateTradeDto.getAccount());
+      count++;
     }
-    if (!updateTradeDto.getType().isBlank()) {
+    if (updateTradeDto.getType() != null
+        && !updateTradeDto.getType().isBlank()) {
       log.trace("Updating type.");
       entity.setType(updateTradeDto.getType());
+      count++;
     }
     if (!updateTradeDto.getBuyQuantity().equals(entity.getBuyQuantity())) {
       log.trace("Updating buyQuantity.");
@@ -134,69 +145,100 @@ public class TradeServiceImpl implements TradeService {
     if (!updateTradeDto.getSellQuantity().equals(entity.getSellQuantity())) {
       log.trace("Updating sellQuantity.");
       entity.setSellQuantity(updateTradeDto.getSellQuantity());
+      count++;
     }
     if (!updateTradeDto.getBuyPrice().equals(entity.getBuyPrice())) {
       log.trace("Updating buyPrice.");
       entity.setBuyPrice(updateTradeDto.getBuyPrice());
+      count++;
     }
     if (!updateTradeDto.getSellPrice().equals(entity.getSellPrice())) {
       log.trace("Updating sellPrice.");
       entity.setSellPrice(updateTradeDto.getSellPrice());
+      count++;
     }
-    if (!updateTradeDto.getTradeDate().equals(entity.getTradeDate())) {
+    if (updateTradeDto.getTradeDate() != null
+        && !updateTradeDto.getTradeDate().equals(entity.getTradeDate())) {
       log.trace("Updating tradeDate.");
       entity.setTradeDate(updateTradeDto.getTradeDate());
+      count++;
     }
-    if (!updateTradeDto.getSecurity().isBlank()) {
+    if (updateTradeDto.getSecurity() != null
+        && !updateTradeDto.getSecurity().isBlank()) {
       log.trace("Updating security.");
       entity.setSecurity(updateTradeDto.getSecurity());
+      count++;
     }
-    if (!updateTradeDto.getStatus().isBlank()) {
+    if (updateTradeDto.getStatus() != null
+        && !updateTradeDto.getStatus().isBlank()) {
       log.trace("Updating status.");
       entity.setStatus(updateTradeDto.getStatus());
+      count++;
     }
-    if (!updateTradeDto.getTrader().isBlank()) {
+    if (updateTradeDto.getTrader() != null
+        && !updateTradeDto.getTrader().isBlank()) {
       log.trace("Updating trader.");
       entity.setTrader(updateTradeDto.getTrader());
+      count++;
     }
-    if (!updateTradeDto.getBenchmark().isBlank()) {
+    if (updateTradeDto.getBenchmark() != null
+        && !updateTradeDto.getBenchmark().isBlank()) {
       log.trace("Updating benchmark.");
       entity.setBenchmark(updateTradeDto.getBenchmark());
+      count++;
     }
-    if (!updateTradeDto.getBook().isBlank()) {
+    if (updateTradeDto.getBook() != null
+        && !updateTradeDto.getBook().isBlank()) {
       log.trace("Updating book.");
       entity.setBook(updateTradeDto.getBook());
+      count++;
     }
-    if (!updateTradeDto.getCreationName().isBlank()) {
+    if (updateTradeDto.getCreationName() != null
+        && !updateTradeDto.getCreationName().isBlank()) {
       log.trace("Updating crationName.");
       entity.setCreationName(updateTradeDto.getCreationName());
+      count++;
     }
-    if (!updateTradeDto.getRevisionName().isBlank()) {
+    if (updateTradeDto.getRevisionName() != null
+        && !updateTradeDto.getRevisionName().isBlank()) {
       log.trace("Updating revisionName.");
       entity.setRevisionName(updateTradeDto.getRevisionName());
+      count++;
     }
-    if (!updateTradeDto.getDealName().isBlank()) {
+    if (updateTradeDto.getDealName() != null
+        && !updateTradeDto.getDealName().isBlank()) {
       log.trace("Updating dealName.");
       entity.setDealName(updateTradeDto.getDealName());
+      count++;
     }
-    if (!updateTradeDto.getDealType().isBlank()) {
+    if (updateTradeDto.getDealType() != null
+        && !updateTradeDto.getDealType().isBlank()) {
       log.trace("Updating dealType.");
       entity.setDealType(updateTradeDto.getDealType());
+      count++;
     }
-    if (!updateTradeDto.getSourceListId().isBlank()) {
+    if (updateTradeDto.getSourceListId() != null
+        && !updateTradeDto.getSourceListId().isBlank()) {
       log.trace("Updating sourceListId.");
       entity.setSourceListId(updateTradeDto.getSourceListId());
+      count++;
     }
-    if (!updateTradeDto.getSide().isBlank()) {
+    if (updateTradeDto.getSide() != null
+        && !(updateTradeDto.getSide().isEmpty() && updateTradeDto.getSide().isBlank())) {
       log.trace("Updating side.");
       entity.setSide(updateTradeDto.getSide());
+      count++;
     }
 
     log.info("Updating Trade: " + entity);
 
     tradeRepository.save(entity);
 
-    log.info("Update - OK");
+    log.info("Update - OK for trade id: "
+        + entity.getTradeId()
+        + ". "
+        + count
+        + " fields changed.");
   }
 
   /**
@@ -212,7 +254,7 @@ public class TradeServiceImpl implements TradeService {
 
     if (tradeRepository.findById(id).isEmpty()) {
       log.warn("KO - Can't find Trade with id: " + id);
-      throw new NoSuchElementException("Error - Can't find Trade.");
+      throw new DataNotFoundException("Error - Can't find Trade.");
     }
 
     tradeRepository.deleteById(id);

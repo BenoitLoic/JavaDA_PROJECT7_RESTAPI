@@ -2,7 +2,8 @@ package com.nnk.springboot.dto;
 
 
 import javax.validation.constraints.NotBlank;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 public class CreateTradeDto {
 
@@ -12,12 +13,12 @@ public class CreateTradeDto {
   @NotBlank(message = " is mandatory.")
   private String type;
 
-  private Double buyQuantity;
-  private Double sellQuantity;
-  private Double buyPrice;
-  private Double sellPrice;
+  private Double buyQuantity = 0d;
+  private Double sellQuantity = 0d;
+  private Double buyPrice = 0d;
+  private Double sellPrice = 0d;
 
-  private Timestamp tradeDate;
+  private LocalDateTime tradeDate;
 
   private String security;
   private String status;
@@ -26,9 +27,7 @@ public class CreateTradeDto {
   private String book;
 
   private String creationName;
-  private Timestamp creationDate;
-  private String revisionName;
-  private Timestamp revisionDate;
+
 
   private String dealName;
   private String dealType;
@@ -36,6 +35,12 @@ public class CreateTradeDto {
   private String side;
 
   public CreateTradeDto() {
+  }
+
+  public CreateTradeDto(String account, String type, Double buyQuantity) {
+    this.account = account;
+    this.type = type;
+    this.buyQuantity = buyQuantity;
   }
 
   public String getAccount() {
@@ -86,13 +91,6 @@ public class CreateTradeDto {
     this.sellPrice = sellPrice;
   }
 
-  public Timestamp getTradeDate() {
-    return tradeDate;
-  }
-
-  public void setTradeDate(Timestamp tradeDate) {
-    this.tradeDate = tradeDate;
-  }
 
   public String getSecurity() {
     return security;
@@ -142,29 +140,14 @@ public class CreateTradeDto {
     this.creationName = creationName;
   }
 
-  public Timestamp getCreationDate() {
-    return creationDate;
+  public LocalDateTime getTradeDate() {
+    return tradeDate;
   }
 
-  public void setCreationDate(Timestamp creationDate) {
-    this.creationDate = creationDate;
+  public void setTradeDate() {
+    this.tradeDate = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
   }
 
-  public String getRevisionName() {
-    return revisionName;
-  }
-
-  public void setRevisionName(String revisionName) {
-    this.revisionName = revisionName;
-  }
-
-  public Timestamp getRevisionDate() {
-    return revisionDate;
-  }
-
-  public void setRevisionDate(Timestamp revisionDate) {
-    this.revisionDate = revisionDate;
-  }
 
   public String getDealName() {
     return dealName;
@@ -214,9 +197,6 @@ public class CreateTradeDto {
         ", benchmark='" + benchmark + '\'' +
         ", book='" + book + '\'' +
         ", creationName='" + creationName + '\'' +
-        ", creationDate=" + creationDate +
-        ", revisionName='" + revisionName + '\'' +
-        ", revisionDate=" + revisionDate +
         ", dealName='" + dealName + '\'' +
         ", dealType='" + dealType + '\'' +
         ", sourceListId='" + sourceListId + '\'' +

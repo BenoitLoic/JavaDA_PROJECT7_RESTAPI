@@ -119,7 +119,6 @@ public class BidListController {
           + " with error : "
           + result.getFieldErrors());
       model.addAttribute("updateBidListDto", updateBidListDto);
-      System.out.println(updateBidListDto.getBidListId());
       return "/bidList/update";
 
     }

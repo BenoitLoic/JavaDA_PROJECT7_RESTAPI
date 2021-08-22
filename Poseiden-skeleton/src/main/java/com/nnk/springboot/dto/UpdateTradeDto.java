@@ -1,18 +1,25 @@
 package com.nnk.springboot.dto;
 
-import java.sql.Timestamp;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
 public class UpdateTradeDto {
 
+  private int tradeId;
+  @NotBlank
   private String account;
+  @NotBlank
   private String type;
 
-  private Double buyQuantity;
-  private Double sellQuantity;
-  private Double buyPrice;
-  private Double sellPrice;
+  private double buyQuantity;
+  private double sellQuantity;
+  private double buyPrice;
+  private double sellPrice;
 
-  private Timestamp tradeDate;
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+  private LocalDateTime tradeDate ;
 
   private String security;
   private String status;
@@ -30,6 +37,14 @@ public class UpdateTradeDto {
   private String side;
 
   public UpdateTradeDto() {
+  }
+
+  public int getTradeId() {
+    return tradeId;
+  }
+
+  public void setTradeId(int tradeId) {
+    this.tradeId = tradeId;
   }
 
   public String getAccount() {
@@ -80,11 +95,11 @@ public class UpdateTradeDto {
     this.sellPrice = sellPrice;
   }
 
-  public Timestamp getTradeDate() {
+  public LocalDateTime getTradeDate() {
     return tradeDate;
   }
 
-  public void setTradeDate(Timestamp tradeDate) {
+  public void setTradeDate(LocalDateTime tradeDate) {
     this.tradeDate = tradeDate;
   }
 
@@ -175,6 +190,8 @@ public class UpdateTradeDto {
   public void setSide(String side) {
     this.side = side;
   }
+
+
 
   @Override
   public String toString() {

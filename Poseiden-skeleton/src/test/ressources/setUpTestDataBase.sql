@@ -116,6 +116,12 @@ INSERT INTO `poseidon_test`.`BidList` (`BidListId`, `account`, `type`, `bidQuant
 INSERT INTO `poseidon_test`.`BidList` (`BidListId`, `account`, `type`, `bidQuantity`, `askQuantity`, `bid`, `ask`, `benchmark`, `bidListDate`, `commentary`, `security`, `status`, `trader`, `book`, `creationName`, `creationDate`, `revisionName`, `revisionDate`, `dealName`, `dealType`, `sourceListId`, `side`) VALUES ('2', 'account test 2', 'account type 2', '2.42', '1.0', '0', '0', '0', '2021-08-18 16:55:00', 'comment test', 'security test', 'statusTest', 'trader test', 'book test', 'cn test', '2021-08-18 12:55:00', 'rn test', '2021-08-18 12:55:00', 'dn test', 'dt test', 'sl test', 'side test');
 INSERT INTO `poseidon_test`.`BidList` (`BidListId`, `account`, `type`, `bidQuantity`, `askQuantity`, `bid`, `ask`, `benchmark`, `bidListDate`, `commentary`, `security`, `status`, `trader`, `book`, `creationName`, `creationDate`, `revisionName`, `revisionDate`, `dealName`, `dealType`, `sourceListId`, `side`) VALUES ('4', 'account test 4', 'account type 4', '4.44', '1.0', '0', '0', '0', '2021-08-18 16:55:00', 'comment test', 'security test', 'statusTest', 'trader test', 'book test', 'cn test', '2021-08-18 12:55:00', 'rn test', '2021-08-18 12:55:00', 'dn test', 'dt test', 'sl test', 'side test');
 
+INSERT INTO `poseidon_test`.`Trade` (`TradeId`, `account`, `type`, `buyQuantity`, `sellQuantity`, `buyPrice`, `sellPrice`, `tradeDate`, `security`, `status`, `creationDate`, `revisionDate`) VALUES ('1', 'account1', 'type1', '1.1', '0', '111.11', '0', '2021-08-22T17:53', 'security1', 'status1', '2021-08-22T17:53', '2021-08-22T17:53');
+INSERT INTO `poseidon_test`.`Trade` (`TradeId`, `account`, `type`, `buyQuantity`, `sellQuantity`, `buyPrice`, `sellPrice`, `tradeDate`, `security`, `status`, `creationDate`, `revisionDate`) VALUES ('2', 'account2', 'type2', '2.1', '0', '222.11', '0', '2020-08-22T17:53', 'security2', 'status2', '2021-08-22T17:53', '2021-08-22T17:53');
+INSERT INTO `poseidon_test`.`Trade` (`TradeId`, `account`, `type`, `buyQuantity`, `sellQuantity`, `buyPrice`, `sellPrice`, `tradeDate`, `security`, `status`, `creationDate`, `revisionDate`) VALUES ('3', 'account3', 'type3', '1.333', '0', '111.11', '0', '2021-08-22T17:53', 'security3', 'status3', '2021-08-22T17:53', '2021-08-22T17:53');
+
+
+
 
 # Create user
 CREATE USER IF NOT EXISTS 'poseidon_test'@'localhost' IDENTIFIED BY 'poseidon-test';

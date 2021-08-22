@@ -1,281 +1,298 @@
 package com.nnk.springboot.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 
 @Entity
 @Table(name = "Trade")
 public class Trade {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "TradeId")
-    private int tradeId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "TradeId")
+  private int tradeId;
 
-    @Column(name = "account")
-    private String account;
+  @Column(name = "account")
+  private String account;
 
-    @Column(name = "type")
-    private String type;
+  @Column(name = "type")
+  private String type;
 
-    @Column(name = "buyQuantity")
-    private Double buyQuantity;
+  @Column(name = "buyQuantity")
+  private double buyQuantity;
 
-    @Column(name = "sellQuantity")
-    private Double sellQuantity;
+  @Column(name = "sellQuantity")
+  private double sellQuantity;
 
-    @Column(name = "buyPrice")
-    private Double buyPrice;
+  @Column(name = "buyPrice")
+  private double buyPrice;
 
-    @Column(name = "sellPrice")
-    private Double sellPrice;
+  @Column(name = "sellPrice")
+  private double sellPrice;
 
-    @Column(name = "tradeDate")
-    private java.sql.Timestamp tradeDate;
+  @Column(name = "tradeDate")
+  private LocalDateTime tradeDate;
 
-    @Column(name = "security")
-    private String security;
+  @Column(name = "security")
+  private String security;
 
-    @Column(name = "status")
-    private String status;
+  @Column(name = "status")
+  private String status;
 
-    @Column(name = "trader")
-    private String trader;
+  @Column(name = "trader")
+  private String trader;
 
-    @Column(name = "benchmark")
-    private String benchmark;
+  @Column(name = "benchmark")
+  private String benchmark;
 
-    @Column(name = "book")
-    private String book;
+  @Column(name = "book")
+  private String book;
 
-    @Column(name = "creationName")
-    private String creationName;
+  @Column(name = "creationName")
+  private String creationName;
 
-    @Column(name = "creationDate")
-    private java.sql.Timestamp creationDate;
+  @Column(name = "creationDate")
+  private LocalDateTime creationDate;
 
-    @Column(name = "revisionName")
-    private String revisionName;
+  @Column(name = "revisionName")
+  private String revisionName;
 
-    @Column(name = "revisionDate")
-    private java.sql.Timestamp revisionDate;
+  @Column(name = "revisionDate")
+  private LocalDateTime revisionDate;
 
-    @Column(name = "dealName")
-    private String dealName;
+  @Column(name = "dealName")
+  private String dealName;
 
-    @Column(name = "dealType")
-    private String dealType;
+  @Column(name = "dealType")
+  private String dealType;
 
-    @Column(name = "sourceListId")
-    private String sourceListId;
+  @Column(name = "sourceListId")
+  private String sourceListId;
 
-    @Column(name = "side")
-    private String side;
+  @Column(name = "side")
+  private String side;
 
-    public Trade() {
+  public Trade() {
+  }
+
+  public Trade(String account, String type) {
+    this.account = account;
+    this.type = type;
+  }
+
+  public int getTradeId() {
+    return this.tradeId;
+  }
+
+  public void setTradeId(int tradeId) {
+    this.tradeId = tradeId;
+  }
+
+  public String getAccount() {
+    return this.account;
+  }
+
+  public void setAccount(String account) {
+    this.account = account;
+  }
+
+  public String getType() {
+    return this.type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
+  }
+
+  public Double getBuyQuantity() {
+    return this.buyQuantity;
+  }
+
+  public void setBuyQuantity(Double buyQuantity) {
+    this.buyQuantity = buyQuantity;
+  }
+
+  public Double getSellQuantity() {
+    return this.sellQuantity;
+  }
+
+  public void setSellQuantity(Double sellQuantity) {
+    this.sellQuantity = sellQuantity;
+  }
+
+  public Double getBuyPrice() {
+    return this.buyPrice;
+  }
+
+  public void setBuyPrice(Double buyPrice) {
+    this.buyPrice = buyPrice;
+  }
+
+  public Double getSellPrice() {
+    return this.sellPrice;
+  }
+
+  public void setSellPrice(Double sellPrice) {
+    this.sellPrice = sellPrice;
+  }
+
+  public LocalDateTime getTradeDate() {
+    return tradeDate;
+  }
+
+  public void setTradeDate(LocalDateTime tradeDate) {
+    this.tradeDate = tradeDate;
+  }
+
+  public LocalDateTime getCreationDate() {
+    return creationDate;
+  }
+
+  @PrePersist
+  public void setCreationDate() {
+    this.creationDate = this.revisionDate = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+  }
+
+  public LocalDateTime getRevisionDate() {
+    return revisionDate;
+  }
+
+  @PreUpdate
+  public void setRevisionDate() {
+    this.revisionDate = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+  }
+
+  public String getSecurity() {
+    return this.security;
+  }
+
+  public void setSecurity(String security) {
+    this.security = security;
+  }
+
+  public String getStatus() {
+    return this.status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
+  }
+
+  public String getTrader() {
+    return this.trader;
+  }
+
+  public void setTrader(String trader) {
+    this.trader = trader;
+  }
+
+  public String getBenchmark() {
+    return this.benchmark;
+  }
+
+  public void setBenchmark(String benchmark) {
+    this.benchmark = benchmark;
+  }
+
+  public String getBook() {
+    return this.book;
+  }
+
+  public void setBook(String book) {
+    this.book = book;
+  }
+
+  public String getCreationName() {
+    return this.creationName;
+  }
+
+  public void setCreationName(String creationName) {
+    this.creationName = creationName;
+  }
+
+  public String getRevisionName() {
+    return this.revisionName;
+  }
+
+  public void setRevisionName(String revisionName) {
+    this.revisionName = revisionName;
+  }
+
+  public String getDealName() {
+    return this.dealName;
+  }
+
+  public void setDealName(String dealName) {
+    this.dealName = dealName;
+  }
+
+  public String getDealType() {
+    return this.dealType;
+  }
+
+  public void setDealType(String dealType) {
+    this.dealType = dealType;
+  }
+
+  public String getSourceListId() {
+    return this.sourceListId;
+  }
+
+  public void setSourceListId(String sourceListId) {
+    this.sourceListId = sourceListId;
+  }
+
+  public String getSide() {
+    return this.side;
+  }
+
+  public void setSide(String side) {
+    this.side = side;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
-
-    public Trade(String account, String type) {
-        this.account = account;
-        this.type = type;
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
+    Trade trade = (Trade) o;
+    return tradeId == trade.tradeId && Double.compare(trade.buyQuantity, buyQuantity) == 0 && Double.compare(trade.sellQuantity, sellQuantity) == 0 && Double.compare(trade.buyPrice, buyPrice) == 0 && Double.compare(trade.sellPrice, sellPrice) == 0 && Objects.equals(account, trade.account) && Objects.equals(type, trade.type) && Objects.equals(tradeDate, trade.tradeDate) && Objects.equals(security, trade.security) && Objects.equals(status, trade.status) && Objects.equals(trader, trade.trader) && Objects.equals(benchmark, trade.benchmark) && Objects.equals(book, trade.book) && Objects.equals(creationName, trade.creationName) && Objects.equals(creationDate, trade.creationDate) && Objects.equals(revisionName, trade.revisionName) && Objects.equals(revisionDate, trade.revisionDate) && Objects.equals(dealName, trade.dealName) && Objects.equals(dealType, trade.dealType) && Objects.equals(sourceListId, trade.sourceListId) && Objects.equals(side, trade.side);
+  }
 
-    public int getTradeId() {
-        return this.tradeId;
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(tradeId, account, type, buyQuantity, sellQuantity, buyPrice, sellPrice, tradeDate, security, status, trader, benchmark, book, creationName, creationDate, revisionName, revisionDate, dealName, dealType, sourceListId, side);
+  }
 
-    public void setTradeId(int tradeId) {
-        this.tradeId = tradeId;
-    }
-
-    public String getAccount() {
-        return this.account;
-    }
-
-    public void setAccount(String account) {
-        this.account = account;
-    }
-
-    public String getType() {
-        return this.type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Double getBuyQuantity() {
-        return this.buyQuantity;
-    }
-
-    public void setBuyQuantity(Double buyQuantity) {
-        this.buyQuantity = buyQuantity;
-    }
-
-    public Double getSellQuantity() {
-        return this.sellQuantity;
-    }
-
-    public void setSellQuantity(Double sellQuantity) {
-        this.sellQuantity = sellQuantity;
-    }
-
-    public Double getBuyPrice() {
-        return this.buyPrice;
-    }
-
-    public void setBuyPrice(Double buyPrice) {
-        this.buyPrice = buyPrice;
-    }
-
-    public Double getSellPrice() {
-        return this.sellPrice;
-    }
-
-    public void setSellPrice(Double sellPrice) {
-        this.sellPrice = sellPrice;
-    }
-
-    public java.sql.Timestamp getTradeDate() {
-        return this.tradeDate;
-    }
-
-    public void setTradeDate(java.sql.Timestamp tradeDate) {
-        this.tradeDate = tradeDate;
-    }
-
-    public String getSecurity() {
-        return this.security;
-    }
-
-    public void setSecurity(String security) {
-        this.security = security;
-    }
-
-    public String getStatus() {
-        return this.status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getTrader() {
-        return this.trader;
-    }
-
-    public void setTrader(String trader) {
-        this.trader = trader;
-    }
-
-    public String getBenchmark() {
-        return this.benchmark;
-    }
-
-    public void setBenchmark(String benchmark) {
-        this.benchmark = benchmark;
-    }
-
-    public String getBook() {
-        return this.book;
-    }
-
-    public void setBook(String book) {
-        this.book = book;
-    }
-
-    public String getCreationName() {
-        return this.creationName;
-    }
-
-    public void setCreationName(String creationName) {
-        this.creationName = creationName;
-    }
-
-    public java.sql.Timestamp getCreationDate() {
-        return this.creationDate;
-    }
-
-    public void setCreationDate(java.sql.Timestamp creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public String getRevisionName() {
-        return this.revisionName;
-    }
-
-    public void setRevisionName(String revisionName) {
-        this.revisionName = revisionName;
-    }
-
-    public java.sql.Timestamp getRevisionDate() {
-        return this.revisionDate;
-    }
-
-    public void setRevisionDate(java.sql.Timestamp revisionDate) {
-        this.revisionDate = revisionDate;
-    }
-
-    public String getDealName() {
-        return this.dealName;
-    }
-
-    public void setDealName(String dealName) {
-        this.dealName = dealName;
-    }
-
-    public String getDealType() {
-        return this.dealType;
-    }
-
-    public void setDealType(String dealType) {
-        this.dealType = dealType;
-    }
-
-    public String getSourceListId() {
-        return this.sourceListId;
-    }
-
-    public void setSourceListId(String sourceListId) {
-        this.sourceListId = sourceListId;
-    }
-
-    public String getSide() {
-        return this.side;
-    }
-
-    public void setSide(String side) {
-        this.side = side;
-    }
-
-    @Override
-    public String toString() {
-        return "Trade{" +
-                "tradeId=" + tradeId +
-                ", account='" + account + '\'' +
-                ", type='" + type + '\'' +
-                ", buyQuantity=" + buyQuantity +
-                ", sellQuantity=" + sellQuantity +
-                ", buyPrice=" + buyPrice +
-                ", sellPrice=" + sellPrice +
-                ", tradeDate=" + tradeDate +
-                ", security='" + security + '\'' +
-                ", status='" + status + '\'' +
-                ", trader='" + trader + '\'' +
-                ", benchmark='" + benchmark + '\'' +
-                ", book='" + book + '\'' +
-                ", creationName='" + creationName + '\'' +
-                ", creationDate=" + creationDate +
-                ", revisionName='" + revisionName + '\'' +
-                ", revisionDate=" + revisionDate +
-                ", dealName='" + dealName + '\'' +
-                ", dealType='" + dealType + '\'' +
-                ", sourceListId='" + sourceListId + '\'' +
-                ", side='" + side + '\'' +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return "Trade{" +
+        "tradeId=" + tradeId +
+        ", account='" + account + '\'' +
+        ", type='" + type + '\'' +
+        ", buyQuantity=" + buyQuantity +
+        ", sellQuantity=" + sellQuantity +
+        ", buyPrice=" + buyPrice +
+        ", sellPrice=" + sellPrice +
+        ", tradeDate=" + tradeDate +
+        ", security='" + security + '\'' +
+        ", status='" + status + '\'' +
+        ", trader='" + trader + '\'' +
+        ", benchmark='" + benchmark + '\'' +
+        ", book='" + book + '\'' +
+        ", creationName='" + creationName + '\'' +
+        ", creationDate=" + creationDate +
+        ", revisionName='" + revisionName + '\'' +
+        ", revisionDate=" + revisionDate +
+        ", dealName='" + dealName + '\'' +
+        ", dealType='" + dealType + '\'' +
+        ", sourceListId='" + sourceListId + '\'' +
+        ", side='" + side + '\'' +
+        '}';
+  }
 }

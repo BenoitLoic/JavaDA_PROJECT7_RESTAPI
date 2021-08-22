@@ -10,12 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Collection;
@@ -53,29 +48,29 @@ public class TradeController {
    * @return the html form
    */
   @GetMapping("/add")
-  public String addForm() {
+  public String addForm(CreateTradeDto createTradeDto) {
     return "trade/add";
   }
 
   /**
    * Create a new trade : validate data and save it to db.
    *
-   * @param trade  the trade to save
+   * @param createTradeDto  the trade to save
    * @param result binding to check if there are errors in parameters
    * @return the list of all trades.
    */
-  @PostMapping("/validate")
-  public String validate(@Valid CreateTradeDto trade, BindingResult result, Model model) {
+  @PostMapping("/add")
+  public String validate(@Valid CreateTradeDto createTradeDto, BindingResult result, Model model) {
 
     if (result.hasErrors()) {
       log.warn("KO - Error in validation for trade: "
-          + trade
+          + createTradeDto
           + " with error : "
           + result.getFieldErrors());
       return "trade/add";
     }
 
-    tradeService.createTrade(trade);
+    tradeService.createTrade(createTradeDto);
 
     return "redirect:/trade/list";
   }
@@ -88,13 +83,13 @@ public class TradeController {
    * @return the html form for trade update
    */
   @GetMapping("/update/{id}")
-  public String updateForm(@PathVariable("id") int id, Model model) {
+  public String showUpdateForm(@PathVariable("id") int id, Model model) {
 
     log.info("Getting rule with id: " + id);
 
     UpdateTradeDto trade = tradeService.getTradeWithId(id);
 
-    model.addAttribute("trade", trade);
+    model.addAttribute("updateTradeDto", trade);
 
     return "trade/update";
   }
@@ -104,23 +99,27 @@ public class TradeController {
    * validate data, update data in DB and return all trades.
    *
    * @param id     the id of the trade to update
-   * @param trade  the data to update
+   * @param updateTradeDto  the data to update
    * @param result the field error in parameters
    * @param model  the model
    * @return the list of all trade
    */
   @PutMapping("/update/{id}")
-  public String updateTrade(@PathVariable("id") int id, @Valid UpdateTradeDto trade,
+  public String updateTrade(@PathVariable("id") int id,  @Valid  UpdateTradeDto updateTradeDto,
                             BindingResult result, Model model) {
+
+    log.info("Updating Trade: "+id);
+
     if (result.hasErrors()) {
       log.warn("KO - Error in validation for trade: "
-          + trade
+          + updateTradeDto
           + " with error : "
           + result.getFieldErrors());
-      return "trade/update";
+      model.addAttribute("updateTradeDto",updateTradeDto);
+      return "/trade/update";
     }
 
-    tradeService.updateTrade(id, trade);
+    tradeService.updateTrade(id, updateTradeDto);
 
     return "redirect:/trade/list";
   }
