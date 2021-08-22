@@ -42,11 +42,8 @@ public class TradeServiceImpl implements TradeService {
     //int tradeId, String account, String type, Double buyQuantity
     Collection<GetTradeDto> trades = new ArrayList<>();
     for (Trade trade : tradeRepository.findAll()) {
-      GetTradeDto temp = new GetTradeDto(
-          trade.getTradeId(),
-          trade.getAccount(),
-          trade.getType(),
-          trade.getBuyQuantity());
+      GetTradeDto temp = new GetTradeDto();
+      BeanUtils.copyProperties(trade,temp);
       trades.add(temp);
     }
 

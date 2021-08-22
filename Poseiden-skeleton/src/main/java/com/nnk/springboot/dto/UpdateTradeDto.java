@@ -8,9 +8,11 @@ import java.time.LocalDateTime;
 public class UpdateTradeDto {
 
   private int tradeId;
-  @NotBlank
+
+  @NotBlank(message = "Account is mandatory.")
   private String account;
-  @NotBlank
+
+  @NotBlank(message = "Type is mandatory.")
   private String type;
 
   private double buyQuantity;

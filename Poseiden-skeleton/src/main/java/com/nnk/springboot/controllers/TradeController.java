@@ -55,8 +55,8 @@ public class TradeController {
   /**
    * Create a new trade : validate data and save it to db.
    *
-   * @param createTradeDto  the trade to save
-   * @param result binding to check if there are errors in parameters
+   * @param createTradeDto the trade to save
+   * @param result         binding to check if there are errors in parameters
    * @return the list of all trades.
    */
   @PostMapping("/add")
@@ -98,24 +98,24 @@ public class TradeController {
    * Update a trade with its id.
    * validate data, update data in DB and return all trades.
    *
-   * @param id     the id of the trade to update
-   * @param updateTradeDto  the data to update
-   * @param result the field error in parameters
-   * @param model  the model
+   * @param id             the id of the trade to update
+   * @param updateTradeDto the data to update
+   * @param result         the field error in parameters
+   * @param model          the model
    * @return the list of all trade
    */
   @PutMapping("/update/{id}")
-  public String updateTrade(@PathVariable("id") int id,  @Valid  UpdateTradeDto updateTradeDto,
+  public String updateTrade(@PathVariable("id") int id, @Valid UpdateTradeDto updateTradeDto,
                             BindingResult result, Model model) {
 
-    log.info("Updating Trade: "+id);
+    log.info("Updating Trade: " + id);
 
     if (result.hasErrors()) {
       log.warn("KO - Error in validation for trade: "
           + updateTradeDto
           + " with error : "
           + result.getFieldErrors());
-      model.addAttribute("updateTradeDto",updateTradeDto);
+      model.addAttribute("updateTradeDto", updateTradeDto);
       return "/trade/update";
     }
 

@@ -13,10 +13,10 @@ public class CreateTradeDto {
   @NotBlank(message = " is mandatory.")
   private String type;
 
-  private Double buyQuantity = 0d;
-  private Double sellQuantity = 0d;
-  private Double buyPrice = 0d;
-  private Double sellPrice = 0d;
+  private double buyQuantity;
+  private double sellQuantity ;
+  private double buyPrice;
+  private double sellPrice ;
 
   private LocalDateTime tradeDate;
 
