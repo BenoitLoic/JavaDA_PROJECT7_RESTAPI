@@ -1,10 +1,17 @@
 package com.nnk.springboot.dto;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDateTime;
+
 public class UpdateCurvePointDto {
 
   private int id;
 
   private int curveId;
+
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+  private LocalDateTime asOfDate;
 
   private double term;
 
@@ -35,6 +42,14 @@ public class UpdateCurvePointDto {
     this.curveId = curveId;
   }
 
+  public LocalDateTime getAsOfDate() {
+    return asOfDate;
+  }
+
+  public void setAsOfDate(LocalDateTime asOfDate) {
+    this.asOfDate = asOfDate;
+  }
+
   public double getTerm() {
     return term;
   }
@@ -56,6 +71,7 @@ public class UpdateCurvePointDto {
     return "UpdateCurvePointDto{" +
         "id=" + id +
         ", curveId=" + curveId +
+        ", asOfDate=" + asOfDate +
         ", term=" + term +
         ", value=" + value +
         '}';

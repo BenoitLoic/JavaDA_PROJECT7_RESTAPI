@@ -1,11 +1,11 @@
 package com.nnk.springboot.controller;
 
-import com.nnk.springboot.controllers.TradeController;
-import com.nnk.springboot.dto.CreateTradeDto;
-import com.nnk.springboot.dto.GetTradeDto;
-import com.nnk.springboot.dto.UpdateTradeDto;
+import com.nnk.springboot.controllers.CurveController;
+import com.nnk.springboot.dto.CreateCurvePointDto;
+import com.nnk.springboot.dto.GetCurvePointDto;
+import com.nnk.springboot.dto.UpdateCurvePointDto;
 import com.nnk.springboot.exceptions.DataNotFoundException;
-import com.nnk.springboot.services.TradeServiceImpl;
+import com.nnk.springboot.services.CurveServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -29,44 +29,48 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(controllers = TradeController.class)
+@WebMvcTest(controllers = CurveController.class)
 @AutoConfigureMockMvc(addFilters = false)
-class TradeControllerTest {
+class CurveControllerTest {
 
   @Autowired
   MockMvc mockMvc;
   @MockBean
-  TradeServiceImpl tradeServiceMock;
+  CurveServiceImpl curveServiceMock;
   @InjectMocks
-  TradeController tradeController;
+  CurveController curveController;
 
-  private final String homeUrl = "/trade/list";
-  private final String createFormUrl = "/trade/add";
-  private final String createUrl = "/trade/add";
-  private final String updateFormUrl = "/trade/update/{id}";
-  private final String updateUrl = "/trade/update/{id}";
-  private final String deleteUrl = "/trade/delete/{id}";
+  private final String homeUrl = "/curvePoint/list";
+  private final String createFormUrl = "/curvePoint/add";
+  private final String createUrl = "/curvePoint/add";
+  private final String updateFormUrl = "/curvePoint/update/{id}";
+  private final String updateUrl = "/curvePoint/update/{id}";
+  private final String deleteUrl = "/curvePoint/delete/{id}";
 
   @Test
   void homeValid() throws Exception {
 
     // GIVEN
     // GetTradeDto(int tradeId, String account, String type, Double buyQuantity)
-    GetTradeDto trade1 = new GetTradeDto(1, "account", "type", 1.5);
-    GetTradeDto trade2 = new GetTradeDto(2, "account2", "type2", 2.5);
-    List<GetTradeDto> trades = new ArrayList<>();
-    trades.add(trade1);
-    trades.add(trade2);
+    GetCurvePointDto curvePoint1 = new GetCurvePointDto();
+    curvePoint1.setId(1);
+    curvePoint1.setCurveId(6);
+    GetCurvePointDto curvePoint2 = new GetCurvePointDto();
+    curvePoint1.setId(2);
+    curvePoint1.setCurveId(5);
+    List<GetCurvePointDto> points = new ArrayList<>();
+    points.add(curvePoint1);
+    points.add(curvePoint2);
     // WHEN
-    when(tradeServiceMock.findAllTrades()).thenReturn(trades);
+    when(curveServiceMock.getAllCurvePoint()).thenReturn(points);
     // THEN
     mockMvc
         .perform(
             get(homeUrl))
         .andExpect(status().isOk())
-        .andExpect(view().name("trade/list"))
+        .andExpect(view().name("curvePoint/list"))
         .andExpect(model()
-            .attribute("trades", containsInAnyOrder(trade1, trade2)));
+            .attribute("curvePoints", containsInAnyOrder(curvePoint1, curvePoint2)));
   }
 
   @Test
@@ -75,19 +79,19 @@ class TradeControllerTest {
     // GIVEN
 
     // WHEN
-    when(tradeServiceMock.findAllTrades()).thenReturn(new ArrayList<>());
+    when(curveServiceMock.getAllCurvePoint()).thenReturn(new ArrayList<>());
     // THEN
     mockMvc
         .perform(
             get(homeUrl))
         .andExpect(status().isOk())
-        .andExpect(view().name("trade/list"))
+        .andExpect(view().name("curvePoint/list"))
         .andExpect(model()
-            .attribute("trades", new ArrayList<>()));
+            .attribute("curvePoints", new ArrayList<>()));
   }
 
   @Test
-  void addTradeForm() throws Exception {
+  void addCurvePointForm() throws Exception {
 
     // GIVEN
 
@@ -99,16 +103,17 @@ class TradeControllerTest {
             get(createFormUrl))
         .andExpect(status().isOk())
         .andExpect(
-            view().name("trade/add"));
+            view().name("curvePoint/add"));
   }
 
   @Test
-  void validateValid() throws Exception {
+  void createCurvePointValid() throws Exception {
 
     // GIVEN
-    CreateTradeDto temp = new CreateTradeDto("account", "type", 204.54);
-
+    CreateCurvePointDto temp = new CreateCurvePointDto();
+    temp.setCurveId(5);
     String urlEncoded = getUrlEncoded(temp);
+    urlEncoded = urlEncoded.replace("asOfDate=null","asOfDate=2021-08-23T12:16");
 
     // WHEN
 
@@ -123,13 +128,9 @@ class TradeControllerTest {
 
 
   @Test
-  void validateInvalid() throws Exception {
+  void createCurvePointInvalid() throws Exception {
 
     // GIVEN
-    CreateTradeDto temp = new CreateTradeDto();
-    temp.setAccount("account");
-    temp.setType("");
-    String urlEncoded = getUrlEncoded(temp);
 
     // WHEN
 
@@ -137,10 +138,11 @@ class TradeControllerTest {
     mockMvc
         .perform(post(createUrl)
             .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-            .content(urlEncoded))
+            .param("curveId", "5")
+            .param("asOfDate", "2022-03-23")) // missing time 'T'HH:mm
         .andExpect(status().isOk())
         .andExpect(model().errorCount(1))
-        .andExpect(model().attributeHasFieldErrors("createTradeDto", "type"));
+        .andExpect(model().attributeHasFieldErrors("createCurvePointDto", "asOfDate"));
   }
 
 
@@ -148,18 +150,18 @@ class TradeControllerTest {
   void showUpdateFormValid() throws Exception {
 
     // GIVEN
-    UpdateTradeDto updateTradeDto = new UpdateTradeDto();
-    updateTradeDto.setAccount("account");
-    updateTradeDto.setType("type");
-    updateTradeDto.setTradeId(5);
+    UpdateCurvePointDto updateCurvePointDto = new UpdateCurvePointDto();
+    updateCurvePointDto.setCurveId(2);
+    updateCurvePointDto.setId(5);
+
     // WHEN
-    when(tradeServiceMock.getTradeWithId(5)).thenReturn(updateTradeDto);
+    when(curveServiceMock.getPointWithId(5)).thenReturn(updateCurvePointDto);
     // THEN
     mockMvc
         .perform(
             get(updateFormUrl, "5"))
-        .andExpect(view().name("trade/update"))
-        .andExpect(model().attribute("updateTradeDto", updateTradeDto))
+        .andExpect(view().name("curvePoint/update"))
+        .andExpect(model().attribute("updateCurvePointDto", updateCurvePointDto))
         .andExpect(status().isOk());
 
   }
@@ -180,14 +182,13 @@ class TradeControllerTest {
   }
 
   @Test
-  void updateTradeValid() throws Exception {
+  void updateCurvePointValid() throws Exception {
 
     // GIVEN
-    UpdateTradeDto updateTradeDto = new UpdateTradeDto();
-    updateTradeDto.setAccount("account");
-    updateTradeDto.setType("type");
-    updateTradeDto.setBuyQuantity(0d);
-    String urlEncoded = getUrlEncoded(updateTradeDto);
+    UpdateCurvePointDto updateCurvePointDto = new UpdateCurvePointDto();
+    updateCurvePointDto.setCurveId(2);
+    updateCurvePointDto.setId(5);
+    String urlEncoded = getUrlEncoded(updateCurvePointDto);
 
     // WHEN
 
@@ -195,25 +196,18 @@ class TradeControllerTest {
     mockMvc
         .perform(
             put(updateUrl, "5")
-                .param("account", "account")
-                .param("type", "type")
-                .param("tradeDate", "2021-08-22T14:42")
+                .param("curveId", "5")
+                .param("asOfDate", "2022-03-23T16:59")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED))
         .andExpect(status().is3xxRedirection())
         .andExpect(redirectedUrl(homeUrl));
   }
 
   @Test
-  void updateTradeInvalid() throws Exception {
+  void updateCurvePointInvalid() throws Exception {
 
     // GIVEN
-    UpdateTradeDto updateTradeDto = new UpdateTradeDto();
-    updateTradeDto.setAccount("account");
-    updateTradeDto.setType("");
-    updateTradeDto.setBuyQuantity(0d);
 
-
-    String urlEncoded = getUrlEncoded(updateTradeDto);
 
     // WHEN
 
@@ -221,39 +215,34 @@ class TradeControllerTest {
     mockMvc
         .perform(
             put(updateUrl, "5")
-                .content(urlEncoded.replace("&tradeDate=null,", ""))
-                .param("tradeDate", LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES).toString())
+                .param("asOfDate", "2022-31-23") // missing Time param
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED))
         .andExpect(status().isOk())
-        .andExpect(model().attributeHasFieldErrors("updateTradeDto", "type"))
+        .andExpect(model().attributeHasFieldErrors("updateCurvePointDto", "asOfDate"))
         .andExpect(model().errorCount(1));
 
   }
 
   @Test
-  void updateTradeWhenDataNotFound_ShouldThrowDataNotFoundException() throws Exception {
+  void updateCurvePointWhenDataNotFound_ShouldThrowDataNotFoundException() throws Exception {
 
     // GIVEN
-    UpdateTradeDto updateTradeDto = new UpdateTradeDto();
-    updateTradeDto.setAccount("account");
-    updateTradeDto.setType("type");
-    updateTradeDto.setBuyQuantity(0d);
-    String urlEncoded = getUrlEncoded(updateTradeDto);
+
     // WHEN
-    Mockito.doThrow(DataNotFoundException.class).when(tradeServiceMock).updateTrade(Mockito.anyInt(), Mockito.any(UpdateTradeDto.class));
+    Mockito.doThrow(DataNotFoundException.class).when(curveServiceMock).updateCurvePoint(Mockito.anyInt(), Mockito.any(UpdateCurvePointDto.class));
     // THEN
     mockMvc
         .perform(
             put(updateUrl, "5")
-                .content(urlEncoded.replace("&tradeDate=null,", ""))
-                .param("tradeDate", LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES).toString())
+                .param("curveId","2")
+                .param("asOfDate", LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES).toString())
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED))
         .andExpect(status().isNotFound())
         .andExpect(result -> Assertions.assertTrue(result.getResolvedException() instanceof DataNotFoundException));
   }
 
   @Test
-  void deleteTrade() throws Exception {
+  void deleteCurvePoint() throws Exception {
 
     // GIVEN
 
@@ -267,7 +256,7 @@ class TradeControllerTest {
   }
 
   @Test
-  void deleteTradeInvalid() throws Exception {
+  void deleteCurvePointInvalid() throws Exception {
 
     // GIVEN
 
@@ -280,12 +269,12 @@ class TradeControllerTest {
   }
 
   @Test
-  void deleteTradeWhenDataNotFound_ShouldThrowDataNotFoundException() throws Exception {
+  void deleteCurvePointWhenDataNotFound_ShouldThrowDataNotFoundException() throws Exception {
 
     // GIVEN
 
     // WHEN
-    doThrow(DataNotFoundException.class).when(tradeServiceMock).deleteTrade(Mockito.anyInt());
+    doThrow(DataNotFoundException.class).when(curveServiceMock).deleteCurvePoint(Mockito.anyInt());
     // THEN
     mockMvc
         .perform(delete(deleteUrl, 5))
@@ -293,5 +282,4 @@ class TradeControllerTest {
         .andExpect(result -> Assertions.assertTrue(result.getResolvedException() instanceof DataNotFoundException));
 
   }
-
 }

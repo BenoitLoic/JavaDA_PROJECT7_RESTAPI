@@ -1,7 +1,6 @@
 package com.nnk.springboot.domain;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
@@ -19,7 +18,7 @@ public class CurvePoint {
   private int curveId;
 
   @Column(name = "asOfDate")
-  private Timestamp asOfDate;
+  private LocalDateTime asOfDate;
 
   @Column(name = "term")
   private double term;
@@ -55,11 +54,11 @@ public class CurvePoint {
     this.curveId = curveId;
   }
 
-  public Timestamp getAsOfDate() {
+  public LocalDateTime getAsOfDate() {
     return this.asOfDate;
   }
 
-  public void setAsOfDate(Timestamp asOfDate) {
+  public void setAsOfDate(LocalDateTime asOfDate) {
     this.asOfDate = asOfDate;
   }
 

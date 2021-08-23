@@ -48,7 +48,7 @@ public class CurveController {
    * @return html form.
    */
   @GetMapping("/add")
-  public String addCurveForm(CreateCurvePointDto createCurvePointDto) {
+  public String addCurvePointForm(CreateCurvePointDto createCurvePointDto) {
     return "curvePoint/add";
   }
 
@@ -61,7 +61,7 @@ public class CurveController {
    * @return list of all points
    */
   @PostMapping("/add")
-  public String validate(@Valid CreateCurvePointDto createCurvePointDto, BindingResult result, Model model) {
+  public String createCurvePoint(@Valid CreateCurvePointDto createCurvePointDto, BindingResult result, Model model) {
 
     if (result.hasErrors()) {
       log.warn("Error in validation for CurvePoint: "
@@ -70,6 +70,7 @@ public class CurveController {
           + result.getFieldError());
       return "curvePoint/add";
     }
+log.info(createCurvePointDto.getAsOfDate());
 
     curveService.createCurvePoint(createCurvePointDto);
 
@@ -109,9 +110,9 @@ public class CurveController {
     if (result.hasErrors()) {
       log.warn("KO - Error in validation for curvePoint: "
           + result.getFieldError());
-      return "/curvePoint/update";
+      return "curvePoint/update";
     }
-
+    System.out.println("post");
     curveService.updateCurvePoint(id, updateCurvePointDto);
 
     return "redirect:/curvePoint/list";

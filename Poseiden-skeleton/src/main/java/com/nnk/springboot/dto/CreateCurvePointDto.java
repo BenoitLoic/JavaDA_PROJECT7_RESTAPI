@@ -7,10 +7,12 @@ import java.time.LocalDateTime;
 public class CreateCurvePointDto {
 
 
+
   private int curveId;
 
-  @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
   private LocalDateTime asOfDate;
+
   private double term;
   private double value;
 
