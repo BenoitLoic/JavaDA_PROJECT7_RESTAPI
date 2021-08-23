@@ -3,9 +3,9 @@ package com.nnk.springboot.dto;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class CreateCurvePointDto {
-
 
 
   private int curveId;
@@ -55,6 +55,23 @@ public class CreateCurvePointDto {
 
   public void setValue(double value) {
     this.value = value;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    CreateCurvePointDto that = (CreateCurvePointDto) o;
+    return curveId == that.curveId && Double.compare(that.term, term) == 0 && Double.compare(that.value, value) == 0 && Objects.equals(asOfDate, that.asOfDate);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(curveId, asOfDate, term, value);
   }
 
   @Override

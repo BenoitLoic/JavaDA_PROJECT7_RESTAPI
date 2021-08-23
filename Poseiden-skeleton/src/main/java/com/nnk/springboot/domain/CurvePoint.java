@@ -3,6 +3,7 @@ package com.nnk.springboot.domain;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 
 @Entity
 @Table(name = "CurvePoint")
@@ -85,6 +86,23 @@ public class CurvePoint {
   @PrePersist
   public void setCreationDate() {
     creationDate = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    CurvePoint that = (CurvePoint) o;
+    return id == that.id && curveId == that.curveId && Double.compare(that.term, term) == 0 && Double.compare(that.value, value) == 0 && Objects.equals(asOfDate, that.asOfDate) && Objects.equals(creationDate, that.creationDate);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, curveId, asOfDate, term, value, creationDate);
   }
 
   @Override

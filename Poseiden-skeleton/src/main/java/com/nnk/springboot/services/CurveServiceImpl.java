@@ -4,6 +4,7 @@ import com.nnk.springboot.domain.CurvePoint;
 import com.nnk.springboot.dto.CreateCurvePointDto;
 import com.nnk.springboot.dto.GetCurvePointDto;
 import com.nnk.springboot.dto.UpdateCurvePointDto;
+import com.nnk.springboot.exceptions.DataNotFoundException;
 import com.nnk.springboot.repositories.CurvePointRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
@@ -69,11 +69,11 @@ public class CurveServiceImpl implements CurveService {
 
     if (optional.isEmpty()) {
       log.warn("Error can't find curve point with id: " + id);
-      throw new NoSuchElementException("Error can't find curve point");
+      throw new DataNotFoundException("Error can't find curve point");
     }
 
     UpdateCurvePointDto upPoint = new UpdateCurvePointDto();
-    BeanUtils.copyProperties(optional.get(),upPoint);
+    BeanUtils.copyProperties(optional.get(), upPoint);
 
     return upPoint;
   }
@@ -118,28 +118,40 @@ public class CurveServiceImpl implements CurveService {
     if (optional.isEmpty()) {
       log.warn("KO - Error can't find curvePoint with id: "
           + id);
-      throw new NoSuchElementException("Error can't find curvePoint");
+      throw new DataNotFoundException("Error can't find curvePoint");
     }
     CurvePoint curvePointEntity = optional.get();
-
+    int count = 0;
     if (updateCurvePointDto.getCurveId() != curvePointEntity.getCurveId()) {
       log.trace("Updating curveID.");
       curvePointEntity.setCurveId(updateCurvePointDto.getCurveId());
+      count++;
     }
     if (updateCurvePointDto.getTerm() != curvePointEntity.getTerm()) {
       log.trace("Updating Term.");
       curvePointEntity.setTerm(updateCurvePointDto.getTerm());
+      count++;
+    }
+    if (updateCurvePointDto.getAsOfDate() != null) {
+      log.trace("Updating AsOfDate.");
+      curvePointEntity.setAsOfDate(updateCurvePointDto.getAsOfDate());
+      count++;
     }
     if (updateCurvePointDto.getValue() != curvePointEntity.getValue()) {
       log.trace("Updating Value.");
       curvePointEntity.setValue(updateCurvePointDto.getValue());
+      count++;
     }
 
     log.info("Updating CurvePoint: " + curvePointEntity);
 
     curvePointRepository.save(curvePointEntity);
 
-    log.info("Update - OK");
+    log.info("Update - OK for CurvePoint id: "
+        + curvePointEntity.getId()
+        + ". "
+        + count
+        + " field changed.");
   }
 
   /**
@@ -155,7 +167,7 @@ public class CurveServiceImpl implements CurveService {
 
     if (curvePointRepository.findById(id).isEmpty()) {
       log.warn("KO - Can't find CurvePoint with id: " + id);
-      throw new NoSuchElementException("Error - Can't find Curve Point.");
+      throw new DataNotFoundException("Error - Can't find Curve Point.");
     }
 
     curvePointRepository.deleteById(id);

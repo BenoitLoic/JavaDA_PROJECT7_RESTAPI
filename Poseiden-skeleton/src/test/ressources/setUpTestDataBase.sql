@@ -120,6 +120,9 @@ INSERT INTO `poseidon_test`.`Trade` (`TradeId`, `account`, `type`, `buyQuantity`
 INSERT INTO `poseidon_test`.`Trade` (`TradeId`, `account`, `type`, `buyQuantity`, `sellQuantity`, `buyPrice`, `sellPrice`, `tradeDate`, `security`, `status`, `creationDate`, `revisionDate`) VALUES ('2', 'account2', 'type2', '2.1', '0', '222.11', '0', '2020-08-22T17:53', 'security2', 'status2', '2021-08-22T17:53', '2021-08-22T17:53');
 INSERT INTO `poseidon_test`.`Trade` (`TradeId`, `account`, `type`, `buyQuantity`, `sellQuantity`, `buyPrice`, `sellPrice`, `tradeDate`, `security`, `status`, `creationDate`, `revisionDate`) VALUES ('3', 'account3', 'type3', '1.333', '0', '111.11', '0', '2021-08-22T17:53', 'security3', 'status3', '2021-08-22T17:53', '2021-08-22T17:53');
 
+INSERT INTO `poseidon_test`.`CurvePoint` (`Id`, `CurveId`, `asOfDate`, `term`, `value`, `creationDate`) VALUES ('1', '1', '2021-06-16 10:08:56', '1.1', '1.1', '2021-08-23 10:41:00');
+INSERT INTO `poseidon_test`.`CurvePoint` (`Id`, `CurveId`, `asOfDate`, `term`, `value`, `creationDate`) VALUES ('2', '2', '2021-06-17 10:08:56', '2.1', '22222.1', '2021-08-23 10:41:00');
+INSERT INTO `poseidon_test`.`CurvePoint` (`Id`, `CurveId`, `asOfDate`, `term`, `value`, `creationDate`) VALUES ('3', '3', '2021-06-22 10:08:56', '1.1353', '3333.331', '2021-08-23 10:41:00');
 
 
 

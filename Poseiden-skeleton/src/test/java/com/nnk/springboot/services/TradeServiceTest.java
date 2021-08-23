@@ -59,6 +59,7 @@ class TradeServiceTest {
     assertEquals(0, tradeService.findAllTrades().size());
 
   }
+
   @Test
   void createTrade() {
     // GIVEN
@@ -131,7 +132,6 @@ class TradeServiceTest {
     // THEN
 
     verify(tradeRepositoryMock).save(expected);
-
 
 
   }

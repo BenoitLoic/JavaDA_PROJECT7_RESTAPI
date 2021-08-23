@@ -1,11 +1,10 @@
 package com.nnk.springboot.integrationTest;
 
-
-import com.nnk.springboot.domain.BidList;
-import com.nnk.springboot.dto.CreateBidListDto;
-import com.nnk.springboot.dto.UpdateBidListDto;
+import com.nnk.springboot.domain.CurvePoint;
+import com.nnk.springboot.dto.CreateCurvePointDto;
+import com.nnk.springboot.dto.UpdateCurvePointDto;
 import com.nnk.springboot.exceptions.DataNotFoundException;
-import com.nnk.springboot.repositories.BidListRepository;
+import com.nnk.springboot.repositories.CurvePointRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,6 +19,7 @@ import java.util.Optional;
 
 import static com.nnk.springboot.utility.FormatToUrlEncoded.getUrlEncoded;
 import static org.hamcrest.Matchers.iterableWithSize;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -28,20 +28,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-public class BidListIT {
+public class CurvePointIT {
 
-  @Autowired
-  BidListRepository bidListRepository;
   @Autowired
   MockMvc mockMvc;
+  @Autowired
+  CurvePointRepository curvePointRepository;
 
+  private final String homeUrl = "/curvePoint/list";
+  private final String createFormUrl = "/curvePoint/add";
+  private final String createUrl = "/curvePoint/add";
+  private final String updateFormUrl = "/curvePoint/update/{id}";
+  private final String updateUrl = "/curvePoint/update/{id}";
+  private final String deleteUrl = "/curvePoint/delete/{id}";
 
-  private final String homeUrl = "/bidList/list";
-  private final String createFormUrl = "/bidList/add";
-  private final String createUrl = "/bidList/add";
-  private final String updateFormUrl = "/bidList/update/{id}";
-  private final String updateUrl = "/bidList/update/{id}";
-  private final String deleteUrl = "/bidList/delete/{id}";
 
   @Test
   public void home() throws Exception {
@@ -54,8 +54,8 @@ public class BidListIT {
                     .password("test")
                     .authorities(new SimpleGrantedAuthority("ADMIN"))))
         .andExpect(status().isOk())
-        .andExpect(model().attribute("bidList", iterableWithSize(3)))
-        .andExpect(view().name("bidList/list"));
+        .andExpect(model().attribute("curvePoints", iterableWithSize(3)))
+        .andExpect(view().name("curvePoint/list"));
 
     mockMvc.perform(get(homeUrl).with(anonymous()))
         .andExpect(status().isFound())
@@ -64,14 +64,14 @@ public class BidListIT {
   }
 
   @Test
-  public void addBidForm() throws Exception {
+  public void addCurvePointForm() throws Exception {
     mockMvc
         .perform(
             get(createFormUrl)
                 .with(user("userTest")
                     .authorities(new SimpleGrantedAuthority("ADMIN"))))
         .andExpect(status().isOk())
-        .andExpect(view().name("bidList/add"));
+        .andExpect(view().name("curvePoint/add"));
 
     mockMvc
         .perform(
@@ -79,7 +79,7 @@ public class BidListIT {
                 .with(user("userTest")
                     .authorities(new SimpleGrantedAuthority("USER"))))
         .andExpect(status().isOk())
-        .andExpect(view().name("bidList/add"));
+        .andExpect(view().name("curvePoint/add"));
 
     mockMvc
         .perform(
@@ -96,10 +96,13 @@ public class BidListIT {
   @Transactional
   public void validate() throws Exception {
 
-    CreateBidListDto valid = new CreateBidListDto("account", "type", 22.4);
-    CreateBidListDto invalid = new CreateBidListDto();
-    invalid.setAccount("account");
-    invalid.setType("");
+
+    CreateCurvePointDto valid = new CreateCurvePointDto();
+    valid.setCurveId(5);
+
+String urlEncoded = getUrlEncoded(valid);
+    String urlEncodedValid = urlEncoded.replace("asOfDate=null", "asOfDate=2077-06-08 11:30");
+    String urlEncodedInvalid = urlEncoded.replace("asOfDate=null", "asOfDate=2077-22-08 11:30");
 
     mockMvc
         .perform(
@@ -107,7 +110,7 @@ public class BidListIT {
                 .with(user("userTest").authorities(new SimpleGrantedAuthority("USER")))
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .content(getUrlEncoded(valid)))
+                .content(urlEncodedValid))
         .andExpect(status().isFound())
         .andExpect(redirectedUrl(homeUrl));
 
@@ -117,9 +120,9 @@ public class BidListIT {
                 .with(user("userTest").authorities(new SimpleGrantedAuthority("USER")))
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .content(getUrlEncoded(invalid)))
+                .content(urlEncodedInvalid))
         .andExpect(status().isOk())
-        .andExpect(model().attributeHasFieldErrors("createBidListDto","type"));
+        .andExpect(model().attributeHasFieldErrors("createCurvePointDto", "asOfDate"));
 
   }
 
@@ -131,7 +134,7 @@ public class BidListIT {
                 .with(user("userTest")
                     .authorities(new SimpleGrantedAuthority("ADMIN"))))
         .andExpect(status().isOk())
-        .andExpect(view().name("bidList/update"));
+        .andExpect(view().name("curvePoint/update"));
 
     mockMvc
         .perform(
@@ -139,7 +142,7 @@ public class BidListIT {
                 .with(user("userTest")
                     .authorities(new SimpleGrantedAuthority("USER"))))
         .andExpect(status().isOk())
-        .andExpect(view().name("bidList/update"));
+        .andExpect(view().name("curvePoint/update"));
 
     mockMvc
         .perform(
@@ -161,22 +164,27 @@ public class BidListIT {
 
   @Test
   @Transactional
-  public void updateBid() throws Exception {
+  public void updateCurvePoint() throws Exception {
 
-    UpdateBidListDto valid = new UpdateBidListDto(0, "account", "type", 22.4);
-    UpdateBidListDto invalid = new UpdateBidListDto();
-    invalid.setAccount("account");
-    invalid.setType("");
+    UpdateCurvePointDto valid = new UpdateCurvePointDto();
+    valid.setId(2);
+    valid.setCurveId(5);
+    String urlEncoded = getUrlEncoded(valid);
+    String urlEncodedValid = urlEncoded.replace("asOfDate=null", "asOfDate=2077-06-08 11:30");
+    String urlEncodedInvalid = urlEncoded.replace("asOfDate=null", "asOfDate=2077-16-22 11:30");
 
     mockMvc
         .perform(
             put(updateUrl, 1)
                 .with(user("userTest").authorities(new SimpleGrantedAuthority("USER")))
                 .with(csrf())
+                .content(urlEncodedValid)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .content(getUrlEncoded(valid)))
+        )
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("/bidList/list"));
+        .andExpect(redirectedUrl("/curvePoint/list"));
+
+    assertEquals(5, curvePointRepository.findById(1).get().getCurveId());
 
     mockMvc
         .perform(
@@ -184,17 +192,17 @@ public class BidListIT {
                 .with(user("userTest").authorities(new SimpleGrantedAuthority("USER")))
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .content(getUrlEncoded(invalid)))
+                .content(urlEncodedInvalid))
         .andExpect(status().isOk())
-        .andExpect(model().attributeHasFieldErrors("updateBidListDto", "type"));
+        .andExpect(model().attributeHasFieldErrors("updateCurvePointDto", "asOfDate"));
   }
 
   @Test
   @Transactional
-  public void deleteBid() throws Exception {
+  public void deleteCurvePoint() throws Exception {
 
-    Optional<BidList> bidWithId1 = bidListRepository.findById(1);
-    assertTrue(bidWithId1.isPresent());
+    Optional<CurvePoint> cpWithId1 = curvePointRepository.findById(1);
+    assertTrue(cpWithId1.isPresent());
 
     mockMvc
         .perform(
@@ -204,7 +212,7 @@ public class BidListIT {
         .andExpect(redirectedUrl(homeUrl))
         .andExpect(status().isFound());
 
-    assertTrue(bidListRepository.findById(1).isEmpty());
+    assertTrue(curvePointRepository.findById(1).isEmpty());
 
     mockMvc
         .perform(
@@ -215,6 +223,4 @@ public class BidListIT {
         .andExpect(result -> assertTrue(result.getResolvedException() instanceof DataNotFoundException));
 
   }
-
-
 }

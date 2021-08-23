@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@ActiveProfiles("test")
 public class TradeIT {
 
   @Autowired
@@ -120,7 +122,7 @@ public class TradeIT {
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .content(getUrlEncoded(invalid)))
         .andExpect(status().isOk())
-        .andExpect(model().attributeHasFieldErrors("createTradeDto","type"));
+        .andExpect(model().attributeHasFieldErrors("createTradeDto", "type"));
 
   }
 
@@ -181,7 +183,7 @@ public class TradeIT {
                 .content(urlEncoded)
                 .param("tradeDate", LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES).toString())
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                )
+        )
         .andExpect(status().isFound())
         .andExpect(redirectedUrl("/trade/list"));
 
@@ -198,7 +200,7 @@ public class TradeIT {
 
   @Test
   @Transactional
-  public void deleteBid() throws Exception {
+  public void deleteTrade() throws Exception {
 
     Optional<Trade> tradeWithId1 = tradeRepository.findById(1);
     assertTrue(tradeWithId1.isPresent());

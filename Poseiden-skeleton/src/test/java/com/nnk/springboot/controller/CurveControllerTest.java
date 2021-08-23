@@ -113,7 +113,7 @@ class CurveControllerTest {
     CreateCurvePointDto temp = new CreateCurvePointDto();
     temp.setCurveId(5);
     String urlEncoded = getUrlEncoded(temp);
-    urlEncoded = urlEncoded.replace("asOfDate=null","asOfDate=2021-08-23T12:16");
+    urlEncoded = urlEncoded.replace("asOfDate=null","asOfDate=2021-08-23 12:16");
 
     // WHEN
 
@@ -197,7 +197,7 @@ class CurveControllerTest {
         .perform(
             put(updateUrl, "5")
                 .param("curveId", "5")
-                .param("asOfDate", "2022-03-23T16:59")
+                .param("asOfDate", "2022-03-23 16:59")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED))
         .andExpect(status().is3xxRedirection())
         .andExpect(redirectedUrl(homeUrl));
@@ -235,7 +235,7 @@ class CurveControllerTest {
         .perform(
             put(updateUrl, "5")
                 .param("curveId","2")
-                .param("asOfDate", LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES).toString())
+                .param("asOfDate", LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES).toString().replace("T"," "))
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED))
         .andExpect(status().isNotFound())
         .andExpect(result -> Assertions.assertTrue(result.getResolvedException() instanceof DataNotFoundException));
