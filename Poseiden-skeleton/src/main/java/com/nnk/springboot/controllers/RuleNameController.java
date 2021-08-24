@@ -44,7 +44,7 @@ public class RuleNameController {
    * @return the html form
    */
   @GetMapping("/add")
-  public String addForm() {
+  public String addForm(CreateRuleNameDto createRuleNameDto) {
     return "ruleName/add";
   }
 
