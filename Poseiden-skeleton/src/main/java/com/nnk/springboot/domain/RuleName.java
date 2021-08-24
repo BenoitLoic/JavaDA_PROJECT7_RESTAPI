@@ -1,32 +1,53 @@
-package com.nnk.springboot.dto;
+package com.nnk.springboot.domain;
 
-import javax.validation.constraints.NotBlank;
+import javax.persistence.*;
+import java.util.Objects;
 
-public class CreateRuleDto {
+@Entity
+@Table(name = "RuleName")
+public class RuleName {
 
-  @NotBlank(message = " is mandatory.")
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "Id")
+  private int id;
+
+  @Column(name = "name")
   private String name;
 
+  @Column(name = "description")
   private String description;
-  @NotBlank(message = " is mandatory.")
+
+  @Column(name = "json")
   private String json;
-  @NotBlank(message = " is mandatory.")
+
+  @Column(name = "template")
   private String template;
-  @NotBlank(message = " is mandatory.")
+
+  @Column(name = "sqlStr")
   private String sqlStr;
-  @NotBlank(message = " is mandatory.")
+
+  @Column(name = "sqlPart")
   private String sqlPart;
 
-  public CreateRuleDto() {
+  public RuleName() {
   }
 
-  public CreateRuleDto(String name, String description, String json, String template, String sqlStr, String sqlPart) {
+  public RuleName(String name, String description, String json, String template, String sqlStr, String sqlPart) {
     this.name = name;
     this.description = description;
     this.json = json;
     this.template = template;
     this.sqlStr = sqlStr;
     this.sqlPart = sqlPart;
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
   }
 
   public String getName() {
@@ -78,9 +99,27 @@ public class CreateRuleDto {
   }
 
   @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    RuleName ruleName = (RuleName) o;
+    return id == ruleName.id && Objects.equals(name, ruleName.name) && Objects.equals(description, ruleName.description) && Objects.equals(json, ruleName.json) && Objects.equals(template, ruleName.template) && Objects.equals(sqlStr, ruleName.sqlStr) && Objects.equals(sqlPart, ruleName.sqlPart);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, name, description, json, template, sqlStr, sqlPart);
+  }
+
+  @Override
   public String toString() {
-    return "CreateRuleDto{" +
-        "name='" + name + '\'' +
+    return "RuleName{" +
+        "id=" + id +
+        ", name='" + name + '\'' +
         ", description='" + description + '\'' +
         ", json='" + json + '\'' +
         ", template='" + template + '\'' +

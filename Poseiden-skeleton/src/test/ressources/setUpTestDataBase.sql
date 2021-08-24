@@ -124,6 +124,9 @@ INSERT INTO `poseidon_test`.`CurvePoint` (`Id`, `CurveId`, `asOfDate`, `term`, `
 INSERT INTO `poseidon_test`.`CurvePoint` (`Id`, `CurveId`, `asOfDate`, `term`, `value`, `creationDate`) VALUES ('2', '2', '2021-06-17 10:08:56', '2.1', '22222.1', '2021-08-23 10:41:00');
 INSERT INTO `poseidon_test`.`CurvePoint` (`Id`, `CurveId`, `asOfDate`, `term`, `value`, `creationDate`) VALUES ('3', '3', '2021-06-22 10:08:56', '1.1353', '3333.331', '2021-08-23 10:41:00');
 
+INSERT INTO `poseidon_test`.`RuleName` (`Id`, `name`, `description`, `json`, `template`, `sqlStr`, `sqlPart`) VALUES ('1', 'nameTest1', 'descriptionTest1', 'JsonTest1', 'templateTest1', 'sqlStr1', 'sqlPart1');
+INSERT INTO `poseidon_test`.`RuleName` (`Id`, `name`, `description`, `json`, `template`, `sqlStr`, `sqlPart`) VALUES ('2', 'nameTest2', 'descriptionTest2', 'JsonTest2', 'templateTest2', 'sqlStr2', 'sqlPart2');
+INSERT INTO `poseidon_test`.`RuleName` (`Id`, `name`, `description`, `json`, `template`, `sqlStr`, `sqlPart`) VALUES ('3', 'nameTest3', 'descriptionTest3', 'JsonTest3', 'templateTest3', 'sqlStr3', 'sqlPart3');
 
 
 # Create user

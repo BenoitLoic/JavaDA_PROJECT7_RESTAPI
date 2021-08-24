@@ -1,8 +1,8 @@
 package com.nnk.springboot.controllers;
 
-import com.nnk.springboot.dto.CreateRuleDto;
-import com.nnk.springboot.dto.GetRuleDto;
-import com.nnk.springboot.dto.UpdateRuleDto;
+import com.nnk.springboot.dto.CreateRuleNameDto;
+import com.nnk.springboot.dto.GetRuleNameDto;
+import com.nnk.springboot.dto.UpdateRuleNameDto;
 import com.nnk.springboot.services.RuleService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,14 +25,14 @@ public class RuleNameController {
   RuleService ruleService;
 
   /**
-   * Get all Rule.
+   * Get all RuleName.
    *
    * @param model the model to inject data for the view.
    * @return the list of all rules.
    */
   @GetMapping("/list")
   public String home(Model model) {
-    Collection<GetRuleDto> rules = ruleService.findAllRules();
+    Collection<GetRuleNameDto> rules = ruleService.findAllRules();
     model.addAttribute("rules", rules);
 
     return "ruleName/list";
@@ -51,68 +51,71 @@ public class RuleNameController {
   /**
    * Create a new rule : validate data and save it to db.
    *
-   * @param rule   the rule to save
+   * @param createRuleNameDto   the rule to save
    * @param result binding to check if there are errors in parameters
    * @return the list of all rules.
    */
-  @PostMapping("/validate")
-  public String validate(@Valid CreateRuleDto rule, BindingResult result, Model model) {
+  @PostMapping("/add")
+  public String validate(@Valid CreateRuleNameDto createRuleNameDto, BindingResult result, Model model) {
 
     if (result.hasErrors()) {
       log.warn("KO - Error in validation for rule: "
-          + rule
+          + createRuleNameDto
           + " with error : "
           + result.getFieldErrors());
       return "ruleName/add";
     }
 
-    ruleService.createRule(rule);
+    ruleService.createRule(createRuleNameDto);
 
     return "redirect:/ruleName/list";
   }
 
   /**
-   * Get Rule by Id, add to model then show to the form to update.
+   * Get RuleName by Id, add to model then show to the form to update.
    *
    * @param id    the id of the rule to update
    * @param model the model to add data
    * @return the html form for rule update
    */
   @GetMapping("/update/{id}")
-  public String updateForm(@PathVariable("id") int id, Model model) {
+  public String showUpdateForm(@PathVariable("id") int id, Model model) {
 
     log.info("Getting rule with id: " + id);
 
-    UpdateRuleDto rule = ruleService.getRuleWithId(id);
+    UpdateRuleNameDto rule = ruleService.getRuleWithId(id);
 
-    model.addAttribute("rule", rule);
+    model.addAttribute("updateRuleNameDto", rule);
 
     return "ruleName/update";
   }
 
   /**
-   * Update a Rule with its id.
+   * Update a RuleName with its id.
    * validate data, update data in DB and return all rating.
    *
    * @param id     the id of the rule to update
-   * @param rule   the data to update
+   * @param updateRuleNameDto   the data to update
    * @param result the field error in parameters
    * @param model  the model
    * @return the list of all rules
    */
   @PutMapping("/update/{id}")
-  public String updateRule(@PathVariable("id") int id, @Valid UpdateRuleDto rule,
+  public String updateRule(@PathVariable("id") int id, @Valid UpdateRuleNameDto updateRuleNameDto,
                            BindingResult result, Model model) {
+
+    log.info("Updating RuleName Name: "+id);
 
     if (result.hasErrors()) {
       log.warn("KO - Error in validation for rule: "
-          + rule
+          + updateRuleNameDto
           + " with error : "
           + result.getFieldErrors());
-      return "ruleName/update";
+      model.addAttribute("updateRuleNameDto", updateRuleNameDto);
+      return "/ruleName/update";
     }
 
-    ruleService.updateRule(id, rule);
+    ruleService.updateRule(id, updateRuleNameDto);
 
     return "redirect:/ruleName/list";
   }

@@ -1,18 +1,27 @@
 package com.nnk.springboot.dto;
 
-public class UpdateRuleDto {
+import javax.validation.constraints.NotBlank;
+import java.util.Objects;
 
+public class CreateRuleNameDto {
+
+  @NotBlank(message = " is mandatory.")
   private String name;
+  @NotBlank( message = " is mandatory.")
   private String description;
+  @NotBlank(message = " is mandatory.")
   private String json;
+  @NotBlank(message = " is mandatory.")
   private String template;
+  @NotBlank(message = " is mandatory.")
   private String sqlStr;
+  @NotBlank(message = " is mandatory.")
   private String sqlPart;
 
-  public UpdateRuleDto() {
+  public CreateRuleNameDto() {
   }
 
-  public UpdateRuleDto(String name, String description, String json, String template, String sqlStr, String sqlPart) {
+  public CreateRuleNameDto(String name, String description, String json, String template, String sqlStr, String sqlPart) {
     this.name = name;
     this.description = description;
     this.json = json;
@@ -70,8 +79,25 @@ public class UpdateRuleDto {
   }
 
   @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    CreateRuleNameDto that = (CreateRuleNameDto) o;
+    return Objects.equals(name, that.name) && Objects.equals(description, that.description) && Objects.equals(json, that.json) && Objects.equals(template, that.template) && Objects.equals(sqlStr, that.sqlStr) && Objects.equals(sqlPart, that.sqlPart);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(name, description, json, template, sqlStr, sqlPart);
+  }
+
+  @Override
   public String toString() {
-    return "UpdateRuleDto{" +
+    return "CreateRuleNameDto{" +
         "name='" + name + '\'' +
         ", description='" + description + '\'' +
         ", json='" + json + '\'' +

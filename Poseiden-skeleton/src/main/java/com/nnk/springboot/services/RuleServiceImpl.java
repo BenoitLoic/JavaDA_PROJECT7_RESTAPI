@@ -1,9 +1,10 @@
 package com.nnk.springboot.services;
 
-import com.nnk.springboot.domain.Rule;
-import com.nnk.springboot.dto.CreateRuleDto;
-import com.nnk.springboot.dto.GetRuleDto;
-import com.nnk.springboot.dto.UpdateRuleDto;
+import com.nnk.springboot.domain.RuleName;
+import com.nnk.springboot.dto.CreateRuleNameDto;
+import com.nnk.springboot.dto.GetRuleNameDto;
+import com.nnk.springboot.dto.UpdateRuleNameDto;
+import com.nnk.springboot.exceptions.DataNotFoundException;
 import com.nnk.springboot.repositories.RuleNameRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,12 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
  * Implementation for RuleService.
- * contains method used by Rule CRUD controller.
+ * contains method used by RuleName CRUD controller.
  */
 @Service
 public class RuleServiceImpl implements RuleService {
@@ -35,16 +35,14 @@ public class RuleServiceImpl implements RuleService {
    * @return the collection of rule dto
    */
   @Override
-  public Collection<GetRuleDto> findAllRules() {
+  public Collection<GetRuleNameDto> findAllRules() {
 
     log.trace("Getting all rules.");
 
-    Collection<GetRuleDto> rules = new ArrayList<>();
-    for (Rule rule : ruleNameRepository.findAll()) {
-      GetRuleDto temp = new GetRuleDto(
-          rule.getId(),
-          rule.getName(),
-          rule.getDescription());
+    Collection<GetRuleNameDto> rules = new ArrayList<>();
+    for (RuleName ruleName : ruleNameRepository.findAll()) {
+      GetRuleNameDto temp = new GetRuleNameDto();
+      BeanUtils.copyProperties(ruleName, temp);
       rules.add(temp);
     }
 
@@ -57,42 +55,42 @@ public class RuleServiceImpl implements RuleService {
   /**
    * Create a new rule in DB.
    *
-   * @param createRuleDto the rule to save in DB.
+   * @param createRuleNameDto the rule to save in DB.
    */
   @Transactional
   @Override
-  public void createRule(CreateRuleDto createRuleDto) {
+  public void createRule(CreateRuleNameDto createRuleNameDto) {
 
-    Rule entity = new Rule();
-    BeanUtils.copyProperties(createRuleDto, entity);
+    RuleName entity = new RuleName();
+    BeanUtils.copyProperties(createRuleNameDto, entity);
 
     log.info("Saving rule: " + entity);
 
     ruleNameRepository.save(entity);
 
-    log.info("Success - Rule saved with id: " + entity.getId());
+    log.info("Success - RuleName saved with id: " + entity.getId());
 
   }
 
   /**
-   * Get Rule identified by the given id.
+   * Get RuleName identified by the given id.
    *
    * @param id the id of the rule to read
    * @return the dto of the rule
    */
   @Override
-  public UpdateRuleDto getRuleWithId(int id) {
+  public UpdateRuleNameDto getRuleWithId(int id) {
 
     log.trace("Getting rule, id: " + id);
 
-    Optional<Rule> optional = ruleNameRepository.findById(id);
+    Optional<RuleName> optional = ruleNameRepository.findById(id);
 
     if (optional.isEmpty()) {
       log.warn("Error can't find rule with id: " + id);
-      throw new NoSuchElementException("Error can't find rule.");
+      throw new DataNotFoundException("Error can't find rule.");
     }
 
-    UpdateRuleDto updateDto = new UpdateRuleDto();
+    UpdateRuleNameDto updateDto = new UpdateRuleNameDto();
     BeanUtils.copyProperties(optional.get(), updateDto);
 
     return updateDto;
@@ -100,60 +98,70 @@ public class RuleServiceImpl implements RuleService {
   }
 
   /**
-   * Update an existing Rule in DB.
+   * Update an existing RuleName in DB.
    *
-   * @param id            the rule id
-   * @param updateRuleDto the rule to update in DB.
+   * @param id                the rule id
+   * @param updateRuleNameDto the rule to update in DB.
    */
   @Transactional
   @Override
-  public void updateRule(int id, UpdateRuleDto updateRuleDto) {
+  public void updateRule(int id, UpdateRuleNameDto updateRuleNameDto) {
 
     log.trace("Updating rule with id: "
         + id
         + " and data: "
-        + updateRuleDto);
+        + updateRuleNameDto);
 
-    Optional<Rule> optional = ruleNameRepository.findById(id);
+    Optional<RuleName> optional = ruleNameRepository.findById(id);
 
     if (optional.isEmpty()) {
       log.warn("KO - Error can't find rule with id: "
           + id);
-      throw new NoSuchElementException("Error can't find rule.");
+      throw new DataNotFoundException("Error can't find rule.");
     }
 
-    Rule entity = optional.get();
-
-    if (!updateRuleDto.getName().isBlank()) {
+    RuleName entity = optional.get();
+    int count = 0;
+    if (!updateRuleNameDto.getName().equals(entity.getName())) {
       log.trace("Updating name.");
-      entity.setName(updateRuleDto.getName());
+      entity.setName(updateRuleNameDto.getName());
+      count++;
     }
-    if (!updateRuleDto.getDescription().isBlank()) {
+    if (!updateRuleNameDto.getDescription().equals(entity.getDescription())) {
       log.trace("Updating description.");
-      entity.setDescription(updateRuleDto.getDescription());
+      entity.setDescription(updateRuleNameDto.getDescription());
+      count++;
     }
-    if (!updateRuleDto.getJson().isBlank()) {
+    if (!updateRuleNameDto.getJson().equals(entity.getJson())) {
       log.trace("Updating json.");
-      entity.setJson(updateRuleDto.getJson());
+      entity.setJson(updateRuleNameDto.getJson());
+      count++;
     }
-    if (!updateRuleDto.getTemplate().isBlank()) {
+    if (!updateRuleNameDto.getTemplate().equals(entity.getTemplate())) {
       log.trace("Updating template.");
-      entity.setTemplate(updateRuleDto.getTemplate());
+      entity.setTemplate(updateRuleNameDto.getTemplate());
+      count++;
     }
-    if (!updateRuleDto.getSqlStr().isBlank()) {
+    if (!updateRuleNameDto.getSqlStr().equals(entity.getSqlStr())) {
       log.trace("Updating sqlStr.");
-      entity.setSqlStr(updateRuleDto.getSqlStr());
+      entity.setSqlStr(updateRuleNameDto.getSqlStr());
+      count++;
     }
-    if (!updateRuleDto.getSqlPart().isBlank()) {
+    if (!updateRuleNameDto.getSqlPart().equals(entity.getSqlPart())) {
       log.trace("Updating sqlPart.");
-      entity.setSqlPart(updateRuleDto.getSqlPart());
+      entity.setSqlPart(updateRuleNameDto.getSqlPart());
+      count++;
     }
 
-    log.info("Updating Rule: " + entity);
+    log.info("Updating RuleName: " + entity);
 
     ruleNameRepository.save(entity);
 
-    log.info("Update - OK");
+    log.info("Update - OK for trade id: "
+        +entity.getId()
+        +". "
+        + count
+        +" fields changed.");
 
   }
 
@@ -166,11 +174,11 @@ public class RuleServiceImpl implements RuleService {
   @Override
   public void deleteRule(int id) {
 
-    log.info("Deleting Rule with id: " + id);
+    log.info("Deleting RuleName with id: " + id);
 
     if (ruleNameRepository.findById(id).isEmpty()) {
-      log.warn("KO - Can't find Rule with id: " + id);
-      throw new NoSuchElementException("Error - Can't find Rule.");
+      log.warn("KO - Can't find RuleName with id: " + id);
+      throw new DataNotFoundException("Error - Can't find RuleName.");
     }
 
     ruleNameRepository.deleteById(id);
