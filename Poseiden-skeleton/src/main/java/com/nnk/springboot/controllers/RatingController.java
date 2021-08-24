@@ -47,29 +47,29 @@ public class RatingController {
    * @return the html form
    */
   @GetMapping("/add")
-  public String addRatingForm() {
+  public String addRatingForm(CreateRatingDto createRatingDto) {
     return "rating/add";
   }
 
   /**
    * Create a new rating : validate data and save it to db.
    *
-   * @param rating the rating to save
+   * @param createRatingDto the rating to save
    * @param result binding to check if there are errors in parameters
    * @return the list of all rating.
    */
   @PostMapping("/add")
-  public String validate(@Valid CreateRatingDto rating, BindingResult result) {
+  public String validate(@Valid CreateRatingDto createRatingDto, BindingResult result) {
 
     if (result.hasErrors()) {
       log.warn("KO - Error in validation for rating: "
-          + rating
+          + createRatingDto
           + " with error : "
           + result.getFieldErrors());
       return "rating/add";
     }
 
-    ratingService.createRating(rating);
+    ratingService.createRating(createRatingDto);
 
     return "redirect:/rating/list";
 
@@ -115,6 +115,7 @@ public class RatingController {
           + updateRatingDto
           + " with error : "
           + result.getFieldErrors());
+      model.addAttribute("updateRatingDto", updateRatingDto);
       return "rating/update";
     }
 

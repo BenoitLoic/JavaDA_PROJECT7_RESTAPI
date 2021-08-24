@@ -10,6 +10,7 @@ public class CreateRatingDto {
   private String sandPRating;
   @NotBlank(message = " is mandatory.")
   private String fitchRating;
+
   private int orderNumber;
 
   public CreateRatingDto() {
