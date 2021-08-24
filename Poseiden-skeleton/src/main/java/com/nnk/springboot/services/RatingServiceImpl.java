@@ -4,6 +4,7 @@ import com.nnk.springboot.domain.Rating;
 import com.nnk.springboot.dto.CreateRatingDto;
 import com.nnk.springboot.dto.GetRatingDto;
 import com.nnk.springboot.dto.UpdateRatingDto;
+import com.nnk.springboot.exceptions.DataNotFoundException;
 import com.nnk.springboot.repositories.RatingRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
@@ -42,7 +42,7 @@ public class RatingServiceImpl implements RatingService {
     Collection<GetRatingDto> ratings = new ArrayList<>();
     for (Rating rating : ratingRepository.findAll()) {
       GetRatingDto temp = new GetRatingDto();
-      BeanUtils.copyProperties(rating,temp);
+      BeanUtils.copyProperties(rating, temp);
 
       ratings.add(temp);
     }
@@ -66,7 +66,7 @@ public class RatingServiceImpl implements RatingService {
 
     if (optional.isEmpty()) {
       log.warn("Error can't find rating with id: " + id);
-      throw new NoSuchElementException("Error can't find rating.");
+      throw new DataNotFoundException("Error can't find rating.");
     }
 
     UpdateRatingDto updateDto = new UpdateRatingDto();
@@ -115,32 +115,40 @@ public class RatingServiceImpl implements RatingService {
     if (optional.isEmpty()) {
       log.warn("KO - Error can't find rating with id: "
           + id);
-      throw new NoSuchElementException("Error can't find rating");
+      throw new DataNotFoundException("Error can't find rating");
     }
 
     Rating entity = optional.get();
-
-    if (!updateRatingDto.getFitchRating().isBlank()){
+    int count = 0;
+    if (!updateRatingDto.getFitchRating().equals(entity.getFitchRating())) {
       log.trace("Updating FitchRating.");
       entity.setFitchRating(updateRatingDto.getFitchRating());
+      count++;
     }
-    if (!updateRatingDto.getSandPRating().isBlank()){
+    if (!updateRatingDto.getSandPRating().equals(entity.getSandPRating())) {
       log.trace("Updating SandPRating.");
       entity.setSandPRating(updateRatingDto.getSandPRating());
+      count++;
     }
-    if (!updateRatingDto.getMoodysRating().isBlank()){
+    if (!updateRatingDto.getMoodysRating().equals(entity.getMoodysRating())) {
       log.trace("Updating MoodysRating.");
       entity.setMoodysRating(updateRatingDto.getMoodysRating());
+      count++;
     }
-    if (updateRatingDto.getOrderNumber()!= entity.getOrderNumber()){
+    if (updateRatingDto.getOrderNumber() != entity.getOrderNumber()) {
       log.trace("Updating OderNumber.");
       entity.setOrderNumber(updateRatingDto.getOrderNumber());
+      count++;
     }
-    log.info("Updating Rating: "+entity);
+    log.info("Updating Rating: " + entity);
 
     ratingRepository.save(entity);
 
-    log.info("Update - OK");
+    log.info("Update - OK for rating id: "
+        + id
+        + ". "
+        + count
+        + " field changed.");
 
   }
 
@@ -157,7 +165,7 @@ public class RatingServiceImpl implements RatingService {
 
     if (ratingRepository.findById(id).isEmpty()) {
       log.warn("KO - Can't find Rating with id: " + id);
-      throw new NoSuchElementException("Error - Can't find Rating.");
+      throw new DataNotFoundException("Error - Can't find Rating.");
     }
 
     ratingRepository.deleteById(id);

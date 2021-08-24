@@ -128,6 +128,11 @@ INSERT INTO `poseidon_test`.`RuleName` (`Id`, `name`, `description`, `json`, `te
 INSERT INTO `poseidon_test`.`RuleName` (`Id`, `name`, `description`, `json`, `template`, `sqlStr`, `sqlPart`) VALUES ('2', 'nameTest2', 'descriptionTest2', 'JsonTest2', 'templateTest2', 'sqlStr2', 'sqlPart2');
 INSERT INTO `poseidon_test`.`RuleName` (`Id`, `name`, `description`, `json`, `template`, `sqlStr`, `sqlPart`) VALUES ('3', 'nameTest3', 'descriptionTest3', 'JsonTest3', 'templateTest3', 'sqlStr3', 'sqlPart3');
 
+INSERT INTO `poseidon_test`.`Rating` (`Id`, `moodysRating`, `sandPRating`, `fitchRating`, `orderNumber`) VALUES ('1', 'moodysRatingTest 1', 'Sand P. Rating 1', 'Fitch Rating 1', '5');
+INSERT INTO `poseidon_test`.`Rating` (`Id`, `moodysRating`, `sandPRating`, `fitchRating`, `orderNumber`) VALUES ('2', 'moodysRatingTest 2', 'Sand P. Rating 2', 'Fitch Rating 2', '8');
+INSERT INTO `poseidon_test`.`Rating` (`Id`, `moodysRating`, `sandPRating`, `fitchRating`, `orderNumber`) VALUES ('3', 'moodysRatingTest 3', 'Sand P. Rating 3', 'Fitch Rating 3', '4');
+
+
 
 # Create user
 CREATE USER IF NOT EXISTS 'poseidon_test'@'localhost' IDENTIFIED BY 'poseidon-test';

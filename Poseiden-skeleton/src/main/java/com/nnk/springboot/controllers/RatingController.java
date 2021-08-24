@@ -101,7 +101,7 @@ public class RatingController {
    * validate data, update data in DB and return all rating.
    *
    * @param id     the id of the rating to update
-   * @param rating the data to update
+   * @param updateRatingDto the data to update
    * @param result the field error in parameters
    * @param model  the model
    * @return the list of all rating
