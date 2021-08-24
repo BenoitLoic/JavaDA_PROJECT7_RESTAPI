@@ -14,7 +14,8 @@
 	</div>
 
 	<div class="row">
-		<form action="#" th:action="@{/rating/update/{id}(id=${rating.id})}" th:object="${rating}" method="post" class="form-horizontal" style="width: 100%">
+		<!--/*@thymesVar id="updateRatingDto" type="com.nnk.springboot.dto.UpdateRatingDto"*/-->
+		<form action="#" th:action="@{/rating/update/{id}(id=${updateRatingDto.id})}" th:object="${updateRatingDto}" method="post" class="form-horizontal" style="width: 100%">
 			<!--
 			TODO: Create a form to edit the values of Rating, there are 2 buttons: Update data and Cancel to the Rating
 			 -->

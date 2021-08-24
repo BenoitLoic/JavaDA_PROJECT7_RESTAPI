@@ -1,21 +1,20 @@
 package com.nnk.springboot.dto;
 
-public class CreateRatingDto {
+import javax.validation.constraints.NotBlank;
+import java.util.Objects;
 
+public class CreateRatingDto {
+  @NotBlank(message = " is mandatory.")
   private String moodysRating;
+  @NotBlank(message = " is mandatory.")
   private String sandPRating;
+  @NotBlank(message = " is mandatory.")
   private String fitchRating;
   private int orderNumber;
 
   public CreateRatingDto() {
   }
 
-  public CreateRatingDto(String moodysRating, String sandPRating, String fitchRating, int orderNumber) {
-    this.moodysRating = moodysRating;
-    this.sandPRating = sandPRating;
-    this.fitchRating = fitchRating;
-    this.orderNumber = orderNumber;
-  }
 
   public String getMoodysRating() {
     return moodysRating;
@@ -47,6 +46,23 @@ public class CreateRatingDto {
 
   public void setOrderNumber(int orderNumber) {
     this.orderNumber = orderNumber;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    CreateRatingDto that = (CreateRatingDto) o;
+    return orderNumber == that.orderNumber && Objects.equals(moodysRating, that.moodysRating) && Objects.equals(sandPRating, that.sandPRating) && Objects.equals(fitchRating, that.fitchRating);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(moodysRating, sandPRating, fitchRating, orderNumber);
   }
 
   @Override

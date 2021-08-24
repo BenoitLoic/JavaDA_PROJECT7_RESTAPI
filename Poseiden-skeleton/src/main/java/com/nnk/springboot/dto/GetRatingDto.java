@@ -11,13 +11,6 @@ public class GetRatingDto {
   public GetRatingDto() {
   }
 
-  public GetRatingDto(int id, String moodysRating, String sandPRating, String fitchRating, int orderNumber) {
-    this.id = id;
-    this.moodysRating = moodysRating;
-    this.sandPRating = sandPRating;
-    this.fitchRating = fitchRating;
-    this.orderNumber = orderNumber;
-  }
 
   public int getId() {
     return id;

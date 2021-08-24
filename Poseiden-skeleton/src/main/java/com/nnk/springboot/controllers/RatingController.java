@@ -18,6 +18,7 @@ import java.util.Collection;
 /**
  * Contains CRUD method for Rating feature.
  */
+@RequestMapping("/rating")
 @Controller
 public class RatingController {
 
@@ -31,7 +32,7 @@ public class RatingController {
    * @param model the model to inject data for the view.
    * @return the list of all rating.
    */
-  @RequestMapping("/rating/list")
+  @RequestMapping("/list")
   public String home(Model model) {
 
     Collection<GetRatingDto> ratings = ratingService.getAllRating();
@@ -45,7 +46,7 @@ public class RatingController {
    *
    * @return the html form
    */
-  @GetMapping("/rating/add")
+  @GetMapping("/add")
   public String addRatingForm() {
     return "rating/add";
   }
@@ -57,7 +58,7 @@ public class RatingController {
    * @param result binding to check if there are errors in parameters
    * @return the list of all rating.
    */
-  @PostMapping("/rating/validate")
+  @PostMapping("/add")
   public String validate(@Valid CreateRatingDto rating, BindingResult result) {
 
     if (result.hasErrors()) {
@@ -81,14 +82,14 @@ public class RatingController {
    * @param model the model to add data
    * @return the html form for rating update
    */
-  @GetMapping("/rating/update/{id}")
+  @GetMapping("/update/{id}")
   public String showUpdateForm(@PathVariable("id") int id, Model model) {
 
     log.info("Getting rating with id: " + id);
 
-    UpdateRatingDto rating = ratingService.getRatingWithId(id);
+    UpdateRatingDto updateRatingDto = ratingService.getRatingWithId(id);
 
-    model.addAttribute("rating", rating);
+    model.addAttribute("updateRatingDto", updateRatingDto);
 
     return "rating/update";
 
@@ -105,19 +106,19 @@ public class RatingController {
    * @param model  the model
    * @return the list of all rating
    */
-  @PutMapping("/rating/update/{id}")
-  public String updateRating(@PathVariable("id") int id, @Valid UpdateRatingDto rating,
+  @PutMapping("/update/{id}")
+  public String updateRating(@PathVariable("id") int id, @Valid UpdateRatingDto updateRatingDto,
                              BindingResult result, Model model) {
 
     if (result.hasErrors()) {
       log.warn("KO - Error in validation for rating: "
-          + rating
+          + updateRatingDto
           + " with error : "
           + result.getFieldErrors());
       return "rating/update";
     }
 
-    ratingService.updateRating(id, rating);
+    ratingService.updateRating(id, updateRatingDto);
 
     return "redirect:/rating/list";
   }
@@ -129,7 +130,7 @@ public class RatingController {
    * @param model th model
    * @return the list of all rating
    */
-  @DeleteMapping("/rating/delete/{id}")
+  @DeleteMapping("/delete/{id}")
   public String deleteRating(@PathVariable("id") int id, Model model) {
 
     ratingService.deleteRating(id);

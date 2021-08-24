@@ -41,12 +41,9 @@ public class RatingServiceImpl implements RatingService {
 
     Collection<GetRatingDto> ratings = new ArrayList<>();
     for (Rating rating : ratingRepository.findAll()) {
-      GetRatingDto temp = new GetRatingDto(
-          rating.getId(),
-          rating.getMoodysRating(),
-          rating.getSandPRating(),
-          rating.getFitchRating(),
-          rating.getOrderNumber());
+      GetRatingDto temp = new GetRatingDto();
+      BeanUtils.copyProperties(rating,temp);
+
       ratings.add(temp);
     }
 
