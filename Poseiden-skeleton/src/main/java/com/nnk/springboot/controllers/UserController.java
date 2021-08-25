@@ -106,6 +106,7 @@ public class UserController {
         if (result.hasErrors()) {
             log.error("KO - error with user params : "
                 + result.getFieldErrors());
+            model.addAttribute("updateUserDto",updateUserDto);
             return "user/update";
         }
 
