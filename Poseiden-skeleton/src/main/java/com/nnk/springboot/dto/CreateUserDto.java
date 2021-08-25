@@ -1,7 +1,8 @@
 package com.nnk.springboot.dto;
 
+import com.nnk.springboot.validation.PasswordValidation;
+
 import javax.validation.constraints.NotBlank;
-import java.util.Objects;
 
 public class CreateUserDto {
 
@@ -10,7 +11,7 @@ public class CreateUserDto {
     private String username;
 
 
-    @NotBlank(message = "Password is mandatory")
+    @PasswordValidation
     private String password;
 
 
@@ -66,27 +67,10 @@ public class CreateUserDto {
     @Override
     public String toString() {
         return "CreateUserDto{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", fullname='" + fullname + '\'' +
-                ", role='" + role + '\'' +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        CreateUserDto that = (CreateUserDto) o;
-        return Objects.equals(username, that.username) && Objects.equals(password, that.password) && Objects.equals(fullname, that.fullname) && Objects.equals(role, that.role);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(username, password, fullname, role);
+            "username='" + username + '\'' +
+            ", password='" + password + '\'' +
+            ", fullname='" + fullname + '\'' +
+            ", role='" + role + '\'' +
+            '}';
     }
 }

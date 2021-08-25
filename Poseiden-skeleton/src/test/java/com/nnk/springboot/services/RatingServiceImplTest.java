@@ -182,7 +182,7 @@ class RatingServiceImplTest {
   }
 
   @Test
-  void deleteRuleNameValid() {
+  void deleteRatingValid() {
     // GIVEN
 
     // WHEN
@@ -194,7 +194,7 @@ class RatingServiceImplTest {
   }
 
   @Test
-  void deleteRuleNameWhenDataNotFound_ShouldThrowDataNotFoundException() {
+  void deleteRatingWhenDataNotFound_ShouldThrowDataNotFoundException() {
     // GIVEN
 
     // WHEN

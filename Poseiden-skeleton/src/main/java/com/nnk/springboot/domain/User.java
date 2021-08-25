@@ -2,6 +2,7 @@ package com.nnk.springboot.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.Objects;
 
 @Entity
 @Table(name = "Users")
@@ -68,6 +69,23 @@ public class User {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        User user = (User) o;
+        return id == user.id && Objects.equals(username, user.username) && Objects.equals(fullname, user.fullname) && Objects.equals(role, user.role);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, fullname, role);
+    }
+
+    @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
@@ -77,4 +95,6 @@ public class User {
                 ", role='" + role + '\'' +
                 '}';
     }
+
+
 }

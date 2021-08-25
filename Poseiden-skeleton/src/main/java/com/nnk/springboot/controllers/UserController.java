@@ -1,22 +1,16 @@
 package com.nnk.springboot.controllers;
 
-import com.nnk.springboot.domain.User;
 import com.nnk.springboot.dto.CreateUserDto;
 import com.nnk.springboot.dto.GetUserDto;
 import com.nnk.springboot.dto.UpdateUserDto;
-
 import com.nnk.springboot.services.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Collection;
@@ -24,8 +18,8 @@ import java.util.Collection;
 /**
  * Contains CRUD method for User model/entity.
  */
-@Controller
 @RequestMapping("/user")
+@Controller
 public class UserController {
 
     private final Logger log = LogManager.getLogger(getClass().getName());
@@ -52,30 +46,29 @@ public class UserController {
      * @return the html form.
      */
     @GetMapping("/add")
-    public String addUserForm(CreateUserDto user) {
+    public String addUserForm(CreateUserDto createUserDto) {
         return "user/add";
     }
 
     /**
      * This method will create a new user.
      *
-     * @param user   the user to create
+     * @param createUserDto   the user to create
      * @param result validation check for user.
-     * @param model  the model that serve to inject user list for the view
      * @return redirection to /user/list (get all user)
      */
-    @PostMapping("/validate")
-    public String validate(@Valid CreateUserDto user, BindingResult result, Model model) {
+    @PostMapping("/add")
+    public String validate(@Valid CreateUserDto createUserDto, BindingResult result) {
 
         if (result.hasErrors()) {
             log.warn("Error in validation for user: "
-                    + user
+                    + createUserDto
                     + " with error : "
                     + result.getFieldErrors());
             return "user/add";
         }
 
-        userService.createUser(user);
+        userService.createUser(createUserDto);
 
         return "redirect:/user/list";
 
@@ -91,8 +84,8 @@ public class UserController {
      */
     @GetMapping("/update/{id}")
     public String showUpdateForm(@PathVariable("id") int id, Model model) {
-        UpdateUserDto user = userService.getUserWithID(id);
-        model.addAttribute("user", user);
+        UpdateUserDto updateUserDto = userService.getUserWithID(id);
+        model.addAttribute("updateUserDto", updateUserDto);
         return "user/update";
     }
 
@@ -100,21 +93,23 @@ public class UserController {
      * This method will update the user with the given id.
      *
      * @param id     the id of the user to update
-     * @param user   the user to update
+     * @param updateUserDto   the user to update
      * @param result validation check
      * @param model  the model that serve to inject user list for the view
      * @return redirection to /user/list (get all user)
      */
-    @PostMapping("/update/{id}")
-    public String updateUser(@PathVariable("id") int id, @Valid UpdateUserDto user,
+    @PutMapping("/update/{id}")
+    public String updateUser(@PathVariable("id") int id, @Valid UpdateUserDto updateUserDto,
                              BindingResult result, Model model) {
 
+
         if (result.hasErrors()) {
-            log.error("KO - error with user param : " + result.getFieldErrors());
+            log.error("KO - error with user params : "
+                + result.getFieldErrors());
             return "user/update";
         }
 
-        userService.updateUser(id,user);
+        userService.updateUser(id,updateUserDto);
 
         return "redirect:/user/list";
     }
@@ -126,7 +121,7 @@ public class UserController {
      * @param model the model that serve to inject user list for the view
      * @return redirection to /user/list (get all user)
      */
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deleteUser(@PathVariable("id") Integer id, Model model) {
 
         userService.deleteUser(id);

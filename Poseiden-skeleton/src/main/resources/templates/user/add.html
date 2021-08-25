@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
-    <title>Home</title>
+    <title>Poseidon</title>
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
 </head>
 <body>
@@ -14,7 +14,8 @@
     </div>
 
     <div class="row">
-        <form action="#" th:action="@{/user/validate}" th:object="${user}" method="post" class="form-horizontal"
+        <!--/*@thymesVar id="createUserDto" type="com.nnk.springboot.dto.CreateUserDto"*/-->
+        <form action="#" th:action="@{/user/add}" th:object="${createUserDto}" method="post" class="form-horizontal"
               style="width: 100%">
 
             <div class="form-group">

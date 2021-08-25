@@ -1,77 +1,81 @@
 package com.nnk.springboot.dto;
 
+import com.nnk.springboot.validation.PasswordValidation;
+
+import javax.validation.constraints.NotBlank;
+
 public class UpdateUserDto {
 
-    private int id;
+  private int id;
+  @NotBlank(message = " is mandatory.")
+  private String username;
+  @PasswordValidation
+  private String password;
+  @NotBlank(message = " is mandatory.")
+  private String fullname;
+  @NotBlank(message = " is mandatory.")
+  private String role;
 
-    private String username;
+  public UpdateUserDto() {
+  }
 
-    private String password;
+  public UpdateUserDto(int id, String username, String password, String fullname, String role) {
+    this.id = id;
+    this.username = username;
+    this.password = password;
+    this.fullname = fullname;
+    this.role = role;
+  }
 
-    private String fullname;
+  public int getId() {
+    return id;
+  }
 
-    private String role;
+  public void setId(int id) {
+    this.id = id;
+  }
 
-    public UpdateUserDto() {
-    }
+  public String getUsername() {
+    return username;
+  }
 
-    public UpdateUserDto(int id, String username, String password, String fullname, String role) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.fullname = fullname;
-        this.role = role;
-    }
+  public void setUsername(String username) {
+    this.username = username;
+  }
 
-    public int getId() {
-        return id;
-    }
+  public String getPassword() {
+    return password;
+  }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
-    public String getUsername() {
-        return username;
-    }
+  public String getFullname() {
+    return fullname;
+  }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+  public void setFullname(String fullname) {
+    this.fullname = fullname;
+  }
 
-    public String getPassword() {
-        return password;
-    }
+  public String getRole() {
+    return role;
+  }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+  public void setRole(String role) {
+    this.role = role;
+  }
 
-    public String getFullname() {
-        return fullname;
-    }
-
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    @Override
-    public String toString() {
-        return "UpdateUserDto{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", fullname='" + fullname + '\'' +
-                ", role='" + role + '\'' +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return "UpdateUserDto{" +
+        "id=" + id +
+        ", username='" + username + '\'' +
+        ", password='" + password + '\'' +
+        ", fullname='" + fullname + '\'' +
+        ", role='" + role + '\'' +
+        '}';
+  }
 
 }
