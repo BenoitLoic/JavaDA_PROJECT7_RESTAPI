@@ -5,8 +5,8 @@ import com.nnk.springboot.repositories.BidListRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,11 +21,14 @@ public class BidTests {
 	@Autowired
 	private BidListRepository bidListRepository;
 
-	@DirtiesContext
-	@Test
+@Transactional
+@Test
 	public void bidListTest() {
 		BidList bid = new BidList("Account Test", "Type Test", 10d);
-		System.out.println(bidListRepository.findAll());
+
+		for (BidList bidy: bidListRepository.findAll()) {
+			System.out.println(bidy.getBidListId());
+		}
 		// Save
 		bid = bidListRepository.save(bid);
 		assertTrue(bid.getBidListId()>0);

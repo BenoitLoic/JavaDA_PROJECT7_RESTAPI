@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +25,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(printOnlyOnFailure = false)
 @ActiveProfiles("test")
 public class BidListIT {
 
@@ -46,13 +45,12 @@ public class BidListIT {
   @Test
   public void home() throws Exception {
 
-
     mockMvc
         .perform(
             get(homeUrl)
                 .with(user("testAdmin")
                     .password("test")
-                    .authorities(new SimpleGrantedAuthority("ADMIN"))))
+                    .roles("USER")))
         .andExpect(status().isOk())
         .andExpect(model().attribute("bidList", iterableWithSize(3)))
         .andExpect(view().name("bidList/list"));
@@ -69,7 +67,7 @@ public class BidListIT {
         .perform(
             get(createFormUrl)
                 .with(user("userTest")
-                    .authorities(new SimpleGrantedAuthority("ADMIN"))))
+                    .roles("USER")))
         .andExpect(status().isOk())
         .andExpect(view().name("bidList/add"));
 
@@ -77,7 +75,7 @@ public class BidListIT {
         .perform(
             get(createFormUrl)
                 .with(user("userTest")
-                    .authorities(new SimpleGrantedAuthority("USER"))))
+                    .roles("USER")))
         .andExpect(status().isOk())
         .andExpect(view().name("bidList/add"));
 
@@ -104,7 +102,7 @@ public class BidListIT {
     mockMvc
         .perform(
             post(createUrl)
-                .with(user("userTest").authorities(new SimpleGrantedAuthority("USER")))
+                .with(user("userTest").roles("USER"))
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .content(getUrlEncoded(valid)))
@@ -114,12 +112,12 @@ public class BidListIT {
     mockMvc
         .perform(
             post(createUrl)
-                .with(user("userTest").authorities(new SimpleGrantedAuthority("USER")))
+                .with(user("userTest").roles("USER"))
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .content(getUrlEncoded(invalid)))
         .andExpect(status().isOk())
-        .andExpect(model().attributeHasFieldErrors("createBidListDto","type"));
+        .andExpect(model().attributeHasFieldErrors("createBidListDto", "type"));
 
   }
 
@@ -129,7 +127,7 @@ public class BidListIT {
         .perform(
             get(updateFormUrl, 1)
                 .with(user("userTest")
-                    .authorities(new SimpleGrantedAuthority("ADMIN"))))
+                    .roles("USER")))
         .andExpect(status().isOk())
         .andExpect(view().name("bidList/update"));
 
@@ -137,7 +135,7 @@ public class BidListIT {
         .perform(
             get(updateFormUrl, 1)
                 .with(user("userTest")
-                    .authorities(new SimpleGrantedAuthority("USER"))))
+                    .roles("USER")))
         .andExpect(status().isOk())
         .andExpect(view().name("bidList/update"));
 
@@ -152,7 +150,7 @@ public class BidListIT {
         .perform(
             get(updateFormUrl, 999)
                 .with(user("userTest")
-                    .authorities(new SimpleGrantedAuthority("USER"))))
+                    .roles("USER")))
         .andExpect(status().isNotFound())
         .andExpect(result -> assertTrue(result.getResolvedException() instanceof DataNotFoundException));
 
@@ -171,7 +169,8 @@ public class BidListIT {
     mockMvc
         .perform(
             put(updateUrl, 1)
-                .with(user("userTest").authorities(new SimpleGrantedAuthority("USER")))
+                .with(user("userTest")
+                    .roles("USER"))
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .content(getUrlEncoded(valid)))
@@ -181,7 +180,8 @@ public class BidListIT {
     mockMvc
         .perform(
             put(updateUrl, 1)
-                .with(user("userTest").authorities(new SimpleGrantedAuthority("USER")))
+                .with(user("userTest")
+                    .roles("USER"))
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .content(getUrlEncoded(invalid)))
@@ -199,7 +199,8 @@ public class BidListIT {
     mockMvc
         .perform(
             delete(deleteUrl, 1)
-                .with(user("userTest").authorities(new SimpleGrantedAuthority("USER")))
+                .with(user("userTest")
+                    .roles("USER"))
                 .with(csrf()))
         .andExpect(redirectedUrl(homeUrl))
         .andExpect(status().isFound());
@@ -209,7 +210,8 @@ public class BidListIT {
     mockMvc
         .perform(
             delete(deleteUrl, 99)
-                .with(user("userTest").authorities(new SimpleGrantedAuthority("USER")))
+                .with(user("userTest")
+                    .roles("USER"))
                 .with(csrf()))
         .andExpect(status().isNotFound())
         .andExpect(result -> assertTrue(result.getResolvedException() instanceof DataNotFoundException));

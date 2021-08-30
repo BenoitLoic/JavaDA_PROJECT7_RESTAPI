@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,7 +50,7 @@ public class UserIT {
             get(homeUrl)
                 .with(user("testAdmin")
                     .password("test")
-                    .authorities(new SimpleGrantedAuthority("ADMIN"))))
+                    .roles("ADMIN")))
         .andExpect(status().isOk())
         .andExpect(model().attribute("users", iterableWithSize(3)))
         .andExpect(view().name("user/list"));
@@ -68,7 +67,7 @@ public class UserIT {
         .perform(
             get(createFormUrl)
                 .with(user("userTest")
-                    .authorities(new SimpleGrantedAuthority("ADMIN"))))
+                    .roles("ADMIN")))
         .andExpect(status().isOk())
         .andExpect(view().name("user/add"));
 
@@ -76,7 +75,7 @@ public class UserIT {
         .perform(
             get(createFormUrl)
                 .with(user("userTest")
-                    .authorities(new SimpleGrantedAuthority("ADMIN"))))
+                    .roles("ADMIN")))
         .andExpect(status().isOk())
         .andExpect(view().name("user/add"));
 
@@ -110,7 +109,8 @@ public class UserIT {
     mockMvc
         .perform(
             post(createUrl)
-                .with(user("userTest").authorities(new SimpleGrantedAuthority("ADMIN")))
+                .with(user("userTest")
+                    .roles("ADMIN"))
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .content(getUrlEncoded(valid)))
@@ -120,7 +120,8 @@ public class UserIT {
     mockMvc
         .perform(
             post(createUrl)
-                .with(user("userTest").authorities(new SimpleGrantedAuthority("ADMIN")))
+                .with(user("userTest")
+                    .roles("ADMIN"))
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .content(getUrlEncoded(invalid)))
@@ -135,15 +136,15 @@ public class UserIT {
         .perform(
             get(updateFormUrl, 1)
                 .with(user("userTest")
-                    .authorities(new SimpleGrantedAuthority("ADMIN"))))
-        .andExpect(status().isOk())
+                    .roles("ADMIN")))
+                .andExpect(status().isOk())
         .andExpect(view().name("user/update"));
 
     mockMvc
         .perform(
             get(updateFormUrl, 1)
                 .with(user("userTest")
-                    .authorities(new SimpleGrantedAuthority("ADMIN"))))
+                    .roles("ADMIN")))
         .andExpect(status().isOk())
         .andExpect(view().name("user/update"));
 
@@ -158,7 +159,7 @@ public class UserIT {
         .perform(
             get(updateFormUrl, 999)
                 .with(user("userTest")
-                    .authorities(new SimpleGrantedAuthority("ADMIN"))))
+                    .roles("ADMIN")))
         .andExpect(status().isNotFound())
         .andExpect(result -> assertTrue(result.getResolvedException() instanceof DataNotFoundException));
 
@@ -185,7 +186,8 @@ public class UserIT {
     mockMvc
         .perform(
             put(updateUrl, 1)
-                .with(user("userTest").authorities(new SimpleGrantedAuthority("ADMIN")))
+                .with(user("userTest")
+                    .roles("ADMIN"))
                 .with(csrf())
                 .content(urlEncoded)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -196,7 +198,8 @@ public class UserIT {
     mockMvc
         .perform(
             put(updateUrl, 1)
-                .with(user("userTest").authorities(new SimpleGrantedAuthority("ADMIN")))
+                .with(user("userTest")
+                    .roles("ADMIN"))
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .content(getUrlEncoded(invalid)))
@@ -214,7 +217,8 @@ public class UserIT {
     mockMvc
         .perform(
             delete(deleteUrl, 1)
-                .with(user("userTest").authorities(new SimpleGrantedAuthority("ADMIN")))
+                .with(user("userTest")
+                    .roles("ADMIN"))
                 .with(csrf()))
         .andExpect(redirectedUrl(homeUrl))
         .andExpect(status().isFound());
@@ -224,7 +228,8 @@ public class UserIT {
     mockMvc
         .perform(
             delete(deleteUrl, 99)
-                .with(user("userTest").authorities(new SimpleGrantedAuthority("ADMIN")))
+                .with(user("userTest")
+                    .roles("ADMIN"))
                 .with(csrf()))
         .andExpect(status().isNotFound())
         .andExpect(result -> assertTrue(result.getResolvedException() instanceof DataNotFoundException));

@@ -19,13 +19,6 @@ public class UpdateUserDto {
   public UpdateUserDto() {
   }
 
-  public UpdateUserDto(int id, String username, String password, String fullname, String role) {
-    this.id = id;
-    this.username = username;
-    this.password = password;
-    this.fullname = fullname;
-    this.role = role;
-  }
 
   public int getId() {
     return id;

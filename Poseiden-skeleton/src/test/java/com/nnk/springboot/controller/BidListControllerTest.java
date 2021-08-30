@@ -28,7 +28,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = BidListController.class)
-@AutoConfigureMockMvc(addFilters = false)
+@AutoConfigureMockMvc
+
 public class BidListControllerTest {
 
 

@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,7 +52,7 @@ public class TradeIT {
             get(homeUrl)
                 .with(user("testAdmin")
                     .password("test")
-                    .authorities(new SimpleGrantedAuthority("ADMIN"))))
+                    .roles("USER")))
         .andExpect(status().isOk())
         .andExpect(model().attribute("trades", iterableWithSize(3)))
         .andExpect(view().name("trade/list"));
@@ -70,7 +69,7 @@ public class TradeIT {
         .perform(
             get(createFormUrl)
                 .with(user("userTest")
-                    .authorities(new SimpleGrantedAuthority("ADMIN"))))
+                    .roles("USER")))
         .andExpect(status().isOk())
         .andExpect(view().name("trade/add"));
 
@@ -78,7 +77,7 @@ public class TradeIT {
         .perform(
             get(createFormUrl)
                 .with(user("userTest")
-                    .authorities(new SimpleGrantedAuthority("USER"))))
+                    .roles("USER")))
         .andExpect(status().isOk())
         .andExpect(view().name("trade/add"));
 
@@ -107,7 +106,8 @@ public class TradeIT {
     mockMvc
         .perform(
             post(createUrl)
-                .with(user("userTest").authorities(new SimpleGrantedAuthority("USER")))
+                .with(user("userTest")
+                    .roles("USER"))
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .content(getUrlEncoded(valid)))
@@ -117,7 +117,8 @@ public class TradeIT {
     mockMvc
         .perform(
             post(createUrl)
-                .with(user("userTest").authorities(new SimpleGrantedAuthority("USER")))
+                .with(user("userTest")
+                    .roles("USER"))
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .content(getUrlEncoded(invalid)))
@@ -132,7 +133,7 @@ public class TradeIT {
         .perform(
             get(updateFormUrl, 1)
                 .with(user("userTest")
-                    .authorities(new SimpleGrantedAuthority("ADMIN"))))
+                    .roles("USER")))
         .andExpect(status().isOk())
         .andExpect(view().name("trade/update"));
 
@@ -140,7 +141,7 @@ public class TradeIT {
         .perform(
             get(updateFormUrl, 1)
                 .with(user("userTest")
-                    .authorities(new SimpleGrantedAuthority("USER"))))
+                    .roles("USER")))
         .andExpect(status().isOk())
         .andExpect(view().name("trade/update"));
 
@@ -155,7 +156,7 @@ public class TradeIT {
         .perform(
             get(updateFormUrl, 999)
                 .with(user("userTest")
-                    .authorities(new SimpleGrantedAuthority("USER"))))
+                    .roles("USER")))
         .andExpect(status().isNotFound())
         .andExpect(result -> assertTrue(result.getResolvedException() instanceof DataNotFoundException));
 
@@ -178,7 +179,8 @@ public class TradeIT {
     mockMvc
         .perform(
             put(updateUrl, 1)
-                .with(user("userTest").authorities(new SimpleGrantedAuthority("USER")))
+                .with(user("userTest")
+                    .roles("USER"))
                 .with(csrf())
                 .content(urlEncoded)
                 .param("tradeDate", LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES).toString())
@@ -190,7 +192,8 @@ public class TradeIT {
     mockMvc
         .perform(
             put(updateUrl, 1)
-                .with(user("userTest").authorities(new SimpleGrantedAuthority("USER")))
+                .with(user("userTest")
+                    .roles("USER"))
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .content(getUrlEncoded(invalid)))
@@ -208,7 +211,8 @@ public class TradeIT {
     mockMvc
         .perform(
             delete(deleteUrl, 1)
-                .with(user("userTest").authorities(new SimpleGrantedAuthority("USER")))
+                .with(user("userTest")
+                    .roles("USER"))
                 .with(csrf()))
         .andExpect(redirectedUrl(homeUrl))
         .andExpect(status().isFound());
@@ -218,7 +222,8 @@ public class TradeIT {
     mockMvc
         .perform(
             delete(deleteUrl, 99)
-                .with(user("userTest").authorities(new SimpleGrantedAuthority("USER")))
+                .with(user("userTest")
+                    .roles("USER"))
                 .with(csrf()))
         .andExpect(status().isNotFound())
         .andExpect(result -> assertTrue(result.getResolvedException() instanceof DataNotFoundException));
