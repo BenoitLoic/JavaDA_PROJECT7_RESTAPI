@@ -12,28 +12,32 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-/** Implementation of UserDetailsService. Contains one method to get UserDetails in DB. */
+/**
+ * Implementation of UserDetailsService. Contains one method to get UserDetails in DB.
+ */
 @Service
+@Transactional
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-   @Autowired UserRepository userRepository;
+  @Autowired
+  UserRepository userRepository;
 
-    /**
-     * Locates the user based on its username.
-     *
-     * @param username the username identifying the user whose data is required.
-     * @return a fully populated user record (never null)
-     * @throws UsernameNotFoundException – if the user could not be found or the user has no
-     *     GrantedAuthority
-     */
-    @Override
-    @Transactional
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+  /**
+   * Locates the user based on its username.
+   *
+   * @param username the username identifying the user whose data is required.
+   * @return a fully populated user record (never null)
+   * @throws UsernameNotFoundException – if the user could not be found or the user has no
+   *                                   GrantedAuthority
+   */
+  @Override
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Optional<User> user = userRepository.findByUsername(username);
+    Optional<User> user = userRepository.findByUsername(username);
 
-        user.orElseThrow(() -> new UsernameNotFoundException("Not Found UserName : " + username));
+    user.orElseThrow(() -> new UsernameNotFoundException("Not Found UserName : " + username));
 
-        return user.map(UserDetailsImpl::new).get();
-    }
+    return user.map(UserDetailsImpl::new).get();
+  }
+
 }
