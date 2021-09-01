@@ -6,9 +6,9 @@ import com.nnk.springboot.dto.GetCurvePointDto;
 import com.nnk.springboot.dto.UpdateCurvePointDto;
 import com.nnk.springboot.exceptions.DataNotFoundException;
 import com.nnk.springboot.services.CurveServiceImpl;
+import com.nnk.springboot.services.UserDetailsServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -37,8 +37,7 @@ class CurveControllerTest {
   MockMvc mockMvc;
   @MockBean
   CurveServiceImpl curveServiceMock;
-  @InjectMocks
-  CurveController curveController;
+  @MockBean private UserDetailsServiceImpl userDetailsService;
 
   private final String homeUrl = "/curvePoint/list";
   private final String createFormUrl = "/curvePoint/add";

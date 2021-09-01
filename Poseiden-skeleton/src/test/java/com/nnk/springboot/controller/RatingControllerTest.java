@@ -6,9 +6,9 @@ import com.nnk.springboot.dto.GetRatingDto;
 import com.nnk.springboot.dto.UpdateRatingDto;
 import com.nnk.springboot.exceptions.DataNotFoundException;
 import com.nnk.springboot.services.RatingServiceImpl;
+import com.nnk.springboot.services.UserDetailsServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -35,8 +35,8 @@ class RatingControllerTest {
   MockMvc mockMvc;
   @MockBean
   RatingServiceImpl ratingService;
-  @InjectMocks
-  RatingController ratingController;
+  @MockBean private UserDetailsServiceImpl userDetailsService;
+
 
   private final String homeUrl = "/rating/list";
   private final String createFormUrl = "/rating/add";

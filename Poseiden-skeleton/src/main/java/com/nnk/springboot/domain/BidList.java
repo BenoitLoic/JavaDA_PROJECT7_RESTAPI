@@ -1,18 +1,13 @@
 package com.nnk.springboot.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.persistence.Table;
-import java.time.LocalDate;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
+/**
+ * Entity for BidList Table.
+ */
 @Entity
 @Table(name = "BidList")
 public class BidList {
@@ -86,12 +81,6 @@ public class BidList {
   private String side;
 
   public BidList() {
-  }
-
-  public BidList(String account, String type, double bidQuantity) {
-    this.account = account;
-    this.type = type;
-    this.bidQuantity = bidQuantity;
   }
 
   public int getBidListId() {
@@ -274,30 +263,30 @@ public class BidList {
 
   @Override
   public String toString() {
-    return "BidList{" +
-        "bidListId=" + bidListId +
-        ", account='" + account + '\'' +
-        ", type='" + type + '\'' +
-        ", bidQuantity=" + bidQuantity +
-        ", askQuantity=" + askQuantity +
-        ", bid=" + bid +
-        ", ask=" + ask +
-        ", benchmark='" + benchmark + '\'' +
-        ", bidListDate=" + bidListDate +
-        ", commentary='" + commentary + '\'' +
-        ", security='" + security + '\'' +
-        ", status='" + status + '\'' +
-        ", trader='" + trader + '\'' +
-        ", book='" + book + '\'' +
-        ", creationName='" + creationName + '\'' +
-        ", creationDate=" + creationDate +
-        ", revisionName='" + revisionName + '\'' +
-        ", revisionDate=" + revisionDate +
-        ", dealName='" + dealName + '\'' +
-        ", dealType='" + dealType + '\'' +
-        ", sourceListId='" + sourceListId + '\'' +
-        ", side='" + side + '\'' +
-        '}';
+    return "BidList{"
+        + "bidListId=" + bidListId
+        + ", account='" + account + '\''
+        + ", type='" + type + '\''
+        + ", bidQuantity=" + bidQuantity
+        + ", askQuantity=" + askQuantity
+        + ", bid=" + bid
+        + ", ask=" + ask
+        + ", benchmark='" + benchmark + '\''
+        + ", bidListDate=" + bidListDate
+        + ", commentary='" + commentary + '\''
+        + ", security='" + security + '\''
+        + ", status='" + status + '\''
+        + ", trader='" + trader + '\''
+        + ", book='" + book + '\''
+        + ", creationName='" + creationName + '\''
+        + ", creationDate=" + creationDate
+        + ", revisionName='" + revisionName + '\''
+        + ", revisionDate=" + revisionDate
+        + ", dealName='" + dealName + '\''
+        + ", dealType='" + dealType + '\''
+        + ", sourceListId='" + sourceListId
+        + '\'' + ", side='" + side + '\''
+        + '}';
   }
 
   @Override
@@ -309,11 +298,54 @@ public class BidList {
       return false;
     }
     BidList bidList = (BidList) o;
-    return bidListId == bidList.bidListId && Double.compare(bidList.bidQuantity, bidQuantity) == 0 && Double.compare(bidList.askQuantity, askQuantity) == 0 && Double.compare(bidList.bid, bid) == 0 && Double.compare(bidList.ask, ask) == 0 && Objects.equals(account, bidList.account) && Objects.equals(type, bidList.type) && Objects.equals(benchmark, bidList.benchmark) && Objects.equals(bidListDate, bidList.bidListDate) && Objects.equals(commentary, bidList.commentary) && Objects.equals(security, bidList.security) && Objects.equals(status, bidList.status) && Objects.equals(trader, bidList.trader) && Objects.equals(book, bidList.book) && Objects.equals(creationName, bidList.creationName) && Objects.equals(creationDate, bidList.creationDate) && Objects.equals(revisionName, bidList.revisionName) && Objects.equals(revisionDate, bidList.revisionDate) && Objects.equals(dealName, bidList.dealName) && Objects.equals(dealType, bidList.dealType) && Objects.equals(sourceListId, bidList.sourceListId) && Objects.equals(side, bidList.side);
+    return (bidListId == bidList.bidListId)
+        && (Double.compare(bidList.bidQuantity, bidQuantity) == 0)
+        && (Double.compare(bidList.askQuantity, askQuantity) == 0)
+        && (Double.compare(bidList.bid, bid) == 0)
+        && (Double.compare(bidList.ask, ask) == 0)
+        && Objects.equals(account, bidList.account)
+        && Objects.equals(type, bidList.type)
+        && Objects.equals(benchmark, bidList.benchmark)
+        && Objects.equals(bidListDate, bidList.bidListDate)
+        && Objects.equals(commentary, bidList.commentary)
+        && Objects.equals(security, bidList.security)
+        && Objects.equals(status, bidList.status)
+        && Objects.equals(trader, bidList.trader)
+        && Objects.equals(book, bidList.book)
+        && Objects.equals(creationName, bidList.creationName)
+        && Objects.equals(creationDate, bidList.creationDate)
+        && Objects.equals(revisionName, bidList.revisionName)
+        && Objects.equals(revisionDate, bidList.revisionDate)
+        && Objects.equals(dealName, bidList.dealName)
+        && Objects.equals(dealType, bidList.dealType)
+        && Objects.equals(sourceListId, bidList.sourceListId)
+        && Objects.equals(side, bidList.side);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(bidListId, account, type, bidQuantity, askQuantity, bid, ask, benchmark, bidListDate, commentary, security, status, trader, book, creationName, creationDate, revisionName, revisionDate, dealName, dealType, sourceListId, side);
+    return Objects.hash(
+        bidListId,
+        account,
+        type,
+        bidQuantity,
+        askQuantity,
+        bid,
+        ask,
+        benchmark,
+        bidListDate,
+        commentary,
+        security,
+        status,
+        trader,
+        book,
+        creationName,
+        creationDate,
+        revisionName,
+        revisionDate,
+        dealName,
+        dealType,
+        sourceListId,
+        side);
   }
 }

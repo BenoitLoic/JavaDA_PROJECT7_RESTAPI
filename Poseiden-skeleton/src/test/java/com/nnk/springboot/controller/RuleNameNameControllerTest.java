@@ -6,9 +6,9 @@ import com.nnk.springboot.dto.GetRuleNameDto;
 import com.nnk.springboot.dto.UpdateRuleNameDto;
 import com.nnk.springboot.exceptions.DataNotFoundException;
 import com.nnk.springboot.services.RuleServiceImpl;
+import com.nnk.springboot.services.UserDetailsServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -35,8 +35,8 @@ class RuleNameNameControllerTest {
   MockMvc mockMvc;
   @MockBean
   RuleServiceImpl ruleServiceMock;
-  @InjectMocks
-  RuleNameController ruleNameController;
+  @MockBean private UserDetailsServiceImpl userDetailsService;
+
 
   private final String homeUrl = "/ruleName/list";
   private final String createFormUrl = "/ruleName/add";

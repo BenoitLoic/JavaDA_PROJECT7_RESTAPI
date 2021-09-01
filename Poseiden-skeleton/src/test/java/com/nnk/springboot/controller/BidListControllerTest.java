@@ -7,8 +7,8 @@ import com.nnk.springboot.dto.GetBidListDto;
 import com.nnk.springboot.dto.UpdateBidListDto;
 import com.nnk.springboot.exceptions.DataNotFoundException;
 import com.nnk.springboot.services.BidListServiceImpl;
+import com.nnk.springboot.services.UserDetailsServiceImpl;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -36,8 +36,7 @@ public class BidListControllerTest {
   MockMvc mockMvc;
   @MockBean
   BidListServiceImpl bidListServiceMock;
-  @InjectMocks
-  BidListController bidListController;
+  @MockBean private UserDetailsServiceImpl userDetailsService;
 
   private static final ObjectMapper MAPPER = new ObjectMapper();
 

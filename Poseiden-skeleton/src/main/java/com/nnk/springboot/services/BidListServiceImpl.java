@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
@@ -64,11 +63,10 @@ public class BidListServiceImpl implements BidListService {
   @Override
   public void createBid(CreateBidListDto createBidListDto) {
 
-    BidList bidEntity =
-        new BidList(
-            createBidListDto.getAccount(),
-            createBidListDto.getType(),
-            createBidListDto.getBidQuantity());
+    BidList bidEntity =new BidList();
+            bidEntity.setAccount(createBidListDto.getAccount());
+            bidEntity.setType(createBidListDto.getType());
+            bidEntity.setBidQuantity(createBidListDto.getBidQuantity());
 
     log.info("Saving new Bid : " + createBidListDto);
 

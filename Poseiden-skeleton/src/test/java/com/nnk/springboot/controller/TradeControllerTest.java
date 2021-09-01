@@ -6,9 +6,9 @@ import com.nnk.springboot.dto.GetTradeDto;
 import com.nnk.springboot.dto.UpdateTradeDto;
 import com.nnk.springboot.exceptions.DataNotFoundException;
 import com.nnk.springboot.services.TradeServiceImpl;
+import com.nnk.springboot.services.UserDetailsServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -37,8 +37,8 @@ class TradeControllerTest {
   MockMvc mockMvc;
   @MockBean
   TradeServiceImpl tradeServiceMock;
-  @InjectMocks
-  TradeController tradeController;
+  @MockBean private UserDetailsServiceImpl userDetailsService;
+
 
   private final String homeUrl = "/trade/list";
   private final String createFormUrl = "/trade/add";

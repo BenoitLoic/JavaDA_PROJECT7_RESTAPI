@@ -83,8 +83,8 @@ public class UserIT {
         .perform(
             get(createFormUrl)
                 .with(anonymous()))
-        .andExpect(status().isFound())
-        .andExpect(redirectedUrl("http://localhost/login"));
+        .andExpect(status().isOk())
+        .andExpect(view().name("user/add"));
 
 
   }

@@ -10,7 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import javax.validation.Valid;
 import java.util.Collection;
@@ -47,6 +51,7 @@ public class BidListController {
 
   /**
    * This method return the form to add a new bid.
+   *
    * @return the template for bid form
    */
   @GetMapping("/bidList/add")
@@ -57,19 +62,19 @@ public class BidListController {
   /**
    * This method create a new bid: validate data and save it to db.
    *
-   * @param createBidListDto    the bid to save
-   * @param result binding to check if there are errors in parameters
+   * @param createBidListDto the bid to save
+   * @param result           binding to check if there are errors in parameters
    * @return the list of all bids.
    */
   @PostMapping("/bidList/add")
-  public String validate(@Valid CreateBidListDto createBidListDto, BindingResult result,Model model) {
+  public String validate(@Valid CreateBidListDto createBidListDto, BindingResult result) {
 
     if (result.hasErrors()) {
       log.warn("KO - Error in validation for bid: "
           + createBidListDto
           + " with error : "
           + result.getFieldErrors());
-     return "bidList/add";
+      return "bidList/add";
     }
 
     bidListService.createBid(createBidListDto);
@@ -101,9 +106,9 @@ public class BidListController {
    * This method update a bid with its ID.
    * validate data, update data in DB and return the list of bids
    *
-   * @param id     the id of the bid to update
-   * @param updateBidListDto    the data to update
-   * @param result the fields error in parameters
+   * @param id               the id of the bid to update
+   * @param updateBidListDto the data to update
+   * @param result           the fields error in parameters
    * @return the list of all bids.
    */
   @PutMapping("/bidList/update/{id}")
@@ -132,7 +137,7 @@ public class BidListController {
   /**
    * This method delete the bid with the given id.
    *
-   * @param id    the id of the bid to delete
+   * @param id the id of the bid to delete
    * @return the list of all bids.
    */
   @DeleteMapping("/bidList/delete/{id}")

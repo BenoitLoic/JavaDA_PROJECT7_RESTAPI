@@ -18,36 +18,38 @@ import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles("test")
 public class BidTests {
 
-	@Autowired
-	private BidListRepository bidListRepository;
+  @Autowired
+  private BidListRepository bidListRepository;
 
-@Transactional
-@Test
-	public void bidListTest() {
-		BidList bid = new BidList("Account Test", "Type Test", 10d);
+  @Transactional
+  @Test
+  public void bidListTest() {
+    BidList bid = new BidList();
+    bid.setAccount("Account Test");
+    bid.setType("Type Test");
+    bid.setBidQuantity(10d);
+    for (BidList bidy : bidListRepository.findAll()) {
+      System.out.println(bidy.getBidListId());
+    }
+    // Save
+    bid = bidListRepository.save(bid);
+    assertTrue(bid.getBidListId() > 0);
+    assertEquals(bid.getBidQuantity(), 10d, 10d);
 
-		for (BidList bidy: bidListRepository.findAll()) {
-			System.out.println(bidy.getBidListId());
-		}
-		// Save
-		bid = bidListRepository.save(bid);
-		assertTrue(bid.getBidListId()>0);
-		assertEquals(bid.getBidQuantity(), 10d, 10d);
+    // Update
+    bid.setBidQuantity(20d);
+    bid = bidListRepository.save(bid);
+    assertEquals(bid.getBidQuantity(), 20d, 20d);
 
-		// Update
-		bid.setBidQuantity(20d);
-		bid = bidListRepository.save(bid);
-		assertEquals(bid.getBidQuantity(), 20d, 20d);
+    // Find
+    List<BidList> listResult = bidListRepository.findAll();
+    assertTrue(listResult.size() > 0);
 
-		// Find
-		List<BidList> listResult = bidListRepository.findAll();
-		assertTrue(listResult.size() > 0);
+    // Delete
+    int id = bid.getBidListId();
+    bidListRepository.delete(bid);
+    Optional<BidList> bidList = bidListRepository.findById(id);
+    assertFalse(bidList.isPresent());
 
-		// Delete
-		int id = bid.getBidListId();
-		bidListRepository.delete(bid);
-		Optional<BidList> bidList = bidListRepository.findById(id);
-		assertFalse(bidList.isPresent());
-
-	}
+  }
 }

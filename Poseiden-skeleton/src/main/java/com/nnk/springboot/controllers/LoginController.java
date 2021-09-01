@@ -4,7 +4,6 @@ import com.nnk.springboot.repositories.UserRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,15 +11,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class LoginController {
-@Autowired
- UserRepository userRepository;
-  private final OAuth2AuthorizedClientService authorizedClientService;
+
+  @Autowired
+  UserRepository userRepository;
+
   private final Logger log = LogManager.getLogger(getClass().getName());
 
-
-  public LoginController( OAuth2AuthorizedClientService authorizedClientService) {
-    this.authorizedClientService = authorizedClientService;
-  }
 
   @GetMapping("/login")
   public ModelAndView login() {
@@ -36,7 +32,7 @@ public class LoginController {
     mav.setViewName("user/list");
     return mav;
   }
-  
+
 
   @GetMapping("/403")
   public String error(Model model) {
