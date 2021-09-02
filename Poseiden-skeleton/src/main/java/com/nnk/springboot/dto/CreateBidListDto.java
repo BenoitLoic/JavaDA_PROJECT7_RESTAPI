@@ -1,8 +1,11 @@
 package com.nnk.springboot.dto;
 
-import javax.validation.constraints.NotBlank;
 import java.util.Objects;
+import javax.validation.constraints.NotBlank;
 
+/**
+ * Dto for BidList creation.
+ */
 public class CreateBidListDto {
 
   @NotBlank(message = " is mandatory")
@@ -14,12 +17,6 @@ public class CreateBidListDto {
   private double bidQuantity;
 
   public CreateBidListDto() {
-  }
-
-  public CreateBidListDto(String account, String type, double bidQuantity) {
-    this.account = account;
-    this.type = type;
-    this.bidQuantity = bidQuantity;
   }
 
   public String getAccount() {
@@ -48,19 +45,25 @@ public class CreateBidListDto {
 
   @Override
   public String toString() {
-    return "CreateBidListDto{" +
-        "account='" + account + '\'' +
-        ", type='" + type + '\'' +
-        ", bidQuantity=" + bidQuantity +
-        '}';
+    return "CreateBidListDto{"
+        + "account='" + account + '\''
+        + ", type='" + type + '\''
+        + ", bidQuantity=" + bidQuantity
+        + '}';
   }
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     CreateBidListDto that = (CreateBidListDto) o;
-    return Double.compare(that.bidQuantity, bidQuantity) == 0 && Objects.equals(account, that.account) && Objects.equals(type, that.type);
+    return Double.compare(that.bidQuantity, bidQuantity) == 0
+        && Objects.equals(account, that.account)
+        && Objects.equals(type, that.type);
   }
 
   @Override

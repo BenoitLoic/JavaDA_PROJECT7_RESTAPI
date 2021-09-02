@@ -6,24 +6,27 @@ import com.nnk.springboot.dto.GetTradeDto;
 import com.nnk.springboot.dto.UpdateTradeDto;
 import com.nnk.springboot.exceptions.DataNotFoundException;
 import com.nnk.springboot.repositories.TradeRepository;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Optional;
-
+/**
+ * Implementation for TradeService.
+ * Contains method used by CRUD controller.
+ */
 @Service
 public class TradeServiceImpl implements TradeService {
 
 
   private final TradeRepository tradeRepository;
 
-  private final Logger log = LogManager.getLogger(getClass().getName());
+  private static final Logger log = LoggerFactory.getLogger(TradeServiceImpl.class);
 
   @Autowired
   public TradeServiceImpl(TradeRepository tradeRepository) {
@@ -43,7 +46,7 @@ public class TradeServiceImpl implements TradeService {
     Collection<GetTradeDto> trades = new ArrayList<>();
     for (Trade trade : tradeRepository.findAll()) {
       GetTradeDto temp = new GetTradeDto();
-      BeanUtils.copyProperties(trade,temp);
+      BeanUtils.copyProperties(trade, temp);
       trades.add(temp);
     }
 

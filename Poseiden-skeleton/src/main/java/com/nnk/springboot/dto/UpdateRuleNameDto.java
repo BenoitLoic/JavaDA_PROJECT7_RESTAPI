@@ -1,8 +1,11 @@
 package com.nnk.springboot.dto;
 
-import javax.validation.constraints.NotBlank;
 import java.util.Objects;
+import javax.validation.constraints.NotBlank;
 
+/**
+ * Dto for RuleName Update functionality.
+ */
 public class UpdateRuleNameDto {
 
   private int id;
@@ -87,7 +90,13 @@ public class UpdateRuleNameDto {
       return false;
     }
     UpdateRuleNameDto that = (UpdateRuleNameDto) o;
-    return id == that.id && Objects.equals(name, that.name) && Objects.equals(description, that.description) && Objects.equals(json, that.json) && Objects.equals(template, that.template) && Objects.equals(sqlStr, that.sqlStr) && Objects.equals(sqlPart, that.sqlPart);
+    return id == that.id
+        && Objects.equals(name, that.name)
+        && Objects.equals(description, that.description)
+        && Objects.equals(json, that.json)
+        && Objects.equals(template, that.template)
+        && Objects.equals(sqlStr, that.sqlStr)
+        && Objects.equals(sqlPart, that.sqlPart);
   }
 
   @Override
@@ -97,14 +106,14 @@ public class UpdateRuleNameDto {
 
   @Override
   public String toString() {
-    return "UpdateRuleNameDto{" +
-        "id=" + id +
-        ", name='" + name + '\'' +
-        ", description='" + description + '\'' +
-        ", json='" + json + '\'' +
-        ", template='" + template + '\'' +
-        ", sqlStr='" + sqlStr + '\'' +
-        ", sqlPart='" + sqlPart + '\'' +
-        '}';
+    return "UpdateRuleNameDto{"
+        + "id=" + id
+        + ", name='" + name + '\''
+        + ", description='" + description + '\''
+        + ", json='" + json + '\''
+        + ", template='" + template + '\''
+        + ", sqlStr='" + sqlStr + '\''
+        + ", sqlPart='" + sqlPart + '\''
+        + '}';
   }
 }

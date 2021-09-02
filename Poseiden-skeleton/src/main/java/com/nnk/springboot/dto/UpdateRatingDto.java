@@ -1,8 +1,11 @@
 package com.nnk.springboot.dto;
 
-import javax.validation.constraints.NotBlank;
 import java.util.Objects;
+import javax.validation.constraints.NotBlank;
 
+/**
+ * Dto for Rating Update functionality.
+ */
 public class UpdateRatingDto {
 
   private int id;
@@ -17,7 +20,6 @@ public class UpdateRatingDto {
 
   public UpdateRatingDto() {
   }
-
 
   public int getId() {
     return id;
@@ -68,7 +70,11 @@ public class UpdateRatingDto {
       return false;
     }
     UpdateRatingDto that = (UpdateRatingDto) o;
-    return id == that.id && orderNumber == that.orderNumber && Objects.equals(moodysRating, that.moodysRating) && Objects.equals(sandPRating, that.sandPRating) && Objects.equals(fitchRating, that.fitchRating);
+    return id == that.id
+        && orderNumber == that.orderNumber
+        && Objects.equals(moodysRating, that.moodysRating)
+        && Objects.equals(sandPRating, that.sandPRating)
+        && Objects.equals(fitchRating, that.fitchRating);
   }
 
   @Override
@@ -78,12 +84,12 @@ public class UpdateRatingDto {
 
   @Override
   public String toString() {
-    return "UpdateRatingDto{" +
-        "id=" + id +
-        ", moodysRating='" + moodysRating + '\'' +
-        ", sandPRating='" + sandPRating + '\'' +
-        ", fitchRating='" + fitchRating + '\'' +
-        ", orderNumber=" + orderNumber +
-        '}';
+    return "UpdateRatingDto{"
+        + "id=" + id
+        + ", moodysRating='" + moodysRating + '\''
+        + ", sandPRating='" + sandPRating + '\''
+        + ", fitchRating='" + fitchRating + '\''
+        + ", orderNumber=" + orderNumber
+        + '}';
   }
 }

@@ -34,12 +34,12 @@ public class UserIT {
   @Autowired
   MockMvc mockMvc;
 
-  private final String homeUrl = "/user/list";
-  private final String createFormUrl = "/user/add";
-  private final String createUrl = "/user/add";
-  private final String updateFormUrl = "/user/update/{id}";
-  private final String updateUrl = "/user/update/{id}";
-  private final String deleteUrl = "/user/delete/{id}";
+  private final static String homeUrl = "/user/list";
+  private final static String createFormUrl = "/user/add";
+  private final static String createUrl = "/user/add";
+  private final static String updateFormUrl = "/user/update/{id}";
+  private final static String updateUrl = "/user/update/{id}";
+  private final static String deleteUrl = "/user/delete/{id}";
 
   @Test
   public void home() throws Exception {

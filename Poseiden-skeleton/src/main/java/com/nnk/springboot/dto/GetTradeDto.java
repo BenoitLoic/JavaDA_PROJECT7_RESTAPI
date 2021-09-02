@@ -2,8 +2,11 @@ package com.nnk.springboot.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-
 import java.time.LocalDateTime;
+
+/**
+ * Dto for Trade Read functionality.
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class GetTradeDto {
 
@@ -11,9 +14,9 @@ public class GetTradeDto {
   private String account;
   private String type;
   private Double buyQuantity;
-  private Double sellQuantity ;
+  private Double sellQuantity;
   private Double buyPrice;
-  private Double sellPrice ;
+  private Double sellPrice;
 
   private LocalDateTime tradeDate;
 
@@ -32,13 +35,6 @@ public class GetTradeDto {
   private String side;
 
   public GetTradeDto() {
-  }
-
-  public GetTradeDto(int tradeId, String account, String type, Double buyQuantity) {
-    this.tradeId = tradeId;
-    this.account = account;
-    this.type = type;
-    this.buyQuantity = buyQuantity;
   }
 
   public int getTradeId() {
@@ -187,25 +183,25 @@ public class GetTradeDto {
 
   @Override
   public String toString() {
-    return "GetTradeDto{" +
-        "tradeId=" + tradeId +
-        ", account='" + account + '\'' +
-        ", type='" + type + '\'' +
-        ", buyQuantity=" + buyQuantity +
-        ", sellQuantity=" + sellQuantity +
-        ", buyPrice=" + buyPrice +
-        ", sellPrice=" + sellPrice +
-        ", tradeDate=" + tradeDate +
-        ", security='" + security + '\'' +
-        ", status='" + status + '\'' +
-        ", trader='" + trader + '\'' +
-        ", benchmark='" + benchmark + '\'' +
-        ", book='" + book + '\'' +
-        ", creationName='" + creationName + '\'' +
-        ", dealName='" + dealName + '\'' +
-        ", dealType='" + dealType + '\'' +
-        ", sourceListId='" + sourceListId + '\'' +
-        ", side='" + side + '\'' +
-        '}';
+    return "GetTradeDto{"
+        + "tradeId=" + tradeId
+        + ", account='" + account + '\''
+        + ", type='" + type + '\''
+        + ", buyQuantity=" + buyQuantity
+        + ", sellQuantity=" + sellQuantity
+        + ", buyPrice=" + buyPrice
+        + ", sellPrice=" + sellPrice
+        + ", tradeDate=" + tradeDate
+        + ", security='" + security + '\''
+        + ", status='" + status + '\''
+        + ", trader='" + trader + '\''
+        + ", benchmark='" + benchmark + '\''
+        + ", book='" + book + '\''
+        + ", creationName='" + creationName + '\''
+        + ", dealName='" + dealName + '\''
+        + ", dealType='" + dealType + '\''
+        + ", sourceListId='" + sourceListId + '\''
+        + ", side='" + side + '\''
+        + '}';
   }
 }

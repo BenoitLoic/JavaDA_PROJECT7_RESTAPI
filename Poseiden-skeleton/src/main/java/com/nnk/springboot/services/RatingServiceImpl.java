@@ -6,16 +6,15 @@ import com.nnk.springboot.dto.GetRatingDto;
 import com.nnk.springboot.dto.UpdateRatingDto;
 import com.nnk.springboot.exceptions.DataNotFoundException;
 import com.nnk.springboot.repositories.RatingRepository;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Optional;
 
 /**
  * Implementation fof RatingService.
@@ -24,10 +23,14 @@ import java.util.Optional;
 @Service
 public class RatingServiceImpl implements RatingService {
 
-  private final Logger log = LogManager.getLogger(getClass().getName());
+  private static final Logger log = LoggerFactory.getLogger(RatingServiceImpl.class);
+
+  private final RatingRepository ratingRepository;
 
   @Autowired
-  RatingRepository ratingRepository;
+  public RatingServiceImpl(RatingRepository ratingRepository) {
+    this.ratingRepository = ratingRepository;
+  }
 
   /**
    * Get all rating saved in db.

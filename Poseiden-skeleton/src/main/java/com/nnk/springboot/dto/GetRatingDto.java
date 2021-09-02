@@ -1,5 +1,8 @@
 package com.nnk.springboot.dto;
 
+/**
+ * Dto for Rating Read functionality.
+ */
 public class GetRatingDto {
 
   private int id;
@@ -10,7 +13,6 @@ public class GetRatingDto {
 
   public GetRatingDto() {
   }
-
 
   public int getId() {
     return id;
@@ -54,12 +56,12 @@ public class GetRatingDto {
 
   @Override
   public String toString() {
-    return "GetRatingDto{" +
-        "id=" + id +
-        ", moodysRating='" + moodysRating + '\'' +
-        ", sandPRating='" + sandPRating + '\'' +
-        ", fitchRating='" + fitchRating + '\'' +
-        ", orderNumber=" + orderNumber +
-        '}';
+    return "GetRatingDto{"
+        + "id=" + id
+        + ", moodysRating='" + moodysRating + '\''
+        + ", sandPRating='" + sandPRating + '\''
+        + ", fitchRating='" + fitchRating + '\''
+        + ", orderNumber=" + orderNumber
+        + '}';
   }
 }

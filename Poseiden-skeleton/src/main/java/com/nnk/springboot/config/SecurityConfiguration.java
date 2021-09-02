@@ -1,5 +1,6 @@
 package com.nnk.springboot.config;
 
+import com.nnk.springboot.security.MySimpleUrlAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +12,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+/**
+ * Spring Security configuration.
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -40,7 +45,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/curvePoint/**",
             "/ruleName/**",
             "/rating/**",
-            "/trade/**")
+            "/trade/**",
+            "/secure/article-details")
         .hasAnyRole("USER", "ADMIN")
         //admin
         .antMatchers("/user/**")
@@ -53,8 +59,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //        .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
         .and()
         .formLogin()
+        .successHandler(myAuthenticationSuccessHandler())
         .and()
-        .oauth2Login()
+        .oauth2Login().successHandler(myAuthenticationSuccessHandler())
         .and()
         .oauth2Client(Customizer.withDefaults())
 
@@ -65,6 +72,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Bean
   public PasswordEncoder getPasswordEncoder() {
     return new BCryptPasswordEncoder();
+  }
+
+  @Bean
+  public AuthenticationSuccessHandler myAuthenticationSuccessHandler() {
+    return new MySimpleUrlAuthenticationSuccessHandler();
   }
 
 }

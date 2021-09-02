@@ -3,7 +3,6 @@ package com.nnk.springboot.services;
 import com.nnk.springboot.dto.CreateRatingDto;
 import com.nnk.springboot.dto.GetRatingDto;
 import com.nnk.springboot.dto.UpdateRatingDto;
-
 import java.util.Collection;
 
 /**
@@ -44,6 +43,7 @@ public interface RatingService {
 
   /**
    * Delete the rating identified by its id.
+   *
    * @param id the rating id.
    */
   void deleteRating(int id);

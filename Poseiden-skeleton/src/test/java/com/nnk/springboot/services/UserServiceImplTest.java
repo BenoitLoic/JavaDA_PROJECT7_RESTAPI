@@ -95,7 +95,7 @@ class UserServiceImplTest {
     user.setPassword("passtest0$");
     // WHEN
     when(userRepositoryMock.findById(5)).thenReturn(Optional.of(user));
-    UpdateUserDto actual = userService.getUserWithID(5);
+    UpdateUserDto actual = userService.getUserWithId(5);
     // THEN
     assertEquals("username1", actual.getUsername());
     assertEquals(5, actual.getId());
@@ -110,7 +110,7 @@ class UserServiceImplTest {
     when(userRepositoryMock.findById(anyInt())).thenReturn(Optional.empty());
 
     // THEN
-    assertThrows(DataNotFoundException.class, () -> userService.getUserWithID(1));
+    assertThrows(DataNotFoundException.class, () -> userService.getUserWithId(1));
 
   }
 

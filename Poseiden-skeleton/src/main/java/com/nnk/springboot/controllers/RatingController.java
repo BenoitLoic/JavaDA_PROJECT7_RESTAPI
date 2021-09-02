@@ -4,16 +4,20 @@ import com.nnk.springboot.dto.CreateRatingDto;
 import com.nnk.springboot.dto.GetRatingDto;
 import com.nnk.springboot.dto.UpdateRatingDto;
 import com.nnk.springboot.services.RatingService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.util.Collection;
+import javax.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.util.Collection;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * Contains CRUD method for Rating feature.
@@ -22,9 +26,13 @@ import java.util.Collection;
 @Controller
 public class RatingController {
 
-  private final Logger log = LogManager.getLogger(getClass().getName());
+  private static final Logger log = LoggerFactory.getLogger(RatingController.class);
+  private final RatingService ratingService;
+
   @Autowired
-  RatingService ratingService;
+  public RatingController(RatingService ratingService) {
+    this.ratingService = ratingService;
+  }
 
   /**
    * Get all Rating.
@@ -55,7 +63,7 @@ public class RatingController {
    * Create a new rating : validate data and save it to db.
    *
    * @param createRatingDto the rating to save
-   * @param result binding to check if there are errors in parameters
+   * @param result          binding to check if there are errors in parameters
    * @return the list of all rating.
    */
   @PostMapping("/add")
@@ -100,10 +108,10 @@ public class RatingController {
    * Update a Rating with its id.
    * validate data, update data in DB and return all rating.
    *
-   * @param id     the id of the rating to update
+   * @param id              the id of the rating to update
    * @param updateRatingDto the data to update
-   * @param result the field error in parameters
-   * @param model  the model
+   * @param result          the field error in parameters
+   * @param model           the model
    * @return the list of all rating
    */
   @PutMapping("/update/{id}")

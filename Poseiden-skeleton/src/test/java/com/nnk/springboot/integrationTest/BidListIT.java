@@ -35,12 +35,12 @@ public class BidListIT {
   MockMvc mockMvc;
 
 
-  private final String homeUrl = "/bidList/list";
-  private final String createFormUrl = "/bidList/add";
-  private final String createUrl = "/bidList/add";
-  private final String updateFormUrl = "/bidList/update/{id}";
-  private final String updateUrl = "/bidList/update/{id}";
-  private final String deleteUrl = "/bidList/delete/{id}";
+  private final static String homeUrl = "/bidList/list";
+  private final static String createFormUrl = "/bidList/add";
+  private final static String createUrl = "/bidList/add";
+  private final static String updateFormUrl = "/bidList/update/{id}";
+  private final static String updateUrl = "/bidList/update/{id}";
+  private final static String deleteUrl = "/bidList/delete/{id}";
 
   @Test
   public void home() throws Exception {
@@ -94,7 +94,10 @@ public class BidListIT {
   @Transactional
   public void validate() throws Exception {
 
-    CreateBidListDto valid = new CreateBidListDto("account", "type", 22.4);
+    CreateBidListDto valid = new CreateBidListDto();
+    valid.setAccount("account");
+    valid.setType("type");
+    valid.setBidQuantity(22.4);
     CreateBidListDto invalid = new CreateBidListDto();
     invalid.setAccount("account");
     invalid.setType("");
@@ -161,7 +164,11 @@ public class BidListIT {
   @Transactional
   public void updateBid() throws Exception {
 
-    UpdateBidListDto valid = new UpdateBidListDto(0, "account", "type", 22.4);
+    UpdateBidListDto valid = new UpdateBidListDto();
+    valid.setBidListId(0);
+    valid.setAccount("account");
+    valid.setType("type");
+    valid.setBidQuantity(22.4);
     UpdateBidListDto invalid = new UpdateBidListDto();
     invalid.setAccount("account");
     invalid.setType("");

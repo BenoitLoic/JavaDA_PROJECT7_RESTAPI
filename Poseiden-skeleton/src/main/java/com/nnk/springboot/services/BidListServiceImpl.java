@@ -6,16 +6,15 @@ import com.nnk.springboot.dto.GetBidListDto;
 import com.nnk.springboot.dto.UpdateBidListDto;
 import com.nnk.springboot.exceptions.DataNotFoundException;
 import com.nnk.springboot.repositories.BidListRepository;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Optional;
 
 /**
  * Implementation for BidListService.
@@ -24,10 +23,14 @@ import java.util.Optional;
 @Service
 public class BidListServiceImpl implements BidListService {
 
-  @Autowired
-  BidListRepository bidListRepository;
+  private final BidListRepository bidListRepository;
 
-  private final Logger log = LogManager.getLogger(getClass().getName());
+  private static final Logger log = LoggerFactory.getLogger(BidListServiceImpl.class);
+
+  @Autowired
+  public BidListServiceImpl(BidListRepository bidListRepository) {
+    this.bidListRepository = bidListRepository;
+  }
 
   /**
    * Get all bids saved in DB and return their Dto.
@@ -63,10 +66,10 @@ public class BidListServiceImpl implements BidListService {
   @Override
   public void createBid(CreateBidListDto createBidListDto) {
 
-    BidList bidEntity =new BidList();
-            bidEntity.setAccount(createBidListDto.getAccount());
-            bidEntity.setType(createBidListDto.getType());
-            bidEntity.setBidQuantity(createBidListDto.getBidQuantity());
+    BidList bidEntity = new BidList();
+    bidEntity.setAccount(createBidListDto.getAccount());
+    bidEntity.setType(createBidListDto.getType());
+    bidEntity.setBidQuantity(createBidListDto.getBidQuantity());
 
     log.info("Saving new Bid : " + createBidListDto);
 

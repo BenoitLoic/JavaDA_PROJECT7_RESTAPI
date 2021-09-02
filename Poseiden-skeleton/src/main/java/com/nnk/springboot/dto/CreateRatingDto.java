@@ -1,21 +1,23 @@
 package com.nnk.springboot.dto;
 
-import javax.validation.constraints.NotBlank;
 import java.util.Objects;
+import javax.validation.constraints.NotBlank;
 
+/** Dto for Rating creation. */
 public class CreateRatingDto {
+
   @NotBlank(message = " is mandatory.")
   private String moodysRating;
+
   @NotBlank(message = " is mandatory.")
   private String sandPRating;
+
   @NotBlank(message = " is mandatory.")
   private String fitchRating;
 
   private int orderNumber;
 
-  public CreateRatingDto() {
-  }
-
+  public CreateRatingDto() {}
 
   public String getMoodysRating() {
     return moodysRating;
@@ -58,7 +60,10 @@ public class CreateRatingDto {
       return false;
     }
     CreateRatingDto that = (CreateRatingDto) o;
-    return orderNumber == that.orderNumber && Objects.equals(moodysRating, that.moodysRating) && Objects.equals(sandPRating, that.sandPRating) && Objects.equals(fitchRating, that.fitchRating);
+    return orderNumber == that.orderNumber
+        && Objects.equals(moodysRating, that.moodysRating)
+        && Objects.equals(sandPRating, that.sandPRating)
+        && Objects.equals(fitchRating, that.fitchRating);
   }
 
   @Override
@@ -68,11 +73,18 @@ public class CreateRatingDto {
 
   @Override
   public String toString() {
-    return "CreateRatingDto{" +
-        "moodysRating='" + moodysRating + '\'' +
-        ", sandPRating='" + sandPRating + '\'' +
-        ", fitchRating='" + fitchRating + '\'' +
-        ", orderNumber=" + orderNumber +
-        '}';
+    return "CreateRatingDto{"
+        + "moodysRating='"
+        + moodysRating
+        + '\''
+        + ", sandPRating='"
+        + sandPRating
+        + '\''
+        + ", fitchRating='"
+        + fitchRating
+        + '\''
+        + ", orderNumber="
+        + orderNumber
+        + '}';
   }
 }

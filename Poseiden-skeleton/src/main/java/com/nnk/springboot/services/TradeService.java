@@ -3,7 +3,6 @@ package com.nnk.springboot.services;
 import com.nnk.springboot.dto.CreateTradeDto;
 import com.nnk.springboot.dto.GetTradeDto;
 import com.nnk.springboot.dto.UpdateTradeDto;
-
 import java.util.Collection;
 
 /**

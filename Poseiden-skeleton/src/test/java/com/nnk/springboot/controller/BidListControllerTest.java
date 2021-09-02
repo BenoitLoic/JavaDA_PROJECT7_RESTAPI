@@ -8,6 +8,9 @@ import com.nnk.springboot.dto.UpdateBidListDto;
 import com.nnk.springboot.exceptions.DataNotFoundException;
 import com.nnk.springboot.services.BidListServiceImpl;
 import com.nnk.springboot.services.UserDetailsServiceImpl;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +19,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
@@ -36,16 +34,17 @@ public class BidListControllerTest {
   MockMvc mockMvc;
   @MockBean
   BidListServiceImpl bidListServiceMock;
-  @MockBean private UserDetailsServiceImpl userDetailsService;
+  @MockBean
+  private UserDetailsServiceImpl userDetailsService;
 
   private static final ObjectMapper MAPPER = new ObjectMapper();
 
-  private final String homeUrl = "/bidList/list";
-  private final String createFormUrl = "/bidList/add";
-  private final String createUrl = "/bidList/add";
-  private final String updateFormUrl = "/bidList/update/{id}";
-  private final String updateUrl = "/bidList/update/{id}";
-  private final String deleteUrl = "/bidList/delete/{id}";
+  private final static String homeUrl = "/bidList/list";
+  private final static String createFormUrl = "/bidList/add";
+  private final static String createUrl = "/bidList/add";
+  private final static String updateFormUrl = "/bidList/update/{id}";
+  private final static String updateUrl = "/bidList/update/{id}";
+  private final static String deleteUrl = "/bidList/delete/{id}";
 
 
   @Test
@@ -106,8 +105,10 @@ public class BidListControllerTest {
   void validateValid() throws Exception {
 
     // GIVEN
-    CreateBidListDto temp = new CreateBidListDto("account", "type", 204.54);
-
+    CreateBidListDto temp = new CreateBidListDto();
+    temp.setAccount("account");
+    temp.setType("type");
+    temp.setBidQuantity(204.54);
     String urlEncoded = getUrlEncoded(temp);
 
     // WHEN
@@ -126,8 +127,10 @@ public class BidListControllerTest {
   void validateInvalid() throws Exception {
 
     // GIVEN
-    CreateBidListDto temp = new CreateBidListDto("", "type", 204.54);
-
+    CreateBidListDto temp = new CreateBidListDto();
+    temp.setAccount("");
+    temp.setType("type");
+    temp.setBidQuantity(204.54);
     String urlEncoded = getUrlEncoded(temp);
 
     // WHEN
@@ -147,7 +150,11 @@ public class BidListControllerTest {
   void showUpdateFormValid() throws Exception {
 
     // GIVEN
-    UpdateBidListDto updateBid = new UpdateBidListDto(5, "account", "type", 10d);
+    UpdateBidListDto updateBid = new UpdateBidListDto();
+    updateBid.setBidListId(5);
+    updateBid.setAccount("account");
+    updateBid.setType("type");
+    updateBid.setBidQuantity(10d);
     // WHEN
     when(bidListServiceMock.getBidWithId(5)).thenReturn(updateBid);
     // THEN
@@ -164,7 +171,11 @@ public class BidListControllerTest {
   void showUpdateFormInvalid() throws Exception {
 
 // GIVEN
-    UpdateBidListDto updateBid = new UpdateBidListDto(5, "account", "type", 10d);
+    UpdateBidListDto updateBid = new UpdateBidListDto();
+    updateBid.setBidListId(5);
+    updateBid.setAccount("account");
+    updateBid.setType("type");
+    updateBid.setBidQuantity(10d);
     // WHEN
     when(bidListServiceMock.getBidWithId(5)).thenReturn(updateBid);
     // THEN
@@ -179,7 +190,11 @@ public class BidListControllerTest {
   void updateBidValid() throws Exception {
 
     // GIVEN
-    UpdateBidListDto updateBid = new UpdateBidListDto(5, "account", "type", 10d);
+    UpdateBidListDto updateBid = new UpdateBidListDto();
+    updateBid.setBidListId(5);
+    updateBid.setAccount("account");
+    updateBid.setType("type");
+    updateBid.setBidQuantity(10d);
     String urlEncoded = getUrlEncoded(updateBid);
     // WHEN
 
@@ -197,7 +212,11 @@ public class BidListControllerTest {
   void updateBidInvalid() throws Exception {
 
     // GIVEN
-    UpdateBidListDto updateBid = new UpdateBidListDto(5, "", "type", 10d);
+    UpdateBidListDto updateBid = new UpdateBidListDto();
+    updateBid.setBidListId(5);
+    updateBid.setAccount("");
+    updateBid.setType("type");
+    updateBid.setBidQuantity(10d);
     String urlEncoded = getUrlEncoded(updateBid);
     // WHEN
 
@@ -217,7 +236,11 @@ public class BidListControllerTest {
   void updateBidWhenDataNotFound_ShouldThrowDataNotFoundException() throws Exception {
 
     // GIVEN
-    UpdateBidListDto updateBid = new UpdateBidListDto(5, "account", "type", 10d);
+    UpdateBidListDto updateBid = new UpdateBidListDto();
+    updateBid.setBidListId(5);
+    updateBid.setAccount("account");
+    updateBid.setType("type");
+    updateBid.setBidQuantity(10d);
     String urlEncoded = getUrlEncoded(updateBid);
     // WHEN
     Mockito.doThrow(DataNotFoundException.class).when(bidListServiceMock).updateBid(Mockito.anyInt(), Mockito.any(UpdateBidListDto.class));    // THEN

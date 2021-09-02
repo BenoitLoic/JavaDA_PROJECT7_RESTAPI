@@ -1,13 +1,16 @@
 package com.nnk.springboot.dto;
 
-import javax.validation.constraints.NotBlank;
 import java.util.Objects;
+import javax.validation.constraints.NotBlank;
 
+/**
+ * Dto for RuleName creation.
+ */
 public class CreateRuleNameDto {
 
   @NotBlank(message = " is mandatory.")
   private String name;
-  @NotBlank( message = " is mandatory.")
+  @NotBlank(message = " is mandatory.")
   private String description;
   @NotBlank(message = " is mandatory.")
   private String json;
@@ -19,15 +22,6 @@ public class CreateRuleNameDto {
   private String sqlPart;
 
   public CreateRuleNameDto() {
-  }
-
-  public CreateRuleNameDto(String name, String description, String json, String template, String sqlStr, String sqlPart) {
-    this.name = name;
-    this.description = description;
-    this.json = json;
-    this.template = template;
-    this.sqlStr = sqlStr;
-    this.sqlPart = sqlPart;
   }
 
   public String getName() {
@@ -87,7 +81,12 @@ public class CreateRuleNameDto {
       return false;
     }
     CreateRuleNameDto that = (CreateRuleNameDto) o;
-    return Objects.equals(name, that.name) && Objects.equals(description, that.description) && Objects.equals(json, that.json) && Objects.equals(template, that.template) && Objects.equals(sqlStr, that.sqlStr) && Objects.equals(sqlPart, that.sqlPart);
+    return Objects.equals(name, that.name)
+        && Objects.equals(description, that.description)
+        && Objects.equals(json, that.json)
+        && Objects.equals(template, that.template)
+        && Objects.equals(sqlStr, that.sqlStr)
+        && Objects.equals(sqlPart, that.sqlPart);
   }
 
   @Override
@@ -97,13 +96,13 @@ public class CreateRuleNameDto {
 
   @Override
   public String toString() {
-    return "CreateRuleNameDto{" +
-        "name='" + name + '\'' +
-        ", description='" + description + '\'' +
-        ", json='" + json + '\'' +
-        ", template='" + template + '\'' +
-        ", sqlStr='" + sqlStr + '\'' +
-        ", sqlPart='" + sqlPart + '\'' +
-        '}';
+    return "CreateRuleNameDto{"
+        + "name='" + name + '\''
+        + ", description='" + description + '\''
+        + ", json='" + json + '\''
+        + ", template='" + template + '\''
+        + ", sqlStr='" + sqlStr + '\''
+        + ", sqlPart='" + sqlPart + '\''
+        + '}';
   }
 }

@@ -1,10 +1,20 @@
 package com.nnk.springboot.domain;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+import javax.persistence.Table;
 
+/**
+ * Entity for Trade Table.
+ */
 @Entity
 @Table(name = "Trade")
 public class Trade {
@@ -77,10 +87,6 @@ public class Trade {
   public Trade() {
   }
 
-  public Trade(String account, String type) {
-    this.account = account;
-    this.type = type;
-  }
 
   public int getTradeId() {
     return this.tradeId;
@@ -261,38 +267,78 @@ public class Trade {
       return false;
     }
     Trade trade = (Trade) o;
-    return tradeId == trade.tradeId && Double.compare(trade.buyQuantity, buyQuantity) == 0 && Double.compare(trade.sellQuantity, sellQuantity) == 0 && Double.compare(trade.buyPrice, buyPrice) == 0 && Double.compare(trade.sellPrice, sellPrice) == 0 && Objects.equals(account, trade.account) && Objects.equals(type, trade.type) && Objects.equals(tradeDate, trade.tradeDate) && Objects.equals(security, trade.security) && Objects.equals(status, trade.status) && Objects.equals(trader, trade.trader) && Objects.equals(benchmark, trade.benchmark) && Objects.equals(book, trade.book) && Objects.equals(creationName, trade.creationName) && Objects.equals(creationDate, trade.creationDate) && Objects.equals(revisionName, trade.revisionName) && Objects.equals(revisionDate, trade.revisionDate) && Objects.equals(dealName, trade.dealName) && Objects.equals(dealType, trade.dealType) && Objects.equals(sourceListId, trade.sourceListId) && Objects.equals(side, trade.side);
+    return tradeId == trade.tradeId
+        && Double.compare(trade.buyQuantity, buyQuantity) == 0
+        && Double.compare(trade.sellQuantity, sellQuantity) == 0
+        && Double.compare(trade.buyPrice, buyPrice) == 0
+        && Double.compare(trade.sellPrice, sellPrice) == 0
+        && Objects.equals(account, trade.account)
+        && Objects.equals(type, trade.type)
+        && Objects.equals(tradeDate, trade.tradeDate)
+        && Objects.equals(security, trade.security)
+        && Objects.equals(status, trade.status)
+        && Objects.equals(trader, trade.trader)
+        && Objects.equals(benchmark, trade.benchmark)
+        && Objects.equals(book, trade.book)
+        && Objects.equals(creationName, trade.creationName)
+        && Objects.equals(creationDate, trade.creationDate)
+        && Objects.equals(revisionName, trade.revisionName)
+        && Objects.equals(revisionDate, trade.revisionDate)
+        && Objects.equals(dealName, trade.dealName)
+        && Objects.equals(dealType, trade.dealType)
+        && Objects.equals(sourceListId, trade.sourceListId)
+        && Objects.equals(side, trade.side);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(tradeId, account, type, buyQuantity, sellQuantity, buyPrice, sellPrice, tradeDate, security, status, trader, benchmark, book, creationName, creationDate, revisionName, revisionDate, dealName, dealType, sourceListId, side);
+    return Objects.hash(tradeId,
+        account,
+        type,
+        buyQuantity,
+        sellQuantity,
+        buyPrice,
+        sellPrice,
+        tradeDate,
+        security,
+        status,
+        trader,
+        benchmark,
+        book,
+        creationName,
+        creationDate,
+        revisionName,
+        revisionDate,
+        dealName,
+        dealType,
+        sourceListId,
+        side);
   }
 
   @Override
   public String toString() {
-    return "Trade{" +
-        "tradeId=" + tradeId +
-        ", account='" + account + '\'' +
-        ", type='" + type + '\'' +
-        ", buyQuantity=" + buyQuantity +
-        ", sellQuantity=" + sellQuantity +
-        ", buyPrice=" + buyPrice +
-        ", sellPrice=" + sellPrice +
-        ", tradeDate=" + tradeDate +
-        ", security='" + security + '\'' +
-        ", status='" + status + '\'' +
-        ", trader='" + trader + '\'' +
-        ", benchmark='" + benchmark + '\'' +
-        ", book='" + book + '\'' +
-        ", creationName='" + creationName + '\'' +
-        ", creationDate=" + creationDate +
-        ", revisionName='" + revisionName + '\'' +
-        ", revisionDate=" + revisionDate +
-        ", dealName='" + dealName + '\'' +
-        ", dealType='" + dealType + '\'' +
-        ", sourceListId='" + sourceListId + '\'' +
-        ", side='" + side + '\'' +
-        '}';
+    return "Trade{"
+        + "tradeId=" + tradeId
+        + ", account='" + account + '\''
+        + ", type='" + type + '\''
+        + ", buyQuantity=" + buyQuantity
+        + ", sellQuantity=" + sellQuantity
+        + ", buyPrice=" + buyPrice
+        + ", sellPrice=" + sellPrice
+        + ", tradeDate=" + tradeDate
+        + ", security='" + security + '\''
+        + ", status='" + status + '\''
+        + ", trader='" + trader + '\''
+        + ", benchmark='" + benchmark + '\''
+        + ", book='" + book + '\''
+        + ", creationName='" + creationName + '\''
+        + ", creationDate=" + creationDate
+        + ", revisionName='" + revisionName + '\''
+        + ", revisionDate=" + revisionDate
+        + ", dealName='" + dealName + '\''
+        + ", dealType='" + dealType + '\''
+        + ", sourceListId='" + sourceListId + '\''
+        + ", side='" + side + '\''
+        + '}';
   }
 }

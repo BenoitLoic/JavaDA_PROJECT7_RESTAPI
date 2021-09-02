@@ -33,12 +33,12 @@ public class RatingIT {
   @Autowired
   MockMvc mockMvc;
 
-  private final String homeUrl = "/rating/list";
-  private final String createFormUrl = "/rating/add";
-  private final String createUrl = "/rating/add";
-  private final String updateFormUrl = "/rating/update/{id}";
-  private final String updateUrl = "/rating/update/{id}";
-  private final String deleteUrl = "/rating/delete/{id}";
+  private final static String homeUrl = "/rating/list";
+  private final static String createFormUrl = "/rating/add";
+  private final static String createUrl = "/rating/add";
+  private final static String updateFormUrl = "/rating/update/{id}";
+  private final static String updateUrl = "/rating/update/{id}";
+  private final static String deleteUrl = "/rating/delete/{id}";
 
   @Test
   public void home() throws Exception {

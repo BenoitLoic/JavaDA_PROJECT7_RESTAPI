@@ -2,14 +2,12 @@ package com.nnk.springboot.repository;
 
 import com.nnk.springboot.domain.Rating;
 import com.nnk.springboot.repositories.RatingRepository;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-
-import java.util.List;
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -22,17 +20,20 @@ public class RatingTests {
 
   @Test
   public void ratingTest() {
-    Rating rating = new Rating("Moodys Rating", "Sand PRating", "Fitch Rating", 10);
-
+    Rating rating = new Rating();
+    rating.setMoodysRating("Moodys Rating");
+    rating.setSandPRating("Sand PRating");
+    rating.setFitchRating("Fitch Rating");
+    rating.setOrderNumber(10);
     // Save
     rating = ratingRepository.save(rating);
     assertNotNull(rating.getId());
-    assertTrue(rating.getOrderNumber() == 10);
+    assertEquals(rating.getOrderNumber(), 10);
 
     // Update
     rating.setOrderNumber(20);
     rating = ratingRepository.save(rating);
-    assertTrue(rating.getOrderNumber() == 20);
+    assertEquals(rating.getOrderNumber(), 20);
 
     // Find
     List<Rating> listResult = ratingRepository.findAll();

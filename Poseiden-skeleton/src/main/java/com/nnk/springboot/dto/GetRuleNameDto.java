@@ -1,5 +1,8 @@
 package com.nnk.springboot.dto;
 
+/**
+ * Dto for RuleName Read functionality.
+ */
 public class GetRuleNameDto {
 
   private int id;
@@ -71,14 +74,14 @@ public class GetRuleNameDto {
 
   @Override
   public String toString() {
-    return "GetRuleNameDto{" +
-        "id=" + id +
-        ", name='" + name + '\'' +
-        ", description='" + description + '\'' +
-        ", json='" + json + '\'' +
-        ", template='" + template + '\'' +
-        ", sqlStr='" + sqlStr + '\'' +
-        ", sqlPart='" + sqlPart + '\'' +
-        '}';
+    return "GetRuleNameDto{"
+        + "id=" + id
+        + ", name='" + name + '\''
+        + ", description='" + description + '\''
+        + ", json='" + json + '\''
+        + ", template='" + template + '\''
+        + ", sqlStr='" + sqlStr + '\''
+        + ", sqlPart='" + sqlPart + '\''
+        + '}';
   }
 }

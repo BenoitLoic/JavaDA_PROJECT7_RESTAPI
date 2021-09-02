@@ -1,8 +1,10 @@
 package com.nnk.springboot.dto;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
+/**
+ * Dto for BidList Update functionality.
+ */
 public class UpdateBidListDto {
 
   private int bidListId;
@@ -16,13 +18,6 @@ public class UpdateBidListDto {
   private double bidQuantity;
 
   public UpdateBidListDto() {
-  }
-
-  public UpdateBidListDto(int bidListId, String account, String type, double bidQuantity) {
-    this.bidListId = bidListId;
-    this.account = account;
-    this.type = type;
-    this.bidQuantity = bidQuantity;
   }
 
   public int getBidListId() {
@@ -59,11 +54,11 @@ public class UpdateBidListDto {
 
   @Override
   public String toString() {
-    return "UpdateBidListDto{" +
-        "bidListId=" + bidListId +
-        ", account='" + account + '\'' +
-        ", type='" + type + '\'' +
-        ", bidQuantity=" + bidQuantity +
-        '}';
+    return "UpdateBidListDto{"
+        + "bidListId=" + bidListId
+        + ", account='" + account + '\''
+        + ", type='" + type + '\''
+        + ", bidQuantity=" + bidQuantity
+        + '}';
   }
 }

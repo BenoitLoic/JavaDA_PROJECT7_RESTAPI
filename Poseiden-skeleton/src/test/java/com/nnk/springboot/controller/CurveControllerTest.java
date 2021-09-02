@@ -39,12 +39,12 @@ class CurveControllerTest {
   CurveServiceImpl curveServiceMock;
   @MockBean private UserDetailsServiceImpl userDetailsService;
 
-  private final String homeUrl = "/curvePoint/list";
-  private final String createFormUrl = "/curvePoint/add";
-  private final String createUrl = "/curvePoint/add";
-  private final String updateFormUrl = "/curvePoint/update/{id}";
-  private final String updateUrl = "/curvePoint/update/{id}";
-  private final String deleteUrl = "/curvePoint/delete/{id}";
+  private final static String homeUrl = "/curvePoint/list";
+  private final static String createFormUrl = "/curvePoint/add";
+  private final static String createUrl = "/curvePoint/add";
+  private final static String updateFormUrl = "/curvePoint/update/{id}";
+  private final static String updateUrl = "/curvePoint/update/{id}";
+  private final static String deleteUrl = "/curvePoint/delete/{id}";
 
   @Test
   void homeValid() throws Exception {
@@ -184,10 +184,6 @@ class CurveControllerTest {
   void updateCurvePointValid() throws Exception {
 
     // GIVEN
-    UpdateCurvePointDto updateCurvePointDto = new UpdateCurvePointDto();
-    updateCurvePointDto.setCurveId(2);
-    updateCurvePointDto.setId(5);
-    String urlEncoded = getUrlEncoded(updateCurvePointDto);
 
     // WHEN
 

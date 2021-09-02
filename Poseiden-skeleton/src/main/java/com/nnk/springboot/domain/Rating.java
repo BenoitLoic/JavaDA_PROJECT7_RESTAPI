@@ -1,8 +1,16 @@
 package com.nnk.springboot.domain;
 
-import javax.persistence.*;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+/**
+ * Entity for Rating Table.
+ */
 @Entity
 @Table(name = "Rating")
 public class Rating {
@@ -26,13 +34,6 @@ public class Rating {
   private int orderNumber;
 
   public Rating() {
-  }
-
-  public Rating(String moodysRating, String sandPRating, String fitchRating, int orderNumber) {
-    this.moodysRating = moodysRating;
-    this.sandPRating = sandPRating;
-    this.fitchRating = fitchRating;
-    this.orderNumber = orderNumber;
   }
 
   public int getId() {
@@ -84,7 +85,11 @@ public class Rating {
       return false;
     }
     Rating rating = (Rating) o;
-    return id == rating.id && orderNumber == rating.orderNumber && Objects.equals(moodysRating, rating.moodysRating) && Objects.equals(sandPRating, rating.sandPRating) && Objects.equals(fitchRating, rating.fitchRating);
+    return id == rating.id
+        && orderNumber == rating.orderNumber
+        && Objects.equals(moodysRating, rating.moodysRating)
+        && Objects.equals(sandPRating, rating.sandPRating)
+        && Objects.equals(fitchRating, rating.fitchRating);
   }
 
   @Override
@@ -94,12 +99,12 @@ public class Rating {
 
   @Override
   public String toString() {
-    return "Rating{" +
-        "id=" + id +
-        ", moodysRating='" + moodysRating + '\'' +
-        ", sandPRating='" + sandPRating + '\'' +
-        ", fitchRating='" + fitchRating + '\'' +
-        ", orderNumber=" + orderNumber +
-        '}';
+    return "Rating{"
+        + "id=" + id
+        + ", moodysRating='" + moodysRating + '\''
+        + ", sandPRating='" + sandPRating + '\''
+        + ", fitchRating='" + fitchRating + '\''
+        + ", orderNumber=" + orderNumber
+        + '}';
   }
 }

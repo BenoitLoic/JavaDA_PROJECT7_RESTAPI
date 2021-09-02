@@ -1,9 +1,11 @@
 package com.nnk.springboot.dto;
 
+import java.time.LocalDateTime;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDateTime;
-
+/**
+ * Dto for CurvePoint Update functionality.
+ */
 public class UpdateCurvePointDto {
 
   private int id;
@@ -20,11 +22,6 @@ public class UpdateCurvePointDto {
   public UpdateCurvePointDto() {
   }
 
-  public UpdateCurvePointDto(int curveId, double term, double value) {
-    this.curveId = curveId;
-    this.term = term;
-    this.value = value;
-  }
 
   public int getId() {
     return id;
@@ -68,12 +65,12 @@ public class UpdateCurvePointDto {
 
   @Override
   public String toString() {
-    return "UpdateCurvePointDto{" +
-        "id=" + id +
-        ", curveId=" + curveId +
-        ", asOfDate=" + asOfDate +
-        ", term=" + term +
-        ", value=" + value +
-        '}';
+    return "UpdateCurvePointDto{"
+        + "id=" + id
+        + ", curveId=" + curveId
+        + ", asOfDate=" + asOfDate
+        + ", term=" + term
+        + ", value=" + value
+        + '}';
   }
 }

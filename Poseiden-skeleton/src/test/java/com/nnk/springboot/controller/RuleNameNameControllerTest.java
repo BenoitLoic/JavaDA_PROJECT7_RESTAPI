@@ -38,12 +38,12 @@ class RuleNameNameControllerTest {
   @MockBean private UserDetailsServiceImpl userDetailsService;
 
 
-  private final String homeUrl = "/ruleName/list";
-  private final String createFormUrl = "/ruleName/add";
-  private final String createUrl = "/ruleName/add";
-  private final String updateFormUrl = "/ruleName/update/{id}";
-  private final String updateUrl = "/ruleName/update/{id}";
-  private final String deleteUrl = "/ruleName/delete/{id}";
+  private final static String homeUrl = "/ruleName/list";
+  private final static String createFormUrl = "/ruleName/add";
+  private final static String createUrl = "/ruleName/add";
+  private final static String updateFormUrl = "/ruleName/update/{id}";
+  private final static String updateUrl = "/ruleName/update/{id}";
+  private final static String deleteUrl = "/ruleName/delete/{id}";
 
   @Test
   void homeValid() throws Exception {

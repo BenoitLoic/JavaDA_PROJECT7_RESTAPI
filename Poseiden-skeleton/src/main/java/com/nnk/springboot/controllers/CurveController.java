@@ -4,28 +4,34 @@ import com.nnk.springboot.dto.CreateCurvePointDto;
 import com.nnk.springboot.dto.GetCurvePointDto;
 import com.nnk.springboot.dto.UpdateCurvePointDto;
 import com.nnk.springboot.services.CurveService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.util.Collection;
+import javax.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.validation.Valid;
-import java.util.Collection;
-
-/**
- * Contains CRUD method for Curve feature.
- */
+/** Contains CRUD method for Curve feature. */
 @Controller
 @RequestMapping("/curvePoint")
 public class CurveController {
 
-  private final Logger log = LogManager.getLogger(getClass().getName());
+  private static final Logger log = LoggerFactory.getLogger(CurveController.class);
+
+  private final CurveService curveService;
 
   @Autowired
-  CurveService curveService;
+  public CurveController(CurveService curveService) {
+    this.curveService = curveService;
+  }
 
   /**
    * Get all curvePoint in database.
@@ -56,21 +62,22 @@ public class CurveController {
    * Create a new curvePoint.
    *
    * @param createCurvePointDto the point to create.
-   * @param result     validation check for curvePoint
-   * @param model      the model to inject data for the view
+   * @param result validation check for curvePoint
+   * @param model the model to inject data for the view
    * @return list of all points
    */
   @PostMapping("/add")
-  public String createCurvePoint(@Valid CreateCurvePointDto createCurvePointDto, BindingResult result, Model model) {
+  public String createCurvePoint(
+      @Valid CreateCurvePointDto createCurvePointDto, BindingResult result, Model model) {
 
     if (result.hasErrors()) {
-      log.warn("Error in validation for CurvePoint: "
-          + createCurvePointDto
-          + " with error: "
-          + result.getFieldError());
+      log.warn(
+          "Error in validation for CurvePoint: "
+              + createCurvePointDto
+              + " with error: "
+              + result.getFieldError());
       return "curvePoint/add";
     }
-log.info(createCurvePointDto.getAsOfDate());
 
     curveService.createCurvePoint(createCurvePointDto);
 
@@ -80,7 +87,7 @@ log.info(createCurvePointDto.getAsOfDate());
   /**
    * Return the form to update a curve point with curvePoint data prefilled.
    *
-   * @param id    the id of the point to update
+   * @param id the id of the point to update
    * @param model the model to inject data for the view
    * @return the html form
    */
@@ -97,19 +104,21 @@ log.info(createCurvePointDto.getAsOfDate());
   /**
    * Update the curvePoint with its id.
    *
-   * @param id         the id of the point to update
+   * @param id the id of the point to update
    * @param updateCurvePointDto the data to update
-   * @param result     validation check
-   * @param model      the model to inject data for the view
+   * @param result validation check
+   * @param model the model to inject data for the view
    * @return list of all points
    */
   @PutMapping("/update/{id}")
-  public String updateCurvePoint(@PathVariable("id") int id, @Valid UpdateCurvePointDto updateCurvePointDto,
-                                 BindingResult result, Model model) {
+  public String updateCurvePoint(
+      @PathVariable("id") int id,
+      @Valid UpdateCurvePointDto updateCurvePointDto,
+      BindingResult result,
+      Model model) {
 
     if (result.hasErrors()) {
-      log.warn("KO - Error in validation for curvePoint: "
-          + result.getFieldError());
+      log.warn("KO - Error in validation for curvePoint: " + result.getFieldError());
       return "curvePoint/update";
     }
     System.out.println("post");
@@ -119,9 +128,9 @@ log.info(createCurvePointDto.getAsOfDate());
   }
 
   /**
-   * Delete the curvePoint with the given id
+   * Delete the curvePoint with the given id.
    *
-   * @param id    the id of the point to delete
+   * @param id the id of the point to delete
    * @param model the model to inject data for the view
    * @return list of all points
    */

@@ -6,16 +6,15 @@ import com.nnk.springboot.dto.GetRuleNameDto;
 import com.nnk.springboot.dto.UpdateRuleNameDto;
 import com.nnk.springboot.exceptions.DataNotFoundException;
 import com.nnk.springboot.repositories.RuleNameRepository;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Optional;
 
 /**
  * Implementation for RuleService.
@@ -24,10 +23,14 @@ import java.util.Optional;
 @Service
 public class RuleServiceImpl implements RuleService {
 
-  private final Logger log = LogManager.getLogger(getClass().getName());
+  private static final Logger log = LoggerFactory.getLogger(RuleServiceImpl.class);
+
+  private final RuleNameRepository ruleNameRepository;
 
   @Autowired
-  RuleNameRepository ruleNameRepository;
+  public RuleServiceImpl(RuleNameRepository ruleNameRepository) {
+    this.ruleNameRepository = ruleNameRepository;
+  }
 
   /**
    * Get all rules saved in DB and return their Dto.
@@ -158,10 +161,10 @@ public class RuleServiceImpl implements RuleService {
     ruleNameRepository.save(entity);
 
     log.info("Update - OK for trade id: "
-        +entity.getId()
-        +". "
+        + entity.getId()
+        + ". "
         + count
-        +" fields changed.");
+        + " fields changed.");
 
   }
 

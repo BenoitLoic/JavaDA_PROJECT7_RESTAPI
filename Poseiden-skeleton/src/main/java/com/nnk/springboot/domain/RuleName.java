@@ -1,8 +1,16 @@
 package com.nnk.springboot.domain;
 
-import javax.persistence.*;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+/**
+ * Entity for RuleNAme Table.
+ */
 @Entity
 @Table(name = "RuleName")
 public class RuleName {
@@ -31,15 +39,6 @@ public class RuleName {
   private String sqlPart;
 
   public RuleName() {
-  }
-
-  public RuleName(String name, String description, String json, String template, String sqlStr, String sqlPart) {
-    this.name = name;
-    this.description = description;
-    this.json = json;
-    this.template = template;
-    this.sqlStr = sqlStr;
-    this.sqlPart = sqlPart;
   }
 
   public int getId() {
@@ -107,7 +106,13 @@ public class RuleName {
       return false;
     }
     RuleName ruleName = (RuleName) o;
-    return id == ruleName.id && Objects.equals(name, ruleName.name) && Objects.equals(description, ruleName.description) && Objects.equals(json, ruleName.json) && Objects.equals(template, ruleName.template) && Objects.equals(sqlStr, ruleName.sqlStr) && Objects.equals(sqlPart, ruleName.sqlPart);
+    return id == ruleName.id
+        && Objects.equals(name, ruleName.name)
+        && Objects.equals(description, ruleName.description)
+        && Objects.equals(json, ruleName.json)
+        && Objects.equals(template, ruleName.template)
+        && Objects.equals(sqlStr, ruleName.sqlStr)
+        && Objects.equals(sqlPart, ruleName.sqlPart);
   }
 
   @Override
@@ -117,14 +122,14 @@ public class RuleName {
 
   @Override
   public String toString() {
-    return "RuleName{" +
-        "id=" + id +
-        ", name='" + name + '\'' +
-        ", description='" + description + '\'' +
-        ", json='" + json + '\'' +
-        ", template='" + template + '\'' +
-        ", sqlStr='" + sqlStr + '\'' +
-        ", sqlPart='" + sqlPart + '\'' +
-        '}';
+    return "RuleName{"
+        + "id=" + id
+        + ", name='" + name + '\''
+        + ", description='" + description + '\''
+        + ", json='" + json + '\''
+        + ", template='" + template + '\''
+        + ", sqlStr='" + sqlStr + '\''
+        + ", sqlPart='" + sqlPart + '\''
+        + '}';
   }
 }

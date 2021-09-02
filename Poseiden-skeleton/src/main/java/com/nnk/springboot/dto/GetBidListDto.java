@@ -1,5 +1,8 @@
 package com.nnk.springboot.dto;
 
+/**
+ * Dto for BidList Read.
+ */
 public class GetBidListDto {
 
   private int bidListId;
@@ -13,9 +16,9 @@ public class GetBidListDto {
   /**
    * Constructor with all field.
    *
-   * @param bidListId the id
-   * @param account the account
-   * @param type the type
+   * @param bidListId   the id
+   * @param account     the account
+   * @param type        the type
    * @param bidQuantity the bid quantity
    */
   public GetBidListDto(int bidListId, String account, String type, double bidQuantity) {
@@ -59,11 +62,10 @@ public class GetBidListDto {
 
   @Override
   public String toString() {
-    return "GetBidListDto{" +
-        "bidListId=" + bidListId +
-        ", account='" + account + '\'' +
-        ", type='" + type + '\'' +
-        ", bidQuantity=" + bidQuantity +
-        '}';
+    return "GetBidListDto{"
+        + "bidListId=" + bidListId
+        + ", account='" + account + '\''
+        + ", type='" + type + '\''
+        + ", bidQuantity=" + bidQuantity + '}';
   }
 }

@@ -3,14 +3,13 @@ package com.nnk.springboot.services;
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.repositories.UserRepository;
 import com.nnk.springboot.security.UserDetailsImpl;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 /**
  * Implementation of UserDetailsService. Contains one method to get UserDetails in DB.
@@ -19,8 +18,12 @@ import java.util.Optional;
 @Transactional
 public class UserDetailsServiceImpl implements UserDetailsService {
 
+  private final UserRepository userRepository;
+
   @Autowired
-  UserRepository userRepository;
+  public UserDetailsServiceImpl(UserRepository userRepository) {
+    this.userRepository = userRepository;
+  }
 
   /**
    * Locates the user based on its username.

@@ -6,17 +6,16 @@ import com.nnk.springboot.dto.GetUserDto;
 import com.nnk.springboot.dto.UpdateUserDto;
 import com.nnk.springboot.exceptions.DataNotFoundException;
 import com.nnk.springboot.repositories.UserRepository;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Optional;
 
 /**
  * Implementation for UserService.
@@ -25,10 +24,14 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
 
-  private final Logger log = LogManager.getLogger(getClass().getName());
+  private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
+
+  private final UserRepository userRepository;
 
   @Autowired
-  UserRepository userRepository;
+  public UserServiceImpl(UserRepository userRepository) {
+    this.userRepository = userRepository;
+  }
 
   /**
    * This method will return all users saved in DB.
@@ -60,7 +63,7 @@ public class UserServiceImpl implements UserService {
    * @return the dto fo the user
    */
   @Override
-  public UpdateUserDto getUserWithID(int id) {
+  public UpdateUserDto getUserWithId(int id) {
 
     log.info("Get user with id: " + id);
     Optional<User> temp = userRepository.findById(id);

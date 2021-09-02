@@ -36,12 +36,12 @@ public class TradeIT {
   MockMvc mockMvc;
 
 
-  private final String homeUrl = "/trade/list";
-  private final String createFormUrl = "/trade/add";
-  private final String createUrl = "/trade/add";
-  private final String updateFormUrl = "/trade/update/{id}";
-  private final String updateUrl = "/trade/update/{id}";
-  private final String deleteUrl = "/trade/delete/{id}";
+  private final static String homeUrl = "/trade/list";
+  private final static String createFormUrl = "/trade/add";
+  private final static String createUrl = "/trade/add";
+  private final static String updateFormUrl = "/trade/update/{id}";
+  private final static String updateUrl = "/trade/update/{id}";
+  private final static String deleteUrl = "/trade/delete/{id}";
 
   @Test
   public void home() throws Exception {

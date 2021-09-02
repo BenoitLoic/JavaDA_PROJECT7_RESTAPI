@@ -1,10 +1,13 @@
 package com.nnk.springboot.dto;
 
 
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import javax.validation.constraints.NotBlank;
 
+/**
+ * Dto for Trade creation.
+ */
 public class CreateTradeDto {
 
   @NotBlank(message = " is mandatory.")
@@ -14,9 +17,9 @@ public class CreateTradeDto {
   private String type;
 
   private double buyQuantity;
-  private double sellQuantity ;
+  private double sellQuantity;
   private double buyPrice;
-  private double sellPrice ;
+  private double sellPrice;
 
   private LocalDateTime tradeDate;
 
@@ -35,12 +38,6 @@ public class CreateTradeDto {
   private String side;
 
   public CreateTradeDto() {
-  }
-
-  public CreateTradeDto(String account, String type, Double buyQuantity) {
-    this.account = account;
-    this.type = type;
-    this.buyQuantity = buyQuantity;
   }
 
   public String getAccount() {
@@ -183,24 +180,24 @@ public class CreateTradeDto {
 
   @Override
   public String toString() {
-    return "CreateTradeDto{" +
-        "account='" + account + '\'' +
-        ", type='" + type + '\'' +
-        ", buyQuantity=" + buyQuantity +
-        ", sellQuantity=" + sellQuantity +
-        ", buyPrice=" + buyPrice +
-        ", sellPrice=" + sellPrice +
-        ", tradeDate=" + tradeDate +
-        ", security='" + security + '\'' +
-        ", status='" + status + '\'' +
-        ", trader='" + trader + '\'' +
-        ", benchmark='" + benchmark + '\'' +
-        ", book='" + book + '\'' +
-        ", creationName='" + creationName + '\'' +
-        ", dealName='" + dealName + '\'' +
-        ", dealType='" + dealType + '\'' +
-        ", sourceListId='" + sourceListId + '\'' +
-        ", side='" + side + '\'' +
-        '}';
+    return "CreateTradeDto{"
+        + "account='" + account + '\''
+        + ", type='" + type + '\''
+        + ", buyQuantity=" + buyQuantity
+        + ", sellQuantity=" + sellQuantity
+        + ", buyPrice=" + buyPrice
+        + ", sellPrice=" + sellPrice
+        + ", tradeDate=" + tradeDate
+        + ", security='" + security + '\''
+        + ", status='" + status + '\''
+        + ", trader='" + trader + '\''
+        + ", benchmark='" + benchmark + '\''
+        + ", book='" + book + '\''
+        + ", creationName='" + creationName + '\''
+        + ", dealName='" + dealName + '\''
+        + ", dealType='" + dealType + '\''
+        + ", sourceListId='" + sourceListId + '\''
+        + ", side='" + side + '\''
+        + '}';
   }
 }

@@ -1,5 +1,8 @@
 package com.nnk.springboot.dto;
 
+/**
+ * Dto for CurvePoint Read functionality.
+ */
 public class GetCurvePointDto {
 
   private int id;
@@ -8,13 +11,6 @@ public class GetCurvePointDto {
   private double value;
 
   public GetCurvePointDto() {
-  }
-
-  public GetCurvePointDto(int id, int curveId, double term, double value) {
-    this.id = id;
-    this.curveId = curveId;
-    this.term = term;
-    this.value = value;
   }
 
   public int getId() {
@@ -51,11 +47,11 @@ public class GetCurvePointDto {
 
   @Override
   public String toString() {
-    return "GetCurvePointDto{" +
-        "id=" + id +
-        ", curveId=" + curveId +
-        ", term=" + term +
-        ", value=" + value +
-        '}';
+    return "GetCurvePointDto{"
+        + "id=" + id
+        + ", curveId=" + curveId
+        + ", term=" + term
+        + ", value=" + value
+        + '}';
   }
 }

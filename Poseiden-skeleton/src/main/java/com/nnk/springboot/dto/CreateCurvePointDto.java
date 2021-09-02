@@ -1,10 +1,12 @@
 package com.nnk.springboot.dto;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.time.LocalDateTime;
 import java.util.Objects;
+import org.springframework.format.annotation.DateTimeFormat;
 
+/**
+ * Dto for CurvePoint creation.
+ */
 public class CreateCurvePointDto {
 
 
@@ -17,12 +19,6 @@ public class CreateCurvePointDto {
   private double value;
 
   public CreateCurvePointDto() {
-  }
-
-  public CreateCurvePointDto(int curveId, double term, double value) {
-    this.curveId = curveId;
-    this.term = term;
-    this.value = value;
   }
 
   public int getCurveId() {
@@ -66,7 +62,10 @@ public class CreateCurvePointDto {
       return false;
     }
     CreateCurvePointDto that = (CreateCurvePointDto) o;
-    return curveId == that.curveId && Double.compare(that.term, term) == 0 && Double.compare(that.value, value) == 0 && Objects.equals(asOfDate, that.asOfDate);
+    return curveId == that.curveId
+        && Double.compare(that.term, term) == 0
+        && Double.compare(that.value, value) == 0
+        && Objects.equals(asOfDate, that.asOfDate);
   }
 
   @Override
@@ -76,10 +75,10 @@ public class CreateCurvePointDto {
 
   @Override
   public String toString() {
-    return "CreateCurvePointDto{" +
-        "curveId=" + curveId +
-        ", term=" + term +
-        ", value=" + value +
-        '}';
+    return "CreateCurvePointDto{"
+        + "curveId=" + curveId
+        + ", term=" + term
+        + ", value=" + value
+        + '}';
   }
 }

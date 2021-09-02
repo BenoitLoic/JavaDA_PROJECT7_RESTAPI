@@ -1,9 +1,11 @@
 package com.nnk.springboot.dto;
 
 import com.nnk.springboot.validation.PasswordValidation;
-
 import javax.validation.constraints.NotBlank;
 
+/**
+ * Dto for User Update functionality.
+ */
 public class UpdateUserDto {
 
   private int id;
@@ -18,7 +20,6 @@ public class UpdateUserDto {
 
   public UpdateUserDto() {
   }
-
 
   public int getId() {
     return id;
@@ -62,13 +63,13 @@ public class UpdateUserDto {
 
   @Override
   public String toString() {
-    return "UpdateUserDto{" +
-        "id=" + id +
-        ", username='" + username + '\'' +
-        ", password='" + password + '\'' +
-        ", fullname='" + fullname + '\'' +
-        ", role='" + role + '\'' +
-        '}';
+    return "UpdateUserDto{"
+        + "id=" + id
+        + ", username='" + username + '\''
+        + ", password='" + password + '\''
+        + ", fullname='" + fullname + '\''
+        + ", role='" + role + '\''
+        + '}';
   }
 
 }

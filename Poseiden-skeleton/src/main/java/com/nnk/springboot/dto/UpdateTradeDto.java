@@ -1,10 +1,12 @@
 package com.nnk.springboot.dto;
 
+import java.time.LocalDateTime;
+import javax.validation.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
-
+/**
+ * Dto for Trade Update functionality.
+ */
 public class UpdateTradeDto {
 
   private int tradeId;
@@ -21,7 +23,7 @@ public class UpdateTradeDto {
   private double sellPrice;
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private LocalDateTime tradeDate ;
+  private LocalDateTime tradeDate;
 
   private String security;
   private String status;
@@ -194,28 +196,27 @@ public class UpdateTradeDto {
   }
 
 
-
   @Override
   public String toString() {
-    return "UpdateTradeDto{" +
-        "account='" + account + '\'' +
-        ", type='" + type + '\'' +
-        ", buyQuantity=" + buyQuantity +
-        ", sellQuantity=" + sellQuantity +
-        ", buyPrice=" + buyPrice +
-        ", sellPrice=" + sellPrice +
-        ", tradeDate=" + tradeDate +
-        ", security='" + security + '\'' +
-        ", status='" + status + '\'' +
-        ", trader='" + trader + '\'' +
-        ", benchmark='" + benchmark + '\'' +
-        ", book='" + book + '\'' +
-        ", creationName='" + creationName + '\'' +
-        ", revisionName='" + revisionName + '\'' +
-        ", dealName='" + dealName + '\'' +
-        ", dealType='" + dealType + '\'' +
-        ", sourceListId='" + sourceListId + '\'' +
-        ", side='" + side + '\'' +
-        '}';
+    return "UpdateTradeDto{"
+        + "account='" + account + '\''
+        + ", type='" + type + '\''
+        + ", buyQuantity=" + buyQuantity
+        + ", sellQuantity=" + sellQuantity
+        + ", buyPrice=" + buyPrice
+        + ", sellPrice=" + sellPrice
+        + ", tradeDate=" + tradeDate
+        + ", security='" + security + '\''
+        + ", status='" + status + '\''
+        + ", trader='" + trader + '\''
+        + ", benchmark='" + benchmark + '\''
+        + ", book='" + book + '\''
+        + ", creationName='" + creationName + '\''
+        + ", revisionName='" + revisionName + '\''
+        + ", dealName='" + dealName + '\''
+        + ", dealType='" + dealType + '\''
+        + ", sourceListId='" + sourceListId + '\''
+        + ", side='" + side + '\''
+        + '}';
   }
 }

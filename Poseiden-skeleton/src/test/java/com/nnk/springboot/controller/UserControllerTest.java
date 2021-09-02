@@ -39,12 +39,12 @@ class UserControllerTest {
 
 
 
-  private final String homeUrl = "/user/list";
-  private final String createFormUrl = "/user/add";
-  private final String createUrl = "/user/add";
-  private final String updateFormUrl = "/user/update/{id}";
-  private final String updateUrl = "/user/update/{id}";
-  private final String deleteUrl = "/user/delete/{id}";
+  private final static String homeUrl = "/user/list";
+  private final static String createFormUrl = "/user/add";
+  private final static String createUrl = "/user/add";
+  private final static String updateFormUrl = "/user/update/{id}";
+  private final static String updateUrl = "/user/update/{id}";
+  private final static String deleteUrl = "/user/delete/{id}";
 
   @Test
   void homeValid() throws Exception {
@@ -169,7 +169,7 @@ class UserControllerTest {
 
 
     // WHEN
-    when(userServiceMock.getUserWithID(5)).thenReturn(updateUserDto);
+    when(userServiceMock.getUserWithId(5)).thenReturn(updateUserDto);
     // THEN
     mockMvc
         .perform(

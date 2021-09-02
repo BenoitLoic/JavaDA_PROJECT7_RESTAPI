@@ -5,6 +5,7 @@ import com.nnk.springboot.dto.CreateCurvePointDto;
 import com.nnk.springboot.dto.UpdateCurvePointDto;
 import com.nnk.springboot.exceptions.DataNotFoundException;
 import com.nnk.springboot.repositories.CurvePointRepository;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -13,9 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
-
 import static com.nnk.springboot.utility.FormatToUrlEncoded.getUrlEncoded;
 import static org.hamcrest.Matchers.iterableWithSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,16 +28,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class CurvePointIT {
 
   @Autowired
-  MockMvc mockMvc;
+  MockMvc              mockMvc;
   @Autowired
   CurvePointRepository curvePointRepository;
 
-  private final String homeUrl = "/curvePoint/list";
-  private final String createFormUrl = "/curvePoint/add";
-  private final String createUrl = "/curvePoint/add";
-  private final String updateFormUrl = "/curvePoint/update/{id}";
-  private final String updateUrl = "/curvePoint/update/{id}";
-  private final String deleteUrl = "/curvePoint/delete/{id}";
+  private final static String homeUrl       = "/curvePoint/list";
+  private final static String createFormUrl = "/curvePoint/add";
+  private final static String createUrl     = "/curvePoint/add";
+  private final static String updateFormUrl = "/curvePoint/update/{id}";
+  private final static String updateUrl     = "/curvePoint/update/{id}";
+  private final static String deleteUrl     = "/curvePoint/delete/{id}";
 
 
   @Test
@@ -99,8 +97,8 @@ public class CurvePointIT {
     CreateCurvePointDto valid = new CreateCurvePointDto();
     valid.setCurveId(5);
 
-String urlEncoded = getUrlEncoded(valid);
-    String urlEncodedValid = urlEncoded.replace("asOfDate=null", "asOfDate=2077-06-08 11:30");
+    String urlEncoded        = getUrlEncoded(valid);
+    String urlEncodedValid   = urlEncoded.replace("asOfDate=null", "asOfDate=2077-06-08 11:30");
     String urlEncodedInvalid = urlEncoded.replace("asOfDate=null", "asOfDate=2077-22-08 11:30");
 
     mockMvc
@@ -108,7 +106,7 @@ String urlEncoded = getUrlEncoded(valid);
             post(createUrl)
                 .with(user("userTest")
                     .roles("USER"))
-        .with(csrf())
+                .with(csrf())
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .content(urlEncodedValid))
         .andExpect(status().isFound())
@@ -119,7 +117,7 @@ String urlEncoded = getUrlEncoded(valid);
             post(createUrl)
                 .with(user("userTest")
                     .roles("USER"))
-        .with(csrf())
+                .with(csrf())
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .content(urlEncodedInvalid))
         .andExpect(status().isOk())
@@ -158,7 +156,8 @@ String urlEncoded = getUrlEncoded(valid);
                 .with(user("userTest")
                     .roles("USER")))
         .andExpect(status().isNotFound())
-        .andExpect(result -> assertTrue(result.getResolvedException() instanceof DataNotFoundException));
+        .andExpect(
+            result -> assertTrue(result.getResolvedException() instanceof DataNotFoundException));
 
 
   }
@@ -170,8 +169,8 @@ String urlEncoded = getUrlEncoded(valid);
     UpdateCurvePointDto valid = new UpdateCurvePointDto();
     valid.setId(2);
     valid.setCurveId(5);
-    String urlEncoded = getUrlEncoded(valid);
-    String urlEncodedValid = urlEncoded.replace("asOfDate=null", "asOfDate=2077-06-08 11:30");
+    String urlEncoded        = getUrlEncoded(valid);
+    String urlEncodedValid   = urlEncoded.replace("asOfDate=null", "asOfDate=2077-06-08 11:30");
     String urlEncodedInvalid = urlEncoded.replace("asOfDate=null", "asOfDate=2077-16-22 11:30");
 
     mockMvc
@@ -179,21 +178,22 @@ String urlEncoded = getUrlEncoded(valid);
             put(updateUrl, 1)
                 .with(user("userTest")
                     .roles("USER"))
-        .with(csrf())
+                .with(csrf())
                 .content(urlEncodedValid)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
         )
         .andExpect(status().isFound())
         .andExpect(redirectedUrl("/curvePoint/list"));
-
-    assertEquals(5, curvePointRepository.findById(1).get().getCurveId());
+    Optional<CurvePoint> curve = curvePointRepository.findById(1);
+    assertTrue(curve.isPresent());
+    assertEquals(5, curve.get().getCurveId());
 
     mockMvc
         .perform(
             put(updateUrl, 1)
                 .with(user("userTest")
                     .roles("USER"))
-        .with(csrf())
+                .with(csrf())
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .content(urlEncodedInvalid))
         .andExpect(status().isOk())
@@ -212,7 +212,7 @@ String urlEncoded = getUrlEncoded(valid);
             delete(deleteUrl, 1)
                 .with(user("userTest")
                     .roles("USER"))
-        .with(csrf()))
+                .with(csrf()))
         .andExpect(redirectedUrl(homeUrl))
         .andExpect(status().isFound());
 
@@ -223,9 +223,10 @@ String urlEncoded = getUrlEncoded(valid);
             delete(deleteUrl, 99)
                 .with(user("userTest")
                     .roles("USER"))
-        .with(csrf()))
+                .with(csrf()))
         .andExpect(status().isNotFound())
-        .andExpect(result -> assertTrue(result.getResolvedException() instanceof DataNotFoundException));
+        .andExpect(
+            result -> assertTrue(result.getResolvedException() instanceof DataNotFoundException));
 
   }
 }

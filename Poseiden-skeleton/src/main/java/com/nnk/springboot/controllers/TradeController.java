@@ -4,16 +4,20 @@ import com.nnk.springboot.dto.CreateTradeDto;
 import com.nnk.springboot.dto.GetTradeDto;
 import com.nnk.springboot.dto.UpdateTradeDto;
 import com.nnk.springboot.services.TradeService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.util.Collection;
+import javax.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.util.Collection;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * Contains CRUD method for Trade feature.
@@ -22,10 +26,13 @@ import java.util.Collection;
 @RequestMapping("/trade")
 public class TradeController {
 
-  private final Logger log = LogManager.getLogger(getClass().getName());
+  private static final Logger log = LoggerFactory.getLogger(TradeController.class);
+  private final TradeService tradeService;
 
   @Autowired
-  TradeService tradeService;
+  public TradeController(TradeService tradeService) {
+    this.tradeService = tradeService;
+  }
 
   /**
    * Get all Trade.

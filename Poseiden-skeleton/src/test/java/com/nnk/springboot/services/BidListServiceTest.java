@@ -2,10 +2,12 @@ package com.nnk.springboot.services;
 
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.dto.CreateBidListDto;
-import com.nnk.springboot.dto.GetBidListDto;
 import com.nnk.springboot.dto.UpdateBidListDto;
 import com.nnk.springboot.exceptions.DataNotFoundException;
 import com.nnk.springboot.repositories.BidListRepository;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,13 +15,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -53,7 +48,10 @@ public class BidListServiceTest {
   public void createBid() {
 
     // GIVEN
-    CreateBidListDto temp = new CreateBidListDto("account", "type", 0.1);
+    CreateBidListDto temp = new CreateBidListDto();
+    temp.setAccount("account");
+    temp.setType("type");
+    temp.setBidQuantity(0.1);
     BidList expected = new BidList();
     expected.setAccount("account");
     expected.setType("type");

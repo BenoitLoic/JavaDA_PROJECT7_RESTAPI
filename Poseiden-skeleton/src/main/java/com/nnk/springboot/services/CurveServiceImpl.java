@@ -6,16 +6,15 @@ import com.nnk.springboot.dto.GetCurvePointDto;
 import com.nnk.springboot.dto.UpdateCurvePointDto;
 import com.nnk.springboot.exceptions.DataNotFoundException;
 import com.nnk.springboot.repositories.CurvePointRepository;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Optional;
 
 /**
  * Implementation for CurveService.
@@ -24,10 +23,14 @@ import java.util.Optional;
 @Service
 public class CurveServiceImpl implements CurveService {
 
-  private final Logger log = LogManager.getLogger(getClass().getName());
+  private static final Logger log = LoggerFactory.getLogger(CurveServiceImpl.class);
+
+  private final CurvePointRepository curvePointRepository;
 
   @Autowired
-  CurvePointRepository curvePointRepository;
+  public CurveServiceImpl(CurvePointRepository curvePointRepository) {
+    this.curvePointRepository = curvePointRepository;
+  }
 
   /**
    * Get all curve point saved in DB.
@@ -41,11 +44,11 @@ public class CurveServiceImpl implements CurveService {
 
     Collection<GetCurvePointDto> curvePoints = new ArrayList<>();
     for (CurvePoint curvePoint : curvePointRepository.findAll()) {
-      GetCurvePointDto temp = new GetCurvePointDto(
-          curvePoint.getId(),
-          curvePoint.getCurveId(),
-          curvePoint.getTerm(),
-          curvePoint.getValue());
+      GetCurvePointDto temp = new GetCurvePointDto();
+      temp.setId(curvePoint.getId());
+      temp.setCurveId(curvePoint.getCurveId());
+      temp.setTerm(curvePoint.getTerm());
+      temp.setValue(curvePoint.getValue());
       curvePoints.add(temp);
     }
 

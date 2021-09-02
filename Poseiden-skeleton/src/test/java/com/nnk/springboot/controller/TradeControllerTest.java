@@ -37,23 +37,32 @@ class TradeControllerTest {
   MockMvc mockMvc;
   @MockBean
   TradeServiceImpl tradeServiceMock;
-  @MockBean private UserDetailsServiceImpl userDetailsService;
+  @MockBean
+  private UserDetailsServiceImpl userDetailsService;
 
 
-  private final String homeUrl = "/trade/list";
-  private final String createFormUrl = "/trade/add";
-  private final String createUrl = "/trade/add";
-  private final String updateFormUrl = "/trade/update/{id}";
-  private final String updateUrl = "/trade/update/{id}";
-  private final String deleteUrl = "/trade/delete/{id}";
+  private final static String homeUrl = "/trade/list";
+  private final static String createFormUrl = "/trade/add";
+  private final static String createUrl = "/trade/add";
+  private final static String updateFormUrl = "/trade/update/{id}";
+  private final static String updateUrl = "/trade/update/{id}";
+  private final static String deleteUrl = "/trade/delete/{id}";
 
   @Test
   void homeValid() throws Exception {
 
     // GIVEN
     // GetTradeDto(int tradeId, String account, String type, Double buyQuantity)
-    GetTradeDto trade1 = new GetTradeDto(1, "account", "type", 1.5);
-    GetTradeDto trade2 = new GetTradeDto(2, "account2", "type2", 2.5);
+    GetTradeDto trade1 = new GetTradeDto();
+    trade1.setTradeId(1);
+    trade1.setAccount("account");
+    trade1.setType("type");
+    trade1.setBuyQuantity(1.5);
+    GetTradeDto trade2 = new GetTradeDto();
+    trade2.setTradeId(2);
+    trade2.setAccount("account2");
+    trade2.setType("type2");
+    trade2.setBuyQuantity(2.5);
     List<GetTradeDto> trades = new ArrayList<>();
     trades.add(trade1);
     trades.add(trade2);
@@ -106,8 +115,10 @@ class TradeControllerTest {
   void validateValid() throws Exception {
 
     // GIVEN
-    CreateTradeDto temp = new CreateTradeDto("account", "type", 204.54);
-
+    CreateTradeDto temp = new CreateTradeDto();
+    temp.setAccount("account");
+    temp.setType("type");
+    temp.setBuyQuantity(204.54);
     String urlEncoded = getUrlEncoded(temp);
 
     // WHEN
@@ -183,11 +194,6 @@ class TradeControllerTest {
   void updateTradeValid() throws Exception {
 
     // GIVEN
-    UpdateTradeDto updateTradeDto = new UpdateTradeDto();
-    updateTradeDto.setAccount("account");
-    updateTradeDto.setType("type");
-    updateTradeDto.setBuyQuantity(0d);
-    String urlEncoded = getUrlEncoded(updateTradeDto);
 
     // WHEN
 

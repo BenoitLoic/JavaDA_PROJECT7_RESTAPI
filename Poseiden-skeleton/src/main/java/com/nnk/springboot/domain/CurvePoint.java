@@ -1,10 +1,19 @@
 package com.nnk.springboot.domain;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.Table;
 
+/**
+ * Entity for CurvePoint Table.
+ */
 @Entity
 @Table(name = "CurvePoint")
 public class CurvePoint {
@@ -31,12 +40,6 @@ public class CurvePoint {
   private LocalDateTime creationDate;
 
   public CurvePoint() {
-  }
-
-  public CurvePoint(int curveId, double term, double value) {
-    this.curveId = curveId;
-    this.term = term;
-    this.value = value;
   }
 
   public int getId() {
@@ -97,7 +100,12 @@ public class CurvePoint {
       return false;
     }
     CurvePoint that = (CurvePoint) o;
-    return id == that.id && curveId == that.curveId && Double.compare(that.term, term) == 0 && Double.compare(that.value, value) == 0 && Objects.equals(asOfDate, that.asOfDate) && Objects.equals(creationDate, that.creationDate);
+    return id == that.id
+        && curveId == that.curveId
+        && Double.compare(that.term, term) == 0
+        && Double.compare(that.value, value) == 0
+        && Objects.equals(asOfDate, that.asOfDate)
+        && Objects.equals(creationDate, that.creationDate);
   }
 
   @Override
@@ -107,13 +115,13 @@ public class CurvePoint {
 
   @Override
   public String toString() {
-    return "CurvePoint{" +
-        "id=" + id +
-        ", curveId=" + curveId +
-        ", asOfDate=" + asOfDate +
-        ", term=" + term +
-        ", value=" + value +
-        ", creationDate=" + creationDate +
-        '}';
+    return "CurvePoint{"
+        + "id=" + id
+        + ", curveId=" + curveId
+        + ", asOfDate=" + asOfDate
+        + ", term=" + term
+        + ", value=" + value
+        + ", creationDate=" + creationDate
+        + '}';
   }
 }
