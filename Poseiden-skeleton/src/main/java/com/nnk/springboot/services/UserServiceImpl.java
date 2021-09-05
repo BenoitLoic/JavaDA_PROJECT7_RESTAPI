@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
   }
 
   /**
-   * This method will return the user with the given Id.
+   * This method will return the user with the given id.
    *
    * @param id the user id.
    * @return the dto fo the user

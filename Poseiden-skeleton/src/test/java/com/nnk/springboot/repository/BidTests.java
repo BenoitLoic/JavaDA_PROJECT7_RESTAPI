@@ -2,20 +2,16 @@ package com.nnk.springboot.repository;
 
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.repositories.BidListRepository;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest
-@ActiveProfiles("test")
 public class BidTests {
 
   @Autowired
@@ -28,9 +24,7 @@ public class BidTests {
     bid.setAccount("Account Test");
     bid.setType("Type Test");
     bid.setBidQuantity(10d);
-    for (BidList bidy : bidListRepository.findAll()) {
-      System.out.println(bidy.getBidListId());
-    }
+
     // Save
     bid = bidListRepository.save(bid);
     assertTrue(bid.getBidListId() > 0);
@@ -50,6 +44,7 @@ public class BidTests {
     bidListRepository.delete(bid);
     Optional<BidList> bidList = bidListRepository.findById(id);
     assertFalse(bidList.isPresent());
+    System.out.println(bidListRepository.findAll().size());
 
   }
 }

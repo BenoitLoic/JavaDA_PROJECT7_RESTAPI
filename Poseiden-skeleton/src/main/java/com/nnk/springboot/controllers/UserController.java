@@ -35,7 +35,7 @@ public class UserController {
   }
 
   /**
-   * This method will get all user in data base.
+   * This method will get all user in database.
    *
    * @param model the model that serve to inject user list for the view
    * @return the list of all user.

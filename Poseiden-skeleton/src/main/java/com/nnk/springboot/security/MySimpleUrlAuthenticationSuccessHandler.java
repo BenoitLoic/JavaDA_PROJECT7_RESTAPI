@@ -23,7 +23,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class MySimpleUrlAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
   private static final Logger log = getLogger(MySimpleUrlAuthenticationSuccessHandler.class);
-  private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+  private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
   @Override
   public void onAuthenticationSuccess(HttpServletRequest request,

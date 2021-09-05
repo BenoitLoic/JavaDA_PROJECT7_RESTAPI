@@ -7,6 +7,10 @@ import com.nnk.springboot.dto.UpdateCurvePointDto;
 import com.nnk.springboot.exceptions.DataNotFoundException;
 import com.nnk.springboot.services.CurveServiceImpl;
 import com.nnk.springboot.services.UserDetailsServiceImpl;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -16,12 +20,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.nnk.springboot.utility.FormatToUrlEncoded.getUrlEncoded;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.mockito.Mockito.doThrow;
@@ -34,17 +32,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class CurveControllerTest {
 
   @Autowired
-  MockMvc mockMvc;
+  MockMvc          mockMvc;
   @MockBean
   CurveServiceImpl curveServiceMock;
-  @MockBean private UserDetailsServiceImpl userDetailsService;
+  @MockBean
+  private UserDetailsServiceImpl userDetailsService;
 
-  private final static String homeUrl = "/curvePoint/list";
+  private final static String homeUrl       = "/curvePoint/list";
   private final static String createFormUrl = "/curvePoint/add";
-  private final static String createUrl = "/curvePoint/add";
+  private final static String createUrl     = "/curvePoint/add";
   private final static String updateFormUrl = "/curvePoint/update/{id}";
-  private final static String updateUrl = "/curvePoint/update/{id}";
-  private final static String deleteUrl = "/curvePoint/delete/{id}";
+  private final static String updateUrl     = "/curvePoint/update/{id}";
+  private final static String deleteUrl     = "/curvePoint/delete/{id}";
 
   @Test
   void homeValid() throws Exception {
@@ -112,7 +111,7 @@ class CurveControllerTest {
     CreateCurvePointDto temp = new CreateCurvePointDto();
     temp.setCurveId(5);
     String urlEncoded = getUrlEncoded(temp);
-    urlEncoded = urlEncoded.replace("asOfDate=null","asOfDate=2021-08-23 12:16");
+    urlEncoded = urlEncoded.replace("asOfDate=null", "asOfDate=2021-08-23 12:16");
 
     // WHEN
 
@@ -224,16 +223,20 @@ class CurveControllerTest {
     // GIVEN
 
     // WHEN
-    Mockito.doThrow(DataNotFoundException.class).when(curveServiceMock).updateCurvePoint(Mockito.anyInt(), Mockito.any(UpdateCurvePointDto.class));
+    Mockito.doThrow(DataNotFoundException.class).when(curveServiceMock).updateCurvePoint(
+        Mockito.anyInt(), Mockito.any(UpdateCurvePointDto.class));
     // THEN
     mockMvc
         .perform(
             put(updateUrl, "5")
-                .param("curveId","2")
-                .param("asOfDate", LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES).toString().replace("T"," "))
+                .param("curveId", "2")
+                .param("asOfDate",
+                    LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES).toString().replace("T",
+                        " "))
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED))
         .andExpect(status().isNotFound())
-        .andExpect(result -> Assertions.assertTrue(result.getResolvedException() instanceof DataNotFoundException));
+        .andExpect(result -> Assertions.assertTrue(
+            result.getResolvedException() instanceof DataNotFoundException));
   }
 
   @Test
@@ -274,7 +277,8 @@ class CurveControllerTest {
     mockMvc
         .perform(delete(deleteUrl, 5))
         .andExpect(status().isNotFound())
-        .andExpect(result -> Assertions.assertTrue(result.getResolvedException() instanceof DataNotFoundException));
+        .andExpect(result -> Assertions.assertTrue(
+            result.getResolvedException() instanceof DataNotFoundException));
 
   }
 }

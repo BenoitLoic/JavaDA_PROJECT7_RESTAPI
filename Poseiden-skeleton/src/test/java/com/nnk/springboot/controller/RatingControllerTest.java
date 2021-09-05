@@ -7,6 +7,8 @@ import com.nnk.springboot.dto.UpdateRatingDto;
 import com.nnk.springboot.exceptions.DataNotFoundException;
 import com.nnk.springboot.services.RatingServiceImpl;
 import com.nnk.springboot.services.UserDetailsServiceImpl;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -16,10 +18,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.nnk.springboot.utility.FormatToUrlEncoded.getUrlEncoded;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.mockito.Mockito.doThrow;
@@ -32,18 +30,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class RatingControllerTest {
 
   @Autowired
-  MockMvc mockMvc;
+  MockMvc           mockMvc;
   @MockBean
   RatingServiceImpl ratingService;
-  @MockBean private UserDetailsServiceImpl userDetailsService;
+  @MockBean
+  private UserDetailsServiceImpl userDetailsService;
 
 
-  private final static String homeUrl = "/rating/list";
+  private final static String homeUrl       = "/rating/list";
   private final static String createFormUrl = "/rating/add";
-  private final static String createUrl = "/rating/add";
+  private final static String createUrl     = "/rating/add";
   private final static String updateFormUrl = "/rating/update/{id}";
-  private final static String updateUrl = "/rating/update/{id}";
-  private final static String deleteUrl = "/rating/delete/{id}";
+  private final static String updateUrl     = "/rating/update/{id}";
+  private final static String deleteUrl     = "/rating/delete/{id}";
 
   @Test
   void homeValid() throws Exception {
@@ -170,8 +169,6 @@ class RatingControllerTest {
     updateRatingDto.setOrderNumber(5);
 
 
-
-
     // WHEN
     when(ratingService.getRatingWithId(5)).thenReturn(updateRatingDto);
     // THEN
@@ -267,7 +264,8 @@ class RatingControllerTest {
 
     String urlEncoded = getUrlEncoded(updateRatingDto);
     // WHEN
-    Mockito.doThrow(DataNotFoundException.class).when(ratingService).updateRating(Mockito.anyInt(), Mockito.any(UpdateRatingDto.class));
+    Mockito.doThrow(DataNotFoundException.class).when(ratingService).updateRating(Mockito.anyInt(),
+        Mockito.any(UpdateRatingDto.class));
     // THEN
     mockMvc
         .perform(
@@ -275,7 +273,8 @@ class RatingControllerTest {
                 .content(urlEncoded)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED))
         .andExpect(status().isNotFound())
-        .andExpect(result -> Assertions.assertTrue(result.getResolvedException() instanceof DataNotFoundException));
+        .andExpect(result -> Assertions.assertTrue(
+            result.getResolvedException() instanceof DataNotFoundException));
   }
 
   @Test
@@ -316,7 +315,8 @@ class RatingControllerTest {
     mockMvc
         .perform(delete(deleteUrl, 5))
         .andExpect(status().isNotFound())
-        .andExpect(result -> Assertions.assertTrue(result.getResolvedException() instanceof DataNotFoundException));
+        .andExpect(result -> Assertions.assertTrue(
+            result.getResolvedException() instanceof DataNotFoundException));
 
   }
 

@@ -84,7 +84,7 @@ public class RatingController {
   }
 
   /**
-   * Get Rating by Id, add to model then show to the form to update.
+   * Get Rating by id, add to model then show to the form to update.
    *
    * @param id    the id of the rating to update
    * @param model the model to add data
