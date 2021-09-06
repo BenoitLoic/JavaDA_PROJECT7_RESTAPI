@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Poseidon</title>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+
+    <div class="row">
+        <h4>Log in with Username and Password</h4>
+    </div>
+
+    <div class="row">
+        <form action="#" th:method="POST" th:action="@{/login}" style="width: 100%">
+
+            <!-- Place for message -->
+            <div class="form-group">
+                <!-- Check for login error -->
+                <div th:if="${param.error}" class="alert alert-danger col-sm-4 ">
+                    Invalid username and/or password.
+                </div>
+                <!-- Check for logout -->
+                <div th:if="${param.logout}" class="alert alert-success col-sm-4">
+                    You have been logged out.
+                </div>
+            </div>
+
+            <div class="form-group"><!-- USERNAME -->
+                <label for="username" class="col-sm-2 control-label">Username</label>
+                <input type="text" id="username" name="username"
+                       class="col-sm-2" placeholder="Username"
+                       required="" autofocus="">
+            </div>
+            <div class="form-group"><!-- PASSWORD -->
+                <label for="password" class="col-sm-2 control-label">Password</label>
+                <input type="password" id="password" name="password"
+                       class="col-sm-2" placeholder="Password"
+                       required="">
+            </div>
+            <div class="form-group"><!-- SUBMIT BUTTON -->
+                <button class="btn btn-primary btn-sm" type="submit">Sign In</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- OAUTH Auth-->
+    <div class="container-fluid" style="margin-top: 20px">
+
+        <div class="d-flex flex-row justify-content-start align-items-center">
+            <h4>Or Sign in using : </h4>
+            <div style="margin-left: 15px"><!-- GITHUB -->
+                <a href="/oauth2/authorization/github"><img alt="GitHub" src="/img/github.png" height="65px"></a>
+            </div>
+
+            <div style="margin-left: 15px"><!-- GOOGLE -->
+                <a href="/oauth2/authorization/google"><img src="/img/google.svg.png" alt="Google" height="65px"></a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -32,40 +32,43 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
 
-    http
+    String[] staticRessources = {"/css/**", "/img/**"};
 
+    http
         .authorizeRequests()
         // permit all
-        .antMatchers("/error",
-            "/user/add")
+          .antMatchers("/error",
+              "/user/add")
+          .permitAll()
+        .antMatchers(staticRessources)
         .permitAll()
         // user
-        .antMatchers(
-            "/bidList/**",
-            "/curvePoint/**",
-            "/ruleName/**",
-            "/rating/**",
-            "/trade/**",
-            "/secure/article-details")
-        .hasAnyRole("USER", "ADMIN")
+          .antMatchers(
+              "/bidList/**",
+              "/curvePoint/**",
+              "/ruleName/**",
+              "/rating/**",
+              "/trade/**",
+              "/secure/article-details")
+          .hasAnyRole("USER", "ADMIN")
         //admin
-        .antMatchers("/user/**")
-        .hasRole("ADMIN")
+          .antMatchers("/user/**")
+          .hasRole("ADMIN")
         .and()
-        .exceptionHandling()
-        .accessDeniedPage("/403")
+          .exceptionHandling()
+          .accessDeniedPage("/403")
 //        .and()
 //        .exceptionHandling()
 //        .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
         .and()
-        .formLogin()
-        .successHandler(myAuthenticationSuccessHandler())
+          .formLogin()
+          .loginPage("/loginPage")
+          .loginProcessingUrl("/login")
+          .successHandler(myAuthenticationSuccessHandler())
         .and()
-        .oauth2Login().successHandler(myAuthenticationSuccessHandler())
+          .oauth2Login().successHandler(myAuthenticationSuccessHandler())
         .and()
-        .oauth2Client(Customizer.withDefaults())
-
-
+          .oauth2Client(Customizer.withDefaults())
     ;
   }
 

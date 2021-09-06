@@ -26,11 +26,9 @@ public class LoginController {
   }
 
 
-  @GetMapping("/login")
-  public ModelAndView login() {
-    ModelAndView mav = new ModelAndView();
-    mav.setViewName("login");
-    return mav;
+  @GetMapping("/loginPage")
+  public String loginPage() {
+    return "loginPage";
   }
 
   @GetMapping("/403")
