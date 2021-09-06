@@ -7,6 +7,8 @@ import com.nnk.springboot.dto.UpdateRuleNameDto;
 import com.nnk.springboot.exceptions.DataNotFoundException;
 import com.nnk.springboot.services.RuleServiceImpl;
 import com.nnk.springboot.services.UserDetailsServiceImpl;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -16,10 +18,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.nnk.springboot.utility.FormatToUrlEncoded.getUrlEncoded;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.mockito.Mockito.doThrow;
@@ -32,18 +30,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class RuleNameNameControllerTest {
 
   @Autowired
-  MockMvc mockMvc;
+  MockMvc         mockMvc;
   @MockBean
   RuleServiceImpl ruleServiceMock;
-  @MockBean private UserDetailsServiceImpl userDetailsService;
+  @MockBean
+  private UserDetailsServiceImpl userDetailsService;
 
 
-  private final static String homeUrl = "/ruleName/list";
+  private final static String homeUrl       = "/ruleName/list";
   private final static String createFormUrl = "/ruleName/add";
-  private final static String createUrl = "/ruleName/add";
+  private final static String createUrl     = "/ruleName/add";
   private final static String updateFormUrl = "/ruleName/update/{id}";
-  private final static String updateUrl = "/ruleName/update/{id}";
-  private final static String deleteUrl = "/ruleName/delete/{id}";
+  private final static String updateUrl     = "/ruleName/update/{id}";
+  private final static String deleteUrl     = "/ruleName/delete/{id}";
 
   @Test
   void homeValid() throws Exception {
@@ -280,7 +279,8 @@ class RuleNameNameControllerTest {
 
     String urlEncoded = getUrlEncoded(updateRuleNameDto);
     // WHEN
-    Mockito.doThrow(DataNotFoundException.class).when(ruleServiceMock).updateRule(Mockito.anyInt(), Mockito.any(UpdateRuleNameDto.class));
+    Mockito.doThrow(DataNotFoundException.class).when(ruleServiceMock).updateRule(Mockito.anyInt(),
+        Mockito.any(UpdateRuleNameDto.class));
     // THEN
     mockMvc
         .perform(
@@ -288,7 +288,8 @@ class RuleNameNameControllerTest {
                 .content(urlEncoded)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED))
         .andExpect(status().isNotFound())
-        .andExpect(result -> Assertions.assertTrue(result.getResolvedException() instanceof DataNotFoundException));
+        .andExpect(result -> Assertions.assertTrue(
+            result.getResolvedException() instanceof DataNotFoundException));
   }
 
   @Test
@@ -329,7 +330,8 @@ class RuleNameNameControllerTest {
     mockMvc
         .perform(delete(deleteUrl, 5))
         .andExpect(status().isNotFound())
-        .andExpect(result -> Assertions.assertTrue(result.getResolvedException() instanceof DataNotFoundException));
+        .andExpect(result -> Assertions.assertTrue(
+            result.getResolvedException() instanceof DataNotFoundException));
 
   }
 

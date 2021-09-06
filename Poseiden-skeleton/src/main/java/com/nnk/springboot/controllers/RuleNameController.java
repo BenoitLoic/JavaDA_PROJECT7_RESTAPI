@@ -84,7 +84,7 @@ public class RuleNameController {
   }
 
   /**
-   * Get RuleName by Id, add to model then show to the form to update.
+   * Get RuleName by id, add to model then show to the form to update.
    *
    * @param id    the id of the rule to update
    * @param model the model to add data

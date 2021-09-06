@@ -84,7 +84,7 @@ public class BidListController {
   }
 
   /**
-   * This method get BidList by Id and return the form to update the given bid.
+   * This method get BidList by id and return the form to update the given bid.
    *
    * @param id    the id of the bid to update
    * @param model the model to add bid
@@ -108,7 +108,7 @@ public class BidListController {
    *
    * @param id               the id of the bid to update
    * @param updateBidListDto the data to update
-   * @param result           the fields error in parameters
+   * @param result           the field's error in parameters
    * @return the list of all bids.
    */
   @PutMapping("/update/{id}")
@@ -143,7 +143,7 @@ public class BidListController {
    * @return the list of all bids.
    */
   @DeleteMapping("/delete/{id}")
-  public String deleteBid(@PathVariable("id") int id, Model model) {
+  public String deleteBid(@PathVariable("id") int id) {
 
     bidListService.deleteBid(id);
 

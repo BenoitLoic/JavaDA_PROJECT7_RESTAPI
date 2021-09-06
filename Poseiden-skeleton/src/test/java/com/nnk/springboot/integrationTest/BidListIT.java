@@ -6,17 +6,14 @@ import com.nnk.springboot.dto.CreateBidListDto;
 import com.nnk.springboot.dto.UpdateBidListDto;
 import com.nnk.springboot.exceptions.DataNotFoundException;
 import com.nnk.springboot.repositories.BidListRepository;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
-
 import static com.nnk.springboot.utility.FormatToUrlEncoded.getUrlEncoded;
 import static org.hamcrest.Matchers.iterableWithSize;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -25,22 +22,22 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
-@AutoConfigureMockMvc(printOnlyOnFailure = false)
-@ActiveProfiles("test")
+@AutoConfigureMockMvc
+@org.springframework.test.context.ActiveProfiles("test")
 public class BidListIT {
 
   @Autowired
   BidListRepository bidListRepository;
   @Autowired
-  MockMvc mockMvc;
+  MockMvc           mockMvc;
 
 
-  private final static String homeUrl = "/bidList/list";
+  private final static String homeUrl       = "/bidList/list";
   private final static String createFormUrl = "/bidList/add";
-  private final static String createUrl = "/bidList/add";
+  private final static String createUrl     = "/bidList/add";
   private final static String updateFormUrl = "/bidList/update/{id}";
-  private final static String updateUrl = "/bidList/update/{id}";
-  private final static String deleteUrl = "/bidList/delete/{id}";
+  private final static String updateUrl     = "/bidList/update/{id}";
+  private final static String deleteUrl     = "/bidList/delete/{id}";
 
   @Test
   public void home() throws Exception {
@@ -155,7 +152,8 @@ public class BidListIT {
                 .with(user("userTest")
                     .roles("USER")))
         .andExpect(status().isNotFound())
-        .andExpect(result -> assertTrue(result.getResolvedException() instanceof DataNotFoundException));
+        .andExpect(
+            result -> assertTrue(result.getResolvedException() instanceof DataNotFoundException));
 
 
   }
@@ -221,7 +219,8 @@ public class BidListIT {
                     .roles("USER"))
                 .with(csrf()))
         .andExpect(status().isNotFound())
-        .andExpect(result -> assertTrue(result.getResolvedException() instanceof DataNotFoundException));
+        .andExpect(
+            result -> assertTrue(result.getResolvedException() instanceof DataNotFoundException));
 
   }
 

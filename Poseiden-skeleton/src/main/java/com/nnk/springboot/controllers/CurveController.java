@@ -121,7 +121,6 @@ public class CurveController {
       log.warn("KO - Error in validation for curvePoint: " + result.getFieldError());
       return "curvePoint/update";
     }
-    System.out.println("post");
     curveService.updateCurvePoint(id, updateCurvePointDto);
 
     return "redirect:/curvePoint/list";
