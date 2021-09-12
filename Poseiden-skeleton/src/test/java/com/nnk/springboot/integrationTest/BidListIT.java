@@ -54,7 +54,7 @@ public class BidListIT {
 
     mockMvc.perform(get(homeUrl).with(anonymous()))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("http://localhost/login"));
+        .andExpect(redirectedUrl("http://localhost/loginPage"));
 
   }
 
@@ -81,7 +81,7 @@ public class BidListIT {
             get(createFormUrl)
                 .with(anonymous()))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("http://localhost/login"));
+        .andExpect(redirectedUrl("http://localhost/loginPage"));
 
 
   }
@@ -144,7 +144,7 @@ public class BidListIT {
             get(updateFormUrl, 1)
                 .with(anonymous()))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("http://localhost/login"));
+        .andExpect(redirectedUrl("http://localhost/loginPage"));
 
     mockMvc
         .perform(

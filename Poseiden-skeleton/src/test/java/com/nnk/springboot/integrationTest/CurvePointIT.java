@@ -56,7 +56,7 @@ public class CurvePointIT {
 
     mockMvc.perform(get(homeUrl).with(anonymous()))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("http://localhost/login"));
+        .andExpect(redirectedUrl("http://localhost/loginPage"));
 
   }
 
@@ -83,7 +83,7 @@ public class CurvePointIT {
             get(createFormUrl)
                 .with(anonymous()))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("http://localhost/login"));
+        .andExpect(redirectedUrl("http://localhost/loginPage"));
 
 
   }
@@ -148,7 +148,7 @@ public class CurvePointIT {
             get(updateFormUrl, 1)
                 .with(anonymous()))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("http://localhost/login"));
+        .andExpect(redirectedUrl("http://localhost/loginPage"));
 
     mockMvc
         .perform(

@@ -5,6 +5,7 @@ import com.nnk.springboot.dto.CreateRatingDto;
 import com.nnk.springboot.dto.UpdateRatingDto;
 import com.nnk.springboot.exceptions.DataNotFoundException;
 import com.nnk.springboot.repositories.RatingRepository;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -13,9 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
-
 import static com.nnk.springboot.utility.FormatToUrlEncoded.getUrlEncoded;
 import static org.hamcrest.Matchers.iterableWithSize;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -56,7 +54,7 @@ public class RatingIT {
 
     mockMvc.perform(get(homeUrl).with(anonymous()))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("http://localhost/login"));
+        .andExpect(redirectedUrl("http://localhost/loginPage"));
 
   }
 
@@ -83,7 +81,7 @@ public class RatingIT {
             get(createFormUrl)
                 .with(anonymous()))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("http://localhost/login"));
+        .andExpect(redirectedUrl("http://localhost/loginPage"));
 
 
   }
@@ -150,7 +148,7 @@ public class RatingIT {
             get(updateFormUrl, 1)
                 .with(anonymous()))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("http://localhost/login"));
+        .andExpect(redirectedUrl("http://localhost/loginPage"));
 
     mockMvc
         .perform(

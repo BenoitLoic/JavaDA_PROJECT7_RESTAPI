@@ -5,6 +5,9 @@ import com.nnk.springboot.dto.CreateTradeDto;
 import com.nnk.springboot.dto.UpdateTradeDto;
 import com.nnk.springboot.exceptions.DataNotFoundException;
 import com.nnk.springboot.repositories.TradeRepository;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -13,11 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.Optional;
-
 import static com.nnk.springboot.utility.FormatToUrlEncoded.getUrlEncoded;
 import static org.hamcrest.Matchers.iterableWithSize;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -59,7 +57,7 @@ public class TradeIT {
 
     mockMvc.perform(get(homeUrl).with(anonymous()))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("http://localhost/login"));
+        .andExpect(redirectedUrl("http://localhost/loginPage"));
 
   }
 
@@ -86,7 +84,7 @@ public class TradeIT {
             get(createFormUrl)
                 .with(anonymous()))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("http://localhost/login"));
+        .andExpect(redirectedUrl("http://localhost/loginPage"));
 
 
   }
@@ -150,7 +148,7 @@ public class TradeIT {
             get(updateFormUrl, 1)
                 .with(anonymous()))
         .andExpect(status().isFound())
-        .andExpect(redirectedUrl("http://localhost/login"));
+        .andExpect(redirectedUrl("http://localhost/loginPage"));
 
     mockMvc
         .perform(

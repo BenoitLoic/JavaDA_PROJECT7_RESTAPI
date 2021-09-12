@@ -1,10 +1,29 @@
-# spring-boot
+![Projet 7 du parcours DA Java OpenClassrooms](src/main/resources/static/img/poseidon.png)
+
+
+### DB script : 
+* doc/schemaAndUser.sql ()<br>
+* doc/data.sql (poseidon_dev)<br>
+* src/test/ressources/setUpTestDataBase.sql (poseidon_test)<br>
+
+### Start application
+
+* copy/clone this project on your computer.
+* run sql query from doc/schemaAndUser.sql
+* run sql query from doc/data.sql
+* run sql query from src/test/ressources/setUpTestDataBase.sql
+* run the following maven command on your terminal : cd {yourFolderName}/JavaDA_PROJECT7_RESTAPI/Poseiden-skeleton/
+  && mvn spring-boot:run
+* Access endpoints on localhost:8080/
+
 ## Technical:
 
-1. Framework: Spring Boot v2.0.4
-2. Java 8
-3. Thymeleaf
-4. Bootstrap v.4.3.1
+1. MySl : 8
+2. Java : 11
+3. Maven : 3.6.0
+4. SpringBoot : 2.5.3 
+5. Thymeleaf
+6. Bootstrap v.4.3.1
 
 
 ## Setup with Intellij IDE

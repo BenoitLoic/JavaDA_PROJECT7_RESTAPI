@@ -32,43 +32,42 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
 
-    String[] staticRessources = {"/css/**", "/img/**"};
+    String[] staticResources = {"/css/**", "/img/**"};
 
     http
         .authorizeRequests()
         // permit all
-          .antMatchers("/error",
-              "/user/add")
-          .permitAll()
-        .antMatchers(staticRessources)
+        .antMatchers("/error",
+            "/user/add")
         .permitAll()
-        // user
-          .antMatchers(
-              "/bidList/**",
-              "/curvePoint/**",
-              "/ruleName/**",
-              "/rating/**",
-              "/trade/**",
-              "/secure/article-details")
-          .hasAnyRole("USER", "ADMIN")
-        //admin
-          .antMatchers("/user/**")
-          .hasRole("ADMIN")
+        .antMatchers(staticResources)
+        .permitAll()
+        // user + admin
+        .antMatchers(
+            "/bidList/**",
+            "/curvePoint/**",
+            "/ruleName/**",
+            "/rating/**",
+            "/trade/**")
+        .hasAnyRole("USER", "ADMIN")
+        // admin
+        .antMatchers("/user/**")
+        .hasRole("ADMIN")
+        // error handling
         .and()
-          .exceptionHandling()
-          .accessDeniedPage("/403")
-//        .and()
-//        .exceptionHandling()
-//        .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
+        .exceptionHandling()
+        .accessDeniedPage("/403")
+        // Login page
         .and()
-          .formLogin()
-          .loginPage("/loginPage")
-          .loginProcessingUrl("/login")
-          .successHandler(myAuthenticationSuccessHandler())
+        .formLogin()
+        .loginPage("/loginPage")
+        .loginProcessingUrl("/login")
+        .successHandler(myAuthenticationSuccessHandler())
+        // OAuth2
         .and()
-          .oauth2Login().successHandler(myAuthenticationSuccessHandler())
+        .oauth2Login().successHandler(myAuthenticationSuccessHandler())
         .and()
-          .oauth2Client(Customizer.withDefaults())
+        .oauth2Client(Customizer.withDefaults())
     ;
   }
 

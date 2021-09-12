@@ -43,9 +43,15 @@
                 <td th:text="${user.fullname}"></td>
                 <td th:text="${user.username}"></td>
                 <td style="width: 25%" th:text="${user.role}"></td>
-                <td style="width: 15%" class="text-center">
-                    <a th:href="@{/user/update/{id}(id=${user.id})}">Edit</a>&nbsp;|&nbsp;
-                    <a th:href="@{/user/delete/{id}(id=${user.id})}">Delete</a>
+                <td   class="d-flex justify-content-center">
+                    <a th:href="@{/user/update/{id}(id=${user.id})}"
+                       th:method="GET" class="btn btn-sm btn-link">
+                        Edit
+                    </a>&nbsp;
+                    <span style="color: black" class="btn btn-sm btn-link"> | </span>
+                    <form th:action="@{/user/delete/{id}(id=${user.id})}" th:method="DELETE">
+                        <button style="color: darkred" type="submit" class="btn btn-sm btn-link">Delete</button>
+                    </form>
                 </td>
             </tr>
             </tbody>

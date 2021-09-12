@@ -7,17 +7,16 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest
+@org.springframework.test.context.ActiveProfiles("test")
 public class BidTests {
 
   @Autowired
   private BidListRepository bidListRepository;
 
-  @Transactional
   @Test
   public void bidListTest() {
     BidList bid = new BidList();
